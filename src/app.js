@@ -7,6 +7,8 @@ const logger = require('morgan');
 const handlebars  = require('express-handlebars');
 const methodOverride = require('method-override');
 const route = require('./routes');
+const session = require('express-session');
+const passport = require('./auth/passport');
 const app = express();
 const port = 3006;
 
@@ -62,6 +64,10 @@ const firebaseConfig = {
 	measurementId : "G-655D9CR7BB" 
 };
 app.use(methodOverride('_method'));
+app.use(session({ secret: process.env.SECRET_SESSION, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+
 const appFirebase = initializeApp ( firebaseConfig );
 route(app);
 
