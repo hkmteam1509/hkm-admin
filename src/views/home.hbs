@@ -1,0 +1,486 @@
+{{#section 'head'}}
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>HKM admin</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- favicon
+		============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <!-- Google Fonts
+		============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Bootstrap CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- owl.carousel CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/owl.carousel.css">
+    <link rel="stylesheet" href="/css/owl.theme.css">
+    <link rel="stylesheet" href="/css/owl.transitions.css">
+    <!-- animate CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- normalize CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!-- meanmenu icon CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/meanmenu.min.css">
+    <!-- main CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- educate icon CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/educate-custon-icon.css">
+    <!-- morrisjs CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/morrisjs/morris.css">
+    <!-- mCustomScrollbar CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/scrollbar/jquery.mCustomScrollbar.min.css">
+    <!-- metisMenu CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/metisMenu/metisMenu.min.css">
+    <link rel="stylesheet" href="/css/metisMenu/metisMenu-vertical.css">
+    <!-- calendar CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/calendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="/css/calendar/fullcalendar.print.min.css">
+    <!-- x-editor CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/editor/select2.css">
+    <link rel="stylesheet" href="/css/editor/datetimepicker.css">
+    <link rel="stylesheet" href="/css/editor/bootstrap-editable.css">
+    <link rel="stylesheet" href="/css/editor/x-editor-style.css">
+    <!-- normalize CSS
+        ============================================ -->
+    <link rel="stylesheet" href="/css/data-table/bootstrap-table.css">
+    <link rel="stylesheet" href="/css/data-table/bootstrap-editable.css">
+    <!-- style CSS
+		============================================ -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- responsive CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- modernizr JS
+		============================================ -->
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+    <!-- MY CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/my-css.css">
+{{/section}}
+
+ <div class="product-sales-area mg-tb-30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                <div class="product-sales-chart">
+                    <div class="portlet-title">
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <h4>Sales by
+                                    <a href="#" id="group" data-type="select" data-pk="1" data-value="0" data-source="/periods" data-title="Select group">Year</a>
+                                </h4>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <div class="actions graph-rp graph-rp-dl">
+                                    <p>All Earnings are in thousand $</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <ul class="list-inline cus-product-sl-rp">
+                        <li>
+                            <h5><i class="fa fa-circle" style="color: #006DF0;"></i>Men</h5>
+                        </li>
+                        <li>
+                            <h5><i class="fa fa-circle" style="color: #933EC5;"></i>Women</h5>
+                        </li>
+                        <li>
+                            <h5><i class="fa fa-circle" style="color: #65b12d;"></i>Unisex</h5>
+                        </li>
+                    </ul>
+                    <div id="extra-area-chart" style="height: 356px;"></div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                <div class="data-table-area mg-b-15">
+                    <div class="sparkline13-list">
+                        <div class="sparkline13-hd">
+                            <div class="main-sparkline13-hd">
+                                <h4>Sales <span class="table-project-n">Data</span> Table</h4>
+                            </div>
+                        </div>
+                        <div class="sparkline13-graph">
+                            <div class="datatable-dashv1-list custom-datatable-overright">
+                                <div id="toolbar">
+                                    <select class="form-control dt-tb">
+                                        <option value="">Export Basic</option>
+                                        <option value="all">Export All</option>
+                                        <option value="selected">Export Selected</option>
+                                    </select>
+                                </div>
+                                <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false" data-key-events="true" data-show-toggle="false" data-resizable="true" data-cookie="true"
+                                    data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
+                                    <thead>
+                                        <tr>
+                                            <th data-field="state" data-checkbox="true"></th>
+                                            <th data-field="year" data-editable="false">Year</th>
+                                            <th data-field="men" data-editable="false">Men</th>
+                                            <th data-field="women" data-editable="false">Women</th>
+                                            <th data-field="unisex" data-editable="false">Unisex</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            <td>2014</td>
+                                            <td>90</td>
+                                            <td>80</td>
+                                            <td>20</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2015</td>
+                                            <td>100</td>
+                                            <td>120</td>
+                                            <td>70</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2016</td>
+                                            <td>130</td>
+                                            <td>100</td>
+                                            <td>80</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2017</td>
+                                            <td>80</td>
+                                            <td>60</td>
+                                            <td>70</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2018</td>
+                                            <td>70</td>
+                                            <td>200</td>
+                                            <td>140</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2019</td>
+                                            <td>180</td>
+                                            <td>150</td>
+                                            <td>140</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2020</td>
+                                            <td>105</td>
+                                            <td>100</td>
+                                            <td>80</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td>2021</td>
+                                            <td>250</td>
+                                            <td>150</td>
+                                            <td>200</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>    
+            </div>
+        </div>
+    </div>
+</div>
+<div class="library-book-area mg-t-30">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
+                <div class="single-product-item res-mg-t-30 table-mg-t-pro-n tb-sm-res-d-n dk-res-t-d-n">
+                    <h4>Best Sellings of <a href="#" id="group1" data-type="select" data-pk="1" data-value="0" data-source="/brands" data-title="Select group">All</a></h4>
+                    <div class="single-product-image">
+                        <img src="/img/items/01.png" alt="">
+                    </div>
+                    <div class="single-product-text edu-pro-tx">
+                        <h4><a href="/products/view/1">Luxury Crazy Bunny</a></h4>
+                        <h5>Lorem ipsum dolor sit amet, this is a consec tetur adipisicing elit</h5>
+                        <div class="product-price">
+                            <h3>$45</h3>
+                            <div class="single-item-rating">
+                                <!-- <i class="educate-icon educate-star"></i>
+                                <i class="educate-icon educate-star"></i>
+                                <i class="educate-icon educate-star"></i>
+                                <i class="educate-icon educate-star"></i>
+                                <i class="educate-icon educate-star-half"></i> -->
+                                5,2k sold
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="single-review-st-item res-mg-t-30 table-mg-t-pro-n">
+                    <div class="single-review-st-hd">
+                        <h2>Top Sellings</h2>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/03.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>1. </b>The Amazing Ink Samurai</h3>
+                            <p>$45</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            5,2k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/05.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>2. </b>A Retro Future</h3>
+                            <p>$59</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            3,1k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/08.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>3. </b>Robo Planet 8</h3>
+                            <p>$61</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            2,9k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/09.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>4. </b>Moustacha Monters 15</h3>
+                            <p>$62</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            2,8k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/10.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>5. </b>Zombie Popsicle 20</h3>
+                            <p>$21</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            1,8k sold
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6 col-sm-6 col-xs-12">
+                <div class="single-review-st-item res-mg-t-30 table-mg-t-pro-n">
+                    <div class="single-review-st-hd">
+                        <h2>Top Sellings</h2>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/13.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>6. </b>Meriachi Skull 19</h3>
+                            <p>$22</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            1,6k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/15.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>7. </b>The Devil Pin 02</h3>
+                            <p>$25</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            1,5k sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/17.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>8. </b>Lady Skull 80</h3>
+                            <p>$31</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            501 sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/20.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>9. </b>Crazy RockPanda 999</h3>
+                            <p>$32</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            306 sold
+                        </div>
+                    </div>
+                    <div class="single-review-st-text">
+                        <img src="/img/items/22.png" alt="">
+                        <div class="review-ctn-hf">
+                            <h3><b>10. </b>Retro Pinup 22</h3>
+                            <p>$34</p>
+                        </div>
+                        <div class="review-item-rating">
+                            <!-- <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star"></i>
+                            <i class="educate-icon educate-star-half"></i> -->
+                            104 sold
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+ <!-- jquery
+		============================================ -->
+    <script src="/js/vendor/jquery-1.12.4.min.js"></script>
+    <!-- bootstrap JS
+		============================================ -->
+    <script src="/js/bootstrap.min.js"></script>
+    <!-- wow JS
+		============================================ -->
+    <script src="/js/wow.min.js"></script>
+    <!-- price-slider JS
+		============================================ -->
+    <script src="/js/jquery-price-slider.js"></script>
+    <!-- meanmenu JS
+		============================================ -->
+    <script src="/js/jquery.meanmenu.js"></script>
+    <!-- owl.carousel JS
+		============================================ -->
+    <script src="/js/owl.carousel.min.js"></script>
+    <!-- sticky JS
+		============================================ -->
+    <script src="/js/jquery.sticky.js"></script>
+    <!-- scrollUp JS
+		============================================ -->
+    <script src="/js/jquery.scrollUp.min.js"></script>
+    <!-- counterup JS
+		============================================ -->
+    <script src="/js/counterup/jquery.counterup.min.js"></script>
+    <script src="/js/counterup/waypoints.min.js"></script>
+    <script src="/js/counterup/counterup-active.js"></script>
+    <!-- mCustomScrollbar JS
+		============================================ -->
+    <script src="/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+    <script src="/js/scrollbar/mCustomScrollbar-active.js"></script>
+    <!-- metisMenu JS
+		============================================ -->
+    <script src="/js/metisMenu/metisMenu.min.js"></script>
+    <script src="/js/metisMenu/metisMenu-active.js"></script>
+    <!-- data table JS
+		============================================ -->
+    <script src="/js/data-table/bootstrap-table.js"></script>
+    <script src="/js/data-table/tableExport.js"></script>
+    <script src="/js/data-table/data-table-active.js"></script>
+    <script src="/js/data-table/bootstrap-table-editable.js"></script>
+    <script src="/js/data-table/bootstrap-editable.js"></script>
+    <script src="/js/data-table/bootstrap-table-resizable.js"></script>
+    <script src="/js/data-table/colResizable-1.5.source.js"></script>
+    <script src="/js/data-table/bootstrap-table-export.js"></script>
+    <!--  editable JS
+        ============================================ -->
+    <script src="/js/editable/jquery.mockjax.js"></script>
+    <script src="/js/editable/mock-active.js"></script>
+    <script src="/js/editable/select2.js"></script>
+    <script src="/js/editable/moment.min.js"></script>
+    <script src="/js/editable/bootstrap-datetimepicker.js"></script>
+    <script src="/js/editable/bootstrap-editable.js"></script>
+    <script src="/js/editable/xediable-active.js"></script>
+    <!-- Chart JS
+        ============================================ -->
+    <script src="/js/chart/jquery.peity.min.js"></script>
+    <script src="/js/peity/peity-active.js"></script>
+    <!-- tab JS
+        ============================================ -->
+    <script src="/js/tab.js"></script>
+    <!-- morrisjs JS
+		============================================ -->
+    <script src="/js/morrisjs/raphael-min.js"></script>
+    <script src="/js/morrisjs/morris.js"></script>
+    <script src="/js/morrisjs/morris-active.js"></script>
+    <!-- morrisjs JS
+		============================================ -->
+    <script src="/js/sparkline/jquery.sparkline.min.js"></script>
+    <script src="/js/sparkline/jquery.charts-sparkline.js"></script>
+    <script src="/js/sparkline/sparkline-active.js"></script>
+    <!-- calendar JS
+		============================================ -->
+    <script src="/js/calendar/moment.min.js"></script>
+    <script src="/js/calendar/fullcalendar.min.js"></script>
+    <script src="/js/calendar/fullcalendar-active.js"></script>
+    <!-- plugins JS
+		============================================ -->
+    <script src="/js/plugins.js"></script>
+    <!-- main JS
+		============================================ -->
+    <script src="/js/main.js"></script>
+    <!-- tawk chat JS
+		============================================ -->
+    <!-- <script src="/js/tawk-chat.js"></script> -->

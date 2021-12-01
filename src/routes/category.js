@@ -1,0 +1,10 @@
+const express = require('express');
+const router = express.Router();
+const multer  = require('multer');
+const upload = multer({  storage: multer.memoryStorage() });
+const CategoryController = require('../controllers/CategoryController');
+router.get('/', CategoryController.allCategory);
+router.delete('/delete/:id', CategoryController.delete);
+router.put('/edit/:id', upload.any(), CategoryController.update);
+router.post('/store', upload.any(), CategoryController.store);
+module.exports = router;

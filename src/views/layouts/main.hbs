@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {{{_sections.head}}}
+        <link rel="stylesheet" href="/css/my-css.css">
+</head>
+<body>
+     <!--[if lt IE 8]>
+		<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+	<![endif]-->
+     {{> sidebar}}
+    <div class="all-content-wrapper my-wrapper">
+       
+        {{> header}}
+        <div class="my-main">
+            {{{body}}}
+        </div>
+        {{> footer}}
+    </div>
+    
+</body>
+</html>

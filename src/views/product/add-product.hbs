@@ -1,0 +1,574 @@
+{{#section 'head'}}
+     <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Add product</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css" integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
+
+    <!-- favicon
+		============================================ -->
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon.ico">
+    <!-- Google Fonts
+		============================================ -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+    <!-- Bootstrap CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+    <!-- Bootstrap CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- owl.carousel CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/owl.carousel.css">
+    <link rel="stylesheet" href="/css/owl.theme.css">
+    <link rel="stylesheet" href="/css/owl.transitions.css">
+    <!-- animate CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/animate.css">
+    <!-- normalize CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/normalize.css">
+    <!-- meanmenu icon CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/meanmenu.min.css">
+    <!-- main CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/main.css">
+    <!-- datapicker CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/datapicker/datepicker3.css">
+    <!-- colorpicker CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/colorpicker/colorpicker.css">
+    {{!-- <!-- dropzone CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/dropzone/dropzone.css"> --}}
+    <link href="https://unpkg.com/dropzone@6.0.0-beta.1/dist/dropzone.css" rel="stylesheet" type="text/css" />
+    <!-- educate icon CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/educate-custon-icon.css">
+    <!-- modals CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/modals.css">
+    <!-- morrisjs CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/morrisjs/morris.css">
+    <!-- mCustomScrollbar CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/scrollbar/jquery.mCustomScrollbar.min.css">
+    <!-- metisMenu CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/metisMenu/metisMenu.min.css">
+    <link rel="stylesheet" href="/css/metisMenu/metisMenu-vertical.css">
+    <!-- calendar CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/calendar/fullcalendar.min.css">
+    <link rel="stylesheet" href="/css/calendar/fullcalendar.print.min.css">
+    <!-- x-editor CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/editor/select2.css">
+    <link rel="stylesheet" href="/css/editor/datetimepicker.css">
+    <link rel="stylesheet" href="/css/editor/bootstrap-editable.css">
+    <link rel="stylesheet" href="/css/editor/x-editor-style.css">
+    <!-- normalize CSS
+        ============================================ -->
+    <link rel="stylesheet" href="/css/data-table/bootstrap-table.css">
+    <link rel="stylesheet" href="/css/data-table/bootstrap-editable.css">
+    <!-- style CSS
+		============================================ -->
+    <link rel="stylesheet" href="/style.css">
+    <!-- responsive CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/responsive.css">
+    <!-- modernizr JS
+		============================================ -->
+    <link rel="stylesheet" href="/css/my-css.css">
+    <script src="/js/vendor/modernizr-2.8.3.min.js"></script>
+{{/section}}
+
+<!-- Single pro tab review Start-->
+<div class="single-pro-review-area mt-t-30 mg-b-15">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div id="dropzone1" class="pro-ad" style="padding: 20px; background-color: white;">
+                     <form action="/products/store" name="add-product-form" method="post" id="create-product-form" enctype="multipart/form-data" class="dropzone dropzone-custom needsclick dz-clickable needs-validation" novalidate>
+                        <div class="row">
+                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Name:</label>
+                                <div class="form-group">
+                                    <input name="proName" type="text" maxlength="255" class="form-control"  placeholder="Name" value="" required>
+									<div class="invalid-feedback">
+										Please provide a valid name.
+									</div>
+								</div>
+                                <label>Brand:</label>
+                                <div class="form-group">
+                                    <select name="proBrand" class="form-control">
+                                        {{#each brands}}
+                                              <option value="{{this.brandID}}">{{this.brandName}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                                <label>Category:</label>
+                                <div class="form-group">
+                                    <select name="proCate" class="form-control">
+                                        {{#each categories}}
+                                              <option value="{{this.catID}}">{{this.catName}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+								<label>Price($):</label>
+                                <div class="form-group">
+                                    <input name="proPrice" type="number" min="0" class="form-control"  placeholder="Price" value="" required>
+									<div class="invalid-feedback">
+										Please provide a valid price.
+									</div>
+								</div>
+                            </div>
+                            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                <label>Gender:</label>
+                                <div class="form-group">
+                                    <select name="proGender" class="form-control">
+                                        <option value="0" selected="">Men</option>
+                                        <option value="1">Women</option>
+                                        <option value="2">Unisex</option>
+                                    </select>
+                                </div>
+                                <label>Summary description:</label>
+                                <div class="form-group res-mg-t-15">
+                                    <input name="proDes" type="text" maxlength="255" class="form-control"  value="" required>
+									<div class="invalid-feedback">
+										Please provide a valid description.
+									</div>
+								</div>
+                                <label>Full description:</label>
+                                <div class="form-group edit-ta-resize">
+                                    <textarea maxlength="255" name="description" class="form-control" required></textarea>
+                                    <div class="invalid-feedback">
+                                      Please provide a valid description.
+                                    </div>
+                                </div>
+                                <div class="form-group edit-ta-resize">
+                                    <input name="proFeature" id="proFeature" type="checkbox" class="i-checks"/>
+									<label for="proFeature">Mark as Feature Product</label> 
+								</div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="product-status-wrap drp-lst" style="padding-left: 0; padding-right: 0">
+                                    <h4>Attributes List</h4>
+                                    <div class="add-product">
+                                        <a href="#" data-toggle="modal" data-target="#addAttributesModal" style="cursor: pointer">Add Attributes</a>
+                                    </div>
+                                    <div class="asset-inner">
+                                        <table id="add-product-status-table">
+                                            <tr>
+                                                <th>No</th>
+                                                <th>Color</th>
+                                                <th>Quantity</th>
+                                                <th>Setting</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+									<div class="attri-empty-feedback" style="color: #dc3545;font-size: 80%; visibility:hidden;">
+										Please add at least one attribute.
+									</div>
+                                </div>
+                            </div>
+                        </div>
+						<div class="row">
+                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="review-content-section">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="form-group">
+                                                <h4>Add Images</h4>
+                                                <div class="dz-message needsclick download-custom">
+                                                    <i class="fa fa-download" aria-hidden="true"></i>
+                                                    <h2>Drop files here or click to upload.</h2>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- this is were the previews should be shown. -->
+									<div class="file-empty-feedback" style="color: #dc3545;font-size: 80%; visibility:hidden">
+										Please add at least one photo.
+									</div>
+  									<div class="dropzone-previews" id="imagePreviewContainer"></div>
+                                </div>
+                            </div>
+                        </div>
+                         <div class="row">
+                            <div class="col-12 col-lg-12">
+                                <div class="payment-adress">
+                                    <!-- <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button> -->
+                                    <button type="submit" class="btn btn-primary waves-effect waves-light" style="margin-top: 25px;">Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div id="addAttributesModal" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header header-color-modal bg-color-1">
+                                <h4 class="modal-title" style="color: white;">Add Attributes</h4>
+                                <div class="modal-close-area modal-close-df">
+                                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                </div>
+                            </div>
+                           <form class="needs-validation" onsubmit="return onAddAtribute()" name="add-modal" novalidate>
+                              <div class="modal-body" style="padding: 0; text-align: left">
+                                <div style="padding: 20px; background-color: white; margin: 20px;">
+                                   <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <div class="colorpicker-inner ts-forms mg-b-23">
+                                                    <div class="tsbox">
+                                                        <label class="label"><b>Color:</b></label>
+                                                        <label class="color-group" for="hex">
+                                                            <input required name="proColorModal" class=" form-control" type="text" maxlength="255" value="#ff0000" id="hex" readonly="">
+																<div class="invalid-feedback">
+																	Please provide a valid color.
+																</div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label for="addQuantityBox">Quantity:</label>
+                                                <input required name="proQuantityModal" id="addQuantityBox" name="coursename" type="number" min="0" class="form-control" placeholder="Quantity">
+                                           		<div class="invalid-feedback">
+													Please provide a valid quantity.
+												</div>
+										    </div>
+                                        </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div class="modal-footer">
+                                  <button class="btn btn-primary waves-effect waves-light" type="button" data-dismiss="modal">Cancel</button>
+                                  <button class="btn btn-primary waves-effect waves-light" type="submit">Add</button>
+                              </div>
+                           </form>
+                        </div>
+                    </div>
+                </div>
+                
+                <div id="editAttributesModal" class="modal modal-edu-general default-popup-PrimaryModal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header header-color-modal bg-color-1">
+                                <h4 class="modal-title" style="color: white;">Edit Attributes</h4>
+                                <div class="modal-close-area modal-close-df">
+                                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                </div>
+                            </div>
+							<form class="needs-validation" onsubmit="return onEditAtribute()" name="edit-modal" novalidate>
+								<div class="modal-body" style="padding: 0; text-align: left">
+									<div style="padding: 20px; background-color: white; margin: 20px;">
+										<div class="row">
+											<div class="col-lg-6">
+												<div class="form-group">
+													<div class="colorpicker-inner ts-forms mg-b-23">
+														<div class="tsbox">
+															<label class="label"><b>Color:</b></label>
+															<label class="color-group" for="hex1">
+																<input required name="proEditColor" type="text" maxlength="255" placeholder="#ff0000" id="hex1" readonly="">
+																<div class="invalid-feedback">
+																	Please provide a valid color.
+																</div>
+															</label>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-lg-6">
+												<div class="form-group">
+													<label for="editQuantityBox">Quantity:</label>
+													<input required name="proEditQuantity" id="editQuantityBox" name="coursename" type="number" min="0"  class="form-control" placeholder="Quantity">
+													<div class="invalid-feedback">
+														Please provide a valid Quantity.
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="modal-footer">
+                                  <button class="btn btn-primary waves-effect waves-light" type="button" data-dismiss="modal">Cancel</button>
+                                  <button class="btn btn-primary waves-effect waves-light" type="submit">Update</button>
+                              </div>
+							</form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<!-- jquery
+	============================================ -->
+<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+<!-- bootstrap JS
+	============================================ -->
+<script src="/js/bootstrap.min.js"></script>
+<!-- wow JS
+	============================================ -->
+<script src="/js/wow.min.js"></script>
+<!-- price-slider JS
+	============================================ -->
+<script src="/js/jquery-price-slider.js"></script>
+<!-- meanmenu JS
+	============================================ -->
+<script src="/js/jquery.meanmenu.js"></script>
+<!-- owl.carousel JS
+	============================================ -->
+<script src="/js/owl.carousel.min.js"></script>
+<!-- sticky JS
+	============================================ -->
+<script src="/js/jquery.sticky.js"></script>
+<!-- scrollUp JS
+	============================================ -->
+<script src="/js/jquery.scrollUp.min.js"></script>
+<!-- counterup JS
+	============================================ -->
+<script src="/js/counterup/jquery.counterup.min.js"></script>
+<script src="/js/counterup/waypoints.min.js"></script>
+<script src="/js/counterup/counterup-active.js"></script>
+<!-- dropzone JS
+	============================================ -->
+{{!-- <script src="/js/dropzone/dropzone.js"></script> --}}
+<script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+<!-- mCustomScrollbar JS
+	============================================ -->
+<script src="/js/scrollbar/jquery.mCustomScrollbar.concat.min.js"></script>
+<script src="/js/scrollbar/mCustomScrollbar-active.js"></script>
+<!-- metisMenu JS
+	============================================ -->
+<script src="/js/metisMenu/metisMenu.min.js"></script>
+<script src="/js/metisMenu/metisMenu-active.js"></script>
+<!-- data table JS
+	============================================ -->
+<script src="/js/data-table/bootstrap-table.js"></script>
+<script src="/js/data-table/tableExport.js"></script>
+<script src="/js/data-table/data-table-active.js"></script>
+<script src="/js/data-table/bootstrap-table-editable.js"></script>
+<script src="/js/data-table/bootstrap-editable.js"></script>
+<script src="/js/data-table/bootstrap-table-resizable.js"></script>
+<script src="/js/data-table/colResizable-1.5.source.js"></script>
+<script src="/js/data-table/bootstrap-table-export.js"></script>
+<!--  editable JS
+	============================================ -->
+<script src="/js/editable/jquery.mockjax.js"></script>
+<script src="/js/editable/mock-active.js"></script>
+<script src="/js/editable/select2.js"></script>
+<script src="/js/editable/moment.min.js"></script>
+<script src="/js/editable/bootstrap-datetimepicker.js"></script>
+<script src="/js/editable/bootstrap-editable.js"></script>
+<script src="/js/editable/xediable-active.js"></script>
+<!-- datapicker JS
+	============================================ -->
+<script src="/js/datapicker/bootstrap-datepicker.js"></script>
+<script src="/js/datapicker/datepicker-active.js"></script>
+<!-- colorpicker JS
+	============================================ -->
+<script src="/js/colorpicker/jquery.spectrum.min.js"></script>
+<script src="/js/colorpicker/color-picker-active.js"></script>
+<!-- Chart JS
+	============================================ -->
+<script src="/js/chart/jquery.peity.min.js"></script>
+<script src="/js/peity/peity-active.js"></script>
+<!-- tab JS
+	============================================ -->
+<script src="/js/tab.js"></script>
+<!-- morrisjs JS
+	============================================ -->
+{{!-- <script src="/js/morrisjs/raphael-min.js"></script>
+<script src="/js/morrisjs/morris.js"></script>
+<script src="/js/morrisjs/morris-active.js"></script> --}}
+<!-- morrisjs JS
+	============================================ -->
+<script src="/js/sparkline/jquery.sparkline.min.js"></script>
+<script src="/js/sparkline/jquery.charts-sparkline.js"></script>
+<script src="/js/sparkline/sparkline-active.js">    </script>
+<!-- calendar JS
+	============================================ -->
+<script src="/js/calendar/moment.min.js"></script>
+<script src="/js/calendar/fullcalendar.min.js"></script>
+<script src="/js/calendar/fullcalendar-active.js"></script>
+	<!-- form validate JS
+	============================================ -->
+<script src="/js/form-validation/jquery.form.min.js"></script>
+<script src="/js/form-validation/jquery.validate.min.js"></script>
+<script src="/js/form-validation/form-active.js"></script>
+<!-- plugins JS
+	============================================ -->
+<script src="/js/plugins.js"></script>
+<!-- main JS
+	============================================ -->
+<script src="/js/main.js"></script>
+<!-- tawk chat JS
+	============================================ -->
+<!-- <script src="/js/tawk-chat.js"></script> -->
+<script>
+	let attriRowId;
+	let myDropzone;
+	function paramNameForSend() {
+		return "images";
+	}
+	
+	$(document).ready(function(){
+		Dropzone.options.createProductForm = { // The camelized version of the ID of the form element
+			// The configuration we've talked about above
+			autoProcessQueue: false,
+			uploadMultiple: true,
+			parallelUploads: 100,
+			maxFiles: 2,
+			acceptedFiles: "image/*",
+			addRemoveLinks: true,
+			paramName: paramNameForSend,
+			previewsContainer: document.querySelector('#imagePreviewContainer'),
+			// The setting up of the dropzone
+			init: function() {
+				myDropzone = this;
+				// First change the button to actually tell Dropzone to process the queue.
+				{{!-- this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+					// Make sure that the form isn't actually being sent.
+					if(myDropzone.checkValidity()){
+						e.preventDefault();
+						e.stopPropagation();		
+						
+					}
+				}); --}}
+				// Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+				// of the sending event because uploadMultiple is set to true.
+				this.on("sendingmultiple", function() {
+				// Gets triggered when the form is actually being sent.
+				// Hide the success button or the complete form.
+					console.log("Sending");
+				});
+				this.on("successmultiple", function(files, response) {
+				// Gets triggered when the files have successfully been sent.
+				// Redirect user or notify of success.
+					window.location = response;
+					console.log("Success");
+					console.log(files); 
+				});
+				this.on("errormultiple", function(files, response) {
+				// Gets triggered when there was an error sending the files.
+				// Maybe show form again, and notify user of error
+				}); 
+			}
+		}	
+		const myAddProductForm = document.forms["add-product-form"];
+		
+		$('#editAttributesModal').on('show.bs.modal', function (event) {
+			const button = $(event.relatedTarget) ;// Button that triggered the modal
+			let recipient1 = button.data('color'); // Extract info from data-* attributes
+			let recipient3 = button.data('quantity');
+			attriRowId = button.data("id");
+			const modal = $(this);
+			$("#hex1").spectrum({
+				color: recipient1,
+				preferredFormat: "hex",
+				showInput: true,
+			});
+			modal.find('.modal-body #hex1').val(recipient1);
+			$("#hex1").css({
+				display: "block",
+			});
+			modal.find('.modal-body #editQuantityBox').val(recipient3);
+		});
+
+		// Fetch all the forms we want to apply custom Bootstrap validation styles to
+		const forms = document.getElementsByClassName('needs-validation');
+		// Loop over them and prevent submission
+		const validation = Array.prototype.filter.call(forms, function(form) {
+			form.addEventListener('submit', function(event) {
+				event.preventDefault();
+			if (form.checkValidity() === false) {
+				event.stopPropagation();
+				
+			}else{
+				if(form.classList.contains("dropzone")){
+					if($("#add-product-status-table tr").length < 2){
+						document.querySelector(".attri-empty-feedback").style.visibility="visible";
+					}
+					else{
+						document.querySelector(".attri-empty-feedback").style.visibility="hidden";
+						if(myDropzone.getQueuedFiles().length > 0){
+							console.log("oke");
+							document.querySelector(".file-empty-feedback").style.visibility="hidden";
+							myDropzone.processQueue();
+						}
+						else{
+							document.querySelector(".file-empty-feedback").style.visibility="visible";
+						}
+					}
+				}
+			}
+			form.classList.add('was-validated');
+			}, false);
+		});
+
+		
+	});
+
+	function removeRow(row){
+		const attriTable = document.getElementById("add-product-status-table");
+		attriTable.deleteRow(row);
+	}
+	function onEditAtribute(){
+		let editAttriForm = document.forms["edit-modal"];
+		if(editAttriForm.checkValidity()){
+			let colors = document.getElementsByName("colors[]");
+			let quantity = document.getElementsByName("quantity[]");
+			let colorBox = editAttriForm["proEditColor"];
+			let quantityBox = editAttriForm["proEditQuantity"];
+			colors[attriRowId-1].value = colorBox.value;
+			colors[attriRowId-1].style.backgroundColor=colorBox.value;
+			quantity[attriRowId-1].value = quantityBox.value;
+			document.querySelectorAll('.my-toggle-edit-modal')[attriRowId - 1].dataset.color = colorBox.value;
+			document.querySelectorAll('.my-toggle-edit-modal')[attriRowId - 1].dataset.quantity = quantityBox.value;
+			$("#editAttributesModal").modal('hide');
+		}
+		return false;
+	}
+
+	function onAddAtribute(){
+		let addAttriForm = document.forms["add-modal"];
+		if(addAttriForm.checkValidity()){
+			let colorBox = addAttriForm["proColorModal"];
+			let quantityBox = addAttriForm["proQuantityModal"];
+			const attriTable = $("#add-product-status-table");	
+			const newRow = `
+			<tr>
+				<td>` + $("#add-product-status-table tr").length + `</td>
+				<td> <input name="colors[]" class="my-attribute-input my-attribute-input-color" style="background: ${colorBox.value}" readonly type="text" maxlength="255" value=${colorBox.value} /></td>
+				<td> <input name="quantity[]" class="my-attribute-input" readonly type="number" value=${quantityBox.value} /></td>
+				<td> 
+					<a class="my-toggle-edit-modal" href="#" data-toggle="modal" data-target="#editAttributesModal" data-id=${ $("#add-product-status-table tr").length} data-color=${colorBox.value}  data-quantity=${quantityBox.value}  style="color: black; cursor:pointer;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+					<button onClick="removeRow(${$("#add-product-status-table tr").length})" data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="color: black; cursor:pointer"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+				</td>
+			</tr>	
+			`;
+		
+			attriTable.append(newRow);
+			document.querySelector(".attri-empty-feedback").style.visibility="hidden";
+			$("#addAttributesModal").modal('hide');
+		}
+		return false;
+	}
+
+
+</script>
