@@ -4,6 +4,7 @@ const router = express.Router();
 
 const AccountController = require('../controllers/AccountController');
 
+router.get("/logout", AccountController.logout);
 router.post("/login",  
     passport.authenticate('local'),
     function(req, res) {

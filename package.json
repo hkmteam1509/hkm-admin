@@ -10,6 +10,8 @@
     "work": "nodemon --inspect src/app.js"
   },
   "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^10.0.0",
@@ -21,6 +23,7 @@
     "firebase-admin": "^10.0.0",
     "hbs": "~4.0.4",
     "http-errors": "~1.6.3",
+    "isemail": "^3.2.0",
     "method-override": "^3.0.0",
     "morgan": "~1.9.1",
     "multer": "^1.4.3",
