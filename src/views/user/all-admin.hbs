@@ -77,10 +77,15 @@
 
 <div class="product-status mg-b-15">
     <div class="container-fluid">
+        <div class="row my-search-row">
+            <div class="add-product">
+				<a href="/account/register" style="position: relative; top: 0; right: 0;">Add Admin Account</a>
+			</div>
+        </div>
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap drp-lst">
-                    <h4>All Users</h4>
+                    <h4>All Admin</h4>
                     <div class="asset-inner">
                         <table>
                             <tr>
@@ -101,8 +106,8 @@
                                 <td>(84-4) 851-1905</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/ad02">Details</a>
-                                        <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a>
+                                        <a class="Primary mg-b-10" href="/admins/ad02">Details</a>
+                                        {{!-- <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -115,8 +120,8 @@
                                 <td>(08) 392-30688</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/gu01">Details</a>
-                                        <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        <a class="Primary mg-b-10" href="/admins/gu01">Details</a>
+                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -129,8 +134,8 @@
                                 <td>(08) 726-9971</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/gu02">Details</a>
-                                        <a class="Warning Warning-color mg-b-10" href="#" data-toggle="modal" data-target="#WarningModalalert">Unblock</a>
+                                        <a class="Primary mg-b-10" href="/admins/gu02">Details</a>
+                                        {{!-- <a class="Warning Warning-color mg-b-10" href="#" data-toggle="modal" data-target="#WarningModalalert">Unblock</a> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -143,8 +148,8 @@
                                 <td>(84-8) 827-9968</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/ad01">Details</a>
-                                        <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a>
+                                        <a class="Primary mg-b-10" href="/admins/ad01">Details</a>
+                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -157,8 +162,8 @@
                                 <td>(04) 393-31874</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/gu03">Details</a>
-                                        <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        <a class="Primary mg-b-10" href="/admins/gu03">Details</a>
+                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
@@ -178,7 +183,7 @@
                                 </div>
                                 <div class="modal-footer danger-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Block</a>
+                                    <a href="/admins">Block</a>
                                 </div>
                             </div>
                         </div>
@@ -196,7 +201,7 @@
                                 </div>
                                 <div class="modal-footer warning-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Unblock</a>
+                                    <a href="/admins">Unblock</a>
                                 </div>
                             </div>
                         </div>

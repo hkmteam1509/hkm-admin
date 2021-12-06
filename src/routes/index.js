@@ -7,6 +7,7 @@ const accountRouter = require('./account');
 const categoryRouter = require('./category');
 const orderRouter = require('./order');
 const meRouter = require('./me');
+const adminRouter = require('./admin');
 function route(app){
     app.use('/categories', categoryRouter);
     app.use('/orders', orderRouter);
@@ -14,6 +15,7 @@ function route(app){
     app.use('/me', meRouter);
     app.use('/account', accountRouter);
     app.use('/users', userRouter);
+    app.use('/admins', adminRouter);
     app.use('/products', productRouter);
     app.use('/', homeRouter);
     app.use(function(req, res, next){

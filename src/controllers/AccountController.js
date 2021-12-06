@@ -36,7 +36,7 @@ class AccountController{
             //trong hbs thì kiểm tra cái errorCode mà tạo ra thông báo username đã tồn tại
             //Làm tương tự đối với email, dùng IsEmail.validate(email) để kiểm tra email có hợp lệ hay không
             //nếu không hợp lệ thì cũng render như vụ trùng username ở trên nhưng với errorCode khác
-            //Đăng kí thành công thì cứ redirect về trang login
+            //Đăng kí thành công thì redirect về trang all-admins
 
         }else{
             next();
