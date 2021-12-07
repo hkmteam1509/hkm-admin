@@ -20,7 +20,6 @@ class AdminController{
         currentPage = (currentPage > 0) ? currentPage : 1;
         currentPage = (currentPage <= totalPage) ? currentPage : totalPage
         currentPage = (currentPage < 1) ? 1 : currentPage;
-
             // gọi promise
             Promise.all([listTypeOfUser(adminPerPage,currentPage,1),totalTypeOfUser(1)])
             .then(([admins,total])=>{

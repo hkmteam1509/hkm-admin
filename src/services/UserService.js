@@ -71,7 +71,9 @@ class UserService{
             raw:true,
             where:{
                 userID: id,
-
+            }
+        })
+    }
     updateProfile(id, firstname, lastname, address, date, mobileno){
         return models.user.update({
             f_firstname: firstname,

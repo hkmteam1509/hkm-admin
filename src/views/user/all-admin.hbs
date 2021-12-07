@@ -109,12 +109,28 @@
                                     {{#isEqual this.f_sex 1}}Women{{/isEqual}} 
                                     {{#isEqual this.f_sex 2}}Order{{/isEqual}}
                                     {{else}}
-                                     {{#isEqual this.f_sex 0}}Men{{/isEqual}}
+                                        {{#isEqual this.f_sex 0}}
+                                            Men
+                                        {{else}}
+                                            Empty
+                                        {{/isEqual}}
                                     {{/if}}
                                 </td>
                               
-                                <td>{{this.f_address}}</td>
-                                <td>{{this.f_phone}}</td>
+                                <td>
+                                    {{#if this.f_address}}
+                                        {{this.f_address}}
+                                    {{else}}
+                                        Empty
+                                    {{/if}}
+                                </td>
+                                <td>
+                                    {{#if this.f_phone}}
+                                        {{this.f_phone}}
+                                    {{else}}
+                                        Empty
+                                    {{/if}}
+                                </td>
                                 <td>
                                     <div class="modal-area-button">
                                         <a class="Primary mg-b-10" href="/admins/{{this.f_ID}}">Details</a>
@@ -123,8 +139,6 @@
                                 </td>
                             </tr>
                             {{/each}}
-                            
-                          
                         
                         </table>
                     </div>
