@@ -1,4 +1,5 @@
-const {models} = require('../models');
+const {models, sequelize} = require('../models');
+
 
 class UserService{
     findAccount(username){
@@ -40,6 +41,37 @@ class UserService{
         })
     }
 
+
+
+    // admin type 0
+    // user type 1
+    listTypeOfUser(limit, page, type){
+            return models.user.findAll({
+                offset: (page - 1)*limit, 
+                limit: limit, 
+                raw:true,
+                where:{
+                    f_permission: type,
+                    }
+            });
+      
+    }
+
+    totalTypeOfUser(type){
+        return models.user.count({
+            raw: true,
+            where:{
+                f_permission: type,
+            }
+        })
+    }
+
+    findShipByID(id){
+        return models.shipping.findOne({
+            raw:true,
+            where:{
+                userID: id,
+
     updateProfile(id, firstname, lastname, address, date, mobileno){
         return models.user.update({
             f_firstname: firstname,
@@ -50,6 +82,7 @@ class UserService{
         },{
             where:{
                 f_ID:id
+
             }
         })
     }
