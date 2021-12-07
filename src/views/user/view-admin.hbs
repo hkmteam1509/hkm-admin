@@ -77,11 +77,13 @@
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-payment-inner-st">
+                   
                     <ul id="myTabedu1" class="tab-review-design">
                         <li class="active"><a href="#description">Personal Information</a></li>
                         <!-- <li><a href="#reviews"> Shipping Information</a></li> -->
                         <!-- <li><a href="#INFORMATION">Social Information</a></li> -->
                     </ul>
+                 
                     <div id="myTabContent" class="tab-content custom-product-edit">
                         <div class="product-tab-list tab-pane fade active in" id="description">
                             <div class="row">
@@ -92,42 +94,42 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Username:</label>
                                                     <div class="form-group">
-                                                        <input name="username" type="text" class="form-control" placeholder="Username" value="adminChandler" readonly="">
+                                                        <input name="username" type="text" class="form-control" placeholder="Username" value="{{admin.f_userName}}" readonly="">
                                                     </div>
                                                     <label>Email:</label>
                                                     <div class="form-group">
-                                                        <input name="email" type="email" class="form-control" placeholder="Email" value="chandlermerrill0809@gmail.com" readonly="">
+                                                        <input name="email" type="email" class="form-control" placeholder="Email" value="{{admin.f_email}}" readonly="">
                                                     </div>
                                                     <label>Gender:</label>
                                                     <div class="form-group">
-                                                        <input name="gender" type="text" class="form-control" placeholder="Gender" value="Men" readonly="">
+                                                        <input name="gender" type="text" class="form-control" placeholder="Gender" {{#isEqual admin.f_sex 1}}value="Women"{{/isEqual}} {{#isEqual admin.f_sex 0}}value="Men"   {{/isEqual}} {{#isEqual admin.f_sex 2}}value="Order"   {{/isEqual}} readonly="">
                                                     </div>
                                                     <label>Phone:</label>
                                                     <div class="form-group">
-                                                        <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="(844) 851-1905" readonly="">
+                                                        <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="{{admin.f_phone}}" readonly="">
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>First name:</label>
                                                     <div class="form-group">
-                                                        <input name="firstname" type="text" class="form-control" placeholder="First Name" value="Chandler" readonly="">
+                                                        <input name="firstname" type="text" class="form-control" placeholder="First Name" value="{{admin.f_firstname}}" readonly="">
                                                     </div>
                                                     <label>Last name:</label>
                                                     <div class="form-group">
-                                                        <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="Merrill" readonly="">
+                                                        <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="{{admin.f_lastname}}" readonly="">
                                                     </div>
                                                     <label>Address:</label>
                                                     <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="369/44 Nguyen Dinh Chieu St., Ward 5, Dist. 3, Ho Chi Minh City" readonly="">
+                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="{{admin.f_address}}" readonly="">
                                                     </div>
                                                     <label>Birth date:</label>
                                                     <div class="form-group data-custon-pick" id="data_2">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input type="text" class="form-control" value="08/09/1987" readonly="">
+                                                            <input type="text" class="form-control" value={{admin.dob}} readonly="">
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div>												
                                             </div>
                                         </form>
                                     </div>
@@ -197,6 +199,7 @@
                             </div>
                         </div> -->
                     </div>
+				
                 </div>
             </div>
         </div>

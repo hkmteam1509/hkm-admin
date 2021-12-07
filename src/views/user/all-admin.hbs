@@ -86,90 +86,46 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap drp-lst">
                     <h4>All Admin</h4>
-                    <div class="add-product">
-					    <a href="/admins/add-admin">Add Admin Account</a>
-				    </div>
-                    <div class="asset-inner">
-                        <table>
-                            <tr>
-                                <th>No.</th>
-                                <th>Role</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Address</th>
-                                <th>Phone Number</th>
+                        <div class="add-product">
+                            <a href="/admins/add-admin">Add Admin Account</a>
+                        </div>
+                        <div class="asset-inner">
+                            <table>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Address</th>
+                                    <th>Phone Number</th>
                                 <th>Action</th>
                             </tr>
+
+                            {{#each admins}}
                             <tr>
-                                <td>1</td>
-                                <td>Admin</td>
-                                <td>Chandler Merrill</td>
-                                <td>Men</td>
-                                <td>369/44 Nguyen Dinh Chieu St., Ward 5, Dist. 3, Ho Chi Minh City</td>
-                                <td>(84-4) 851-1905</td>
+                                <td>{{this.f_ID}}</td>
+                                <td>{{this.f_firstname}} {{this.f_lastname}} </td>
+                                <td>
+                                    {{#if this.f_sex}} 
+                                    {{#isEqual this.f_sex 1}}Women{{/isEqual}} 
+                                    {{#isEqual this.f_sex 2}}Order{{/isEqual}}
+                                    {{else}}
+                                     {{#isEqual this.f_sex 0}}Men{{/isEqual}}
+                                    {{/if}}
+                                </td>
+                              
+                                <td>{{this.f_address}}</td>
+                                <td>{{this.f_phone}}</td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/ad02">Details</a>
+                                        <a class="Primary mg-b-10" href="/admins/{{this.f_ID}}">Details</a>
                                         {{!-- <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Guest</td>
-                                <td>Kennedy Harrelson</td>
-                                <td>Men</td>
-                                <td>168 Phan Van Tri, Ward 2, Dist.5, Ho Chi Minh City</td>
-                                <td>(08) 392-30688</td>
-                                <td>
-                                    <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/gu01">Details</a>
-                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a> --}}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Guest</td>
-                                <td>Rory Darrell</td>
-                                <td>Men</td>
-                                <td>93 Tran Quoc Toan Street, Hoan Kiem District, Hanoi</td>
-                                <td>(08) 726-9971</td>
-                                <td>
-                                    <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/gu02">Details</a>
-                                        {{!-- <a class="Warning Warning-color mg-b-10" href="#" data-toggle="modal" data-target="#WarningModalalert">Unblock</a> --}}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Admin</td>
-                                <td>Lacy Earl</td>
-                                <td>Women</td>
-                                <td>45 Dien Bien Ward, Thanh Hoa City, Thanh Hoa</td>
-                                <td>(84-8) 827-9968</td>
-                                <td>
-                                    <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/ad01">Details</a>
-                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
-                                    </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Guest</td>
-                                <td>Angel Slater</td>
-                                <td>Women</td>
-                                <td>231 Minh Dai Ward, Thanh Son District, Thanh Son District</td>
-                                <td>(04) 393-31874</td>
-                                <td>
-                                    <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/gu03">Details</a>
-                                        {{!-- <a class="Danger danger-color" href="#" data-toggle="modal" data-target="#DangerModalalert">Block</a> --}}
-                                    </div>
-                                </td>
-                            </tr>
+                            {{/each}}
+                            
+                          
+                        
                         </table>
                     </div>
                                     
@@ -209,17 +165,43 @@
                             </div>
                         </div>
                     </div>
-                    <div class="custom-pagination">
-                        <nav aria-label="Page navigation example">
-                            <ul class="pagination">
-                                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                            </ul>
-                        </nav>
-                    </div>
+                        
+			<!-- PAGER -->
+			<ul class="pager">
+				 <form 
+                method="GET"
+                action="/admins">
+
+                    {{#if paginationArray}}
+                   <ul class="my-pagination">
+                                <li class="my-page-item">
+                                    <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                    <label for="page-prev"  class="my-page-button">Prev</label>
+                                </li>
+                                {{#each paginationArray }}  
+                                    {{#if this.isCurrent}}
+                                        <li class="my-page-item">
+                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                            <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                        </li>
+                                    {{else}}
+                                        <li class="my-page-item">
+                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                            <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                        </li>
+                                    {{/if}}
+                                {{/each}}
+                                <li class="my-page-item">
+                                    <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                    <label for="page-next"  class="my-page-button">Next</label>
+                                </li>
+                     </ul>
+                     {{/if}}
+        
+
+            </form>
+			</ul>
+			<!-- /PAGER -->
                 </div>
             </div>
         </div>
