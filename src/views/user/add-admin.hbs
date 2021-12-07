@@ -91,40 +91,74 @@
 <div class="single-pro-review-area mt-t-30 mg-b-15">
     <div class="container-fluid">
         <div class="pro-ad" style="padding: 20px; background-color: white;">
-        <form action="/" id="loginForm">
+        <form action="/admins/add-admin" method="post" id="register-form">
             <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                     <div class="form-group">
                         <label for="firstname">Firstname</label>
-                        <input type="text" id="firstname" name="firstname" title="Please enter you username" required="" value="" class="form-control" >
+                        <input type="text" id="firstname" name="firstname"
+                            {{#if firstname}}
+                                value="{{firstname}}"
+                            {{/if}}
+                        title="Please enter you username" required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="lastname">Lastname</label>
-                        <input type="text" id="lastname" name="lastname" title="Please enter you username" required="" value="" class="form-control" >
+                        <input type="text" id="lastname" name="lastname"
+                            {{#if lastname}}
+                                value="{{lastname}}"
+                            {{/if}}
+                        title="Please enter you username" required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
-                        <input type="email" name="email" title="Please enter your email address" required="" value="" class="form-control" >
+                        <input type="email" name="email"
+                            {{#if email}}
+                                value="{{email}}"
+                            {{/if}}
+                        title="Please enter your email address" required="" class="form-control" >
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                    <div id="pwd-container4">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input type="text" name="username" title="Please enter you username" required="" value="" class="form-control" >
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" name="username"
+                            {{#isEqual errorCode 1 }}
+                                style="margin-bottom: 5px"
+                            {{/isEqual}}
+                            {{#if username}}
+                                value="{{username}}"
+                            {{/if}}
+                        title="Please enter you username" required="" class="form-control" >
+                    </div>
+                    {{#isEqual errorCode 1}}
+                        <div class="my-invalid-feedback" style="margin-bottom: 2; display: block">
+                            Username existed
                         </div>
-                            <div class="form-group">
-                            <label for="password4">Password</label>
-                            <input type="password" name="password" title="Please enter your password" required="" value="" class="form-control example4" id="password4">
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Repeat password</label>
-                            <input type="password" name="repeatPassword" title="Please enter repeat password" required="" value="" class="form-control">
+                    {{/isEqual}}
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" name="password"
+                            {{#if password}}
+                                value="{{password}}"
+                            {{/if}}
+                        title="Please enter your password" required="" value="" class="form-control" id="password-admin">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Confirm password</label>
+                        {{!-- <input type="password" name="confirmPassword" title="Please enter confirm password" required="" value="" class="form-control"> --}}
+                        <input id="confirm-password" name="confirmPassword"
+                            {{#if confirmPassword}}
+                                value="{{confirmPassword}}"
+                            {{/if}}
+                        style="margin-bottom: 0;" type="password" placeholder="Enter your password here..." required="" class="form-control">
+                        <div class="my-invalid-feedback" id="my-invalid-confirm">
+                            The confirmation password must be the same as the password
                         </div>
                     </div>
                 </div>
             </div>
-            <button class="btn btn-success loginbtn">Create admin account</button>
+            <button class="btn btn-success loginbtn" type="submit">Create admin account</button>
         </form>
     </div>
     </div>
@@ -183,3 +217,30 @@
 <!-- tawk chat JS
 	============================================ -->
 <!-- <script src="/js/tawk-chat.js"></script> -->
+
+<script>
+	$(document).ready(function(){
+        const confirmPassword = document.getElementById('confirm-password');
+        const comfirmFeedback = document.getElementById("my-invalid-confirm");
+        const password = document.getElementById("password-admin");
+        const registerForm = document.getElementById("register-form");
+        registerForm.addEventListener("submit", function(e){
+            let isSubmitable = true;
+            console.log(password.value);
+            console.log(confirmPassword.value);
+            if(confirmPassword.value !== password.value){
+				comfirmFeedback.style.display="block";
+				confirmPassword.style.marginBottom="5px";
+				isSubmitable = false;
+			}
+			else{
+				comfirmFeedback.style.display="none";
+				confirmPassword.style.marginBottom="22px";
+			}
+			if(!isSubmitable){
+				e.preventDefault();
+				return;
+			}
+        })
+    })
+</script>

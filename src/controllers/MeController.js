@@ -5,10 +5,16 @@ class MeController{
     //[GET] /profile
     profile(req, res, next){
         if(req.user){
+            const user = req.user;
+            const date = new Date(user.f_DOB);
+            if (!isNaN(date.getTime())) {
+                let d = date.getDate();
+                (d[1]?d:"0"+d[0])
+                let m = date.getMonth() + 1;
+                let y = date.getFullYear();
+                user.dob = d + '/' + m + '/' + y;
+            }
             res.render('me/profile');
-            //Không cần code gì trong hàm này
-            //chỉ cần vô sửa code trong hbs thành thông tin tương ứng của user là được
-            //Trong file hbs chỉ cần {{user.gì gì đó}} là được
         }
         else{
             res.redirect("/account/login")

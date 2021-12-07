@@ -28,6 +28,17 @@ class UserService{
             }
         })
     }
+
+    createUser({firstname, lastname, username, email, password}){
+        return models.user.create({
+            f_userName: username,
+            f_password: password,
+            f_lastname: lastname,
+            f_firstname: firstname,
+            f_email: email,
+            f_permission: 1,
+        })
+    }
 }
 
 module.exports = new UserService;
