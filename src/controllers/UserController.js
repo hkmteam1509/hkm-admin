@@ -14,7 +14,6 @@ class UserController{
     //[GET] /
     allUser(req, res, next){
         const pageNumber = req.query.page;
-        const name = (req.query.name) ? req.query.name : null;
         currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
         currentPage = (currentPage > 0) ? currentPage : 1;
         currentPage = (currentPage <= totalPage) ? currentPage : totalPage
@@ -47,6 +46,10 @@ class UserController{
                 }
                 if(pageDisplace < 2){
                     paginationArray=[];
+                }
+                const usersLength = users.length;
+                for(let i = 0 ; i  < usersLength;i++){
+                    users[i].No = (currentPage -1)*userPerPage + 1 + i;
                 }
                 res.render("user/all-user",{
                     users,

@@ -15,7 +15,6 @@ class AdminController{
     //[GET] /
     allAdmin(req, res, next){
         const pageNumber = req.query.page;
-        const name = (req.query.name) ? req.query.name : null;
         currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
         currentPage = (currentPage > 0) ? currentPage : 1;
         currentPage = (currentPage <= totalPage) ? currentPage : totalPage
@@ -48,12 +47,17 @@ class AdminController{
                 if(pageDisplace < 2){
                     paginationArray=[];
                 }
+                const adminsLength = admins.length;
+                for(let i = 0 ; i  < adminsLength;i++){
+                    admins[i].No = (currentPage -1)*adminPerPage + 1 + i;
+                }
                 res.render("user/all-admin",{
                     admins,
                     currentPage,
                     paginationArray,
                     prevPage: (currentPage > 1) ? currentPage - 1 : 1,
-                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,});
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage
+                });
             })
             .catch(err=>{
                 console.log(err);
