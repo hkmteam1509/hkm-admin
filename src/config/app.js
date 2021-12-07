@@ -5,4 +5,5 @@ module.exports = {
     BRAND_PER_PAGE,
     CATEGORY_PER_PAGE,
     SALT_BCRYPT
+
 }
