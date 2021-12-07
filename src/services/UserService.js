@@ -42,6 +42,7 @@ class UserService{
     }
 
 
+
     // admin type 0
     // user type 1
     listTypeOfUser(limit, page, type){
@@ -70,6 +71,18 @@ class UserService{
             raw:true,
             where:{
                 userID: id,
+
+    updateProfile(id, firstname, lastname, address, date, mobileno){
+        return models.user.update({
+            f_firstname: firstname,
+            f_lastname: lastname,
+            f_address: address,
+            f_phone: mobileno,
+            f_DOB: date
+        },{
+            where:{
+                f_ID:id
+
             }
         })
     }
