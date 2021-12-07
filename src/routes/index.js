@@ -9,11 +9,18 @@ const orderRouter = require('./order');
 const meRouter = require('./me');
 const adminRouter = require('./admin');
 function route(app){
+    app.use('/account', accountRouter);
+    app.use(function(req, res, next){
+        if(req.user){
+            next();
+        }else{
+            res.redirect('/account/login');
+        }
+    })
     app.use('/categories', categoryRouter);
     app.use('/orders', orderRouter);
     app.use('/brands', brandRouter);
     app.use('/me', meRouter);
-    app.use('/account', accountRouter);
     app.use('/users', userRouter);
     app.use('/admins', adminRouter);
     app.use('/products', productRouter);

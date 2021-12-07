@@ -1,6 +1,7 @@
+const UserService = require("../services/UserService");
+const bcrypt = require('bcrypt');
+const { SALT_BCRYPT } = require("../config/app");
 class MeController{
-
-
     //[GET] /profile
     profile(req, res, next){
         if(req.user){
@@ -12,7 +13,6 @@ class MeController{
         else{
             res.redirect("/account/login")
         }
-        
     }
 
     //[PUT] /profile
@@ -35,13 +35,46 @@ class MeController{
 
     //[GET] /change-password
     changePassword(req, res, next){
-        res.render('me/change-password', {
-            layout:false,
-        });
+        if(req.user){
+            res.render('me/change-password', {
+                layout:false,
+            });
+        }else{
+            res.redirect('/account/login');
+        }
     }
     //[GET] /notifications
     notifications(req, res, next){
-        res.render('me/notifications');
+        if(req.user){
+            res.render('me/notifications');
+        }else{
+            res.redirect('/account/login');
+        }
+    }
+    //[PUT] /changePassword
+    updatePassword(req, res, next){
+        if(req.user){
+            const id = req.user.f_ID;
+            const {newPassword} = req.body;
+            bcrypt.hash(newPassword, SALT_BCRYPT)
+            .then(password=>{
+                UserService.updatePassword(id,password)
+                .then(result=>{
+                    res.redirect("/");
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next();
+                })
+            })
+            .catch(err=>{
+                console.log(err);
+                next();
+            })
+           
+        }else{
+            res.redirect('/account/login');
+        }
     }
 
 }

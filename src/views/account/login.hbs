@@ -52,6 +52,7 @@
     <link rel="stylesheet" href="/css/form/all-type-forms.css">
     <!-- style CSS
 		============================================ -->
+		<link rel="stylesheet" href="/css/my-css.css">
     <link rel="stylesheet" href="/style.css">
     <!-- responsive CSS
 		============================================ -->
@@ -74,6 +75,7 @@
 			<div class="content-error">
 				<div class="hpanel">
           			<div class="panel-body">
+						<h4 class="login-failed">{{message}}</h4>
 						<form action="/account/login" method="post" id="loginForm">
 							<div class="form-group">
 								<label class="control-label" for="username">Username</label>
@@ -89,7 +91,6 @@
 								<input name="rememberMe" type="checkbox" class="i-checks"> Remember me </label>
 							</div>
 							<button type="submit" class="btn btn-success btn-block loginbtn">Login</button>
-							<a class="btn btn-default btn-block" href="/account/register">Register</a>
 						</form>
 					</div>
 				</div>

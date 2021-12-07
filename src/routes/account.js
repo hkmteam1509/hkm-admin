@@ -6,7 +6,12 @@ const AccountController = require('../controllers/AccountController');
 
 router.get("/logout", AccountController.logout);
 router.post("/login",  
-    passport.authenticate('local'),
+    passport.authenticate('local',
+    { 
+        successRedirect: '/',
+        failureRedirect: '/account/login',
+        failureFlash: true 
+    }),
     function(req, res) {
         if(req.user){
             res.redirect("/");
@@ -17,6 +22,12 @@ router.post("/login",
 router.get('/login', AccountController.login);
 router.get('/register', AccountController.register);
 router.get('/password-recovery', AccountController.passwordRecovery);
-
+router.get('/:foo', function(req, res){
+    res.status(404);
+    console.log("here");
+    res.render('404', {
+        layout:false,
+    });
+})
 
 module.exports = router;

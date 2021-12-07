@@ -10,6 +10,7 @@ const route = require('./routes');
 const session = require('express-session');
 const bodyParser = require('body-parser');
 const passport = require('./auth/passport');
+const flash = require('connect-flash');
 const app = express();
 const port = 3006;
 
@@ -49,7 +50,7 @@ app.set('view engine', 'hbs');
 
 //Dùng để in mấy cái connect lên terminal 
 //app.use(logger('dev'));
-
+app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());

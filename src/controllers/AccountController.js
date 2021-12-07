@@ -7,6 +7,7 @@ class AccountController{
     login(req, res, next){
         res.render('account/login', {
             layout:false,
+            message: req.flash('error'),
         });
     }
 
