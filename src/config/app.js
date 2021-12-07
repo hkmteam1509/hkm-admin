@@ -4,5 +4,6 @@ const SALT_BCRYPT = 10;
 module.exports = {
     BRAND_PER_PAGE,
     CATEGORY_PER_PAGE,
-    SALT_BCRYPT,
+    SALT_BCRYPT
+
 }

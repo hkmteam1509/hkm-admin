@@ -90,22 +90,35 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>Username:</label>
                                                     <div class="form-group">
-                                                        <input name="username" type="text" class="form-control" placeholder="Username" value="adminChandler" readonly="">
+                                                        <input name="username" type="text" class="form-control" placeholder="Username" value="{{user.f_userName}}" readonly="">
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
                                                     <label>Email:</label>
                                                     <div class="form-group">
-                                                        <input name="email" type="email" class="form-control" placeholder="Email" value="chandlermerrill0809@gmail.com" readonly="">
+                                                        <input name="email" type="email" class="form-control" placeholder="Email" value="{{user.f_email}}" readonly="">
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
                                                     <label>Gender:</label>
                                                     <div class="form-group">
                                                         <select class="form-control">
-														<option selected="">Men</option>
-														<option>Women</option>
-													</select>
+                                                            {{#isEqual user.f_sex 0}}
+                                                                <option selected="">Men</option>
+                                                                <option>Women</option>
+                                                                <option>Other</option>
+                                                            {{else}}
+                                                                {{#isEqual user.f_sex 1}}
+                                                                    <option>Men</option>
+                                                                    <option selected="">Women</option>
+                                                                    <option>Other</option>
+                                                                {{else}}
+                                                                    <option>Men</option>
+                                                                    <option>Women</option>
+                                                                    <option selected="">Other</option>
+                                                                {{/isEqual}}
+                                                            {{/isEqual}}
+													    </select>
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
@@ -113,7 +126,7 @@
                                                     <div class="form-group">
                                                         <div class="input-knob-dial-wrap">
                                                         <div class="input-mark-inner mg-b-22">
-                                                            <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="(844) 851-1905">
+                                                            <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="{{user.f_phone}}">
                                                         </div>
                                                     </div>
                                                     </div>
@@ -121,19 +134,19 @@
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                     <label>First name:</label>
                                                     <div class="form-group">
-                                                        <input name="firstname" type="text" class="form-control" placeholder="First Name" value="Chandler">
+                                                        <input name="firstname" type="text" class="form-control" placeholder="First Name" value="{{user.f_firstname}}">
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
                                                     <label>Last name:</label>
                                                     <div class="form-group">
-                                                        <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="Merrill">
+                                                        <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="{{user.f_lastname}}">
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
                                                     <label>Address:</label>
                                                     <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="369/44 Nguyen Dinh Chieu St., Ward 5, Dist. 3, Ho Chi Minh City">
+                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="{{user.f_address}}">
                                                     </div>
                                                     <div class="form-group">
                                                     </div>
@@ -141,7 +154,7 @@
                                                     <div class="form-group data-custon-pick" id="data_2">
                                                         <div class="input-group date">
                                                             <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                            <input name="birthdate" type="text" class="form-control" value="08/09/1987">
+                                                            <input name="birthdate" type="text" class="form-control" value="{{user.dob}}">
                                                         </div>
                                                     </div>
                                                 </div>

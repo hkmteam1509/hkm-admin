@@ -4730,3 +4730,12 @@ div#sparklinehome canvas {
     padding: 0px !important;
     font-size: 12px;
 }
+
+.my-invalid-feedback{
+    color: red;
+    font-size: 0.75em;
+    padding: 0;
+    margin-bottom: 20px;
+    font-family: 'Roboto', sans-serif;
+    display: none;
+}
