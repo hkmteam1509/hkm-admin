@@ -1,6 +1,7 @@
 const UserService = require("../services/UserService");
 const bcrypt = require('bcrypt');
 const { SALT_BCRYPT } = require("../config/app");
+const Util = require("../utilities/Util");
 class MeController{
     //[GET] /profile
     profile(req, res, next){
@@ -26,13 +27,25 @@ class MeController{
         if(req.user){
             //Lấy f_ID trong biến user này để có được id của user
             const user = req.user;
-            //code ở đây
-            //Lấy thông tin user từ form thông qua req.body
-            //Đặt name cho input là gì, thì lấy dữ liệu của input đó trong hàm này bằng res.body.<name của input>
-            //code hàm chèn dữ liệu cho user trong UserService:
-            //Sequelize có hỗ trợ hàm update á, lên coi document rồi làm
-
-
+            let {mobileno, firstname, lastname, address, birthdate} = req.body;
+            const tokens=birthdate.split("/");
+          
+            let date = new Date(tokens[2] + "-"+ tokens[1]+"-"+tokens[0])
+            if(Util.isVietnamesePhoneNumber(mobileno)){
+                UserService.updateProfile(user.f_ID, firstname, lastname, address, date, mobileno)
+                .then(result=>{
+                    res.redirect('back');
+                })
+                .catch(err=>{
+                    console.log(err);
+                    next();
+                })
+            }else{
+                console.log(false);
+                res.render('me/profile',{
+                    errorCode: 1
+                });
+            }
         }
         else{
             res.redirect("/account/login")

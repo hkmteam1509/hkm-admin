@@ -39,6 +39,20 @@ class UserService{
             f_permission: 1,
         })
     }
+
+    updateProfile(id, firstname, lastname, address, date, mobileno){
+        return models.user.update({
+            f_firstname: firstname,
+            f_lastname: lastname,
+            f_address: address,
+            f_phone: mobileno,
+            f_DOB: date
+        },{
+            where:{
+                f_ID:id
+            }
+        })
+    }
 }
 
 module.exports = new UserService;

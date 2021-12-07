@@ -125,10 +125,13 @@
                                                     <label>Phone:</label>
                                                     <div class="form-group">
                                                         <div class="input-knob-dial-wrap">
-                                                        <div class="input-mark-inner mg-b-22">
-                                                            <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="{{user.f_phone}}">
-                                                        </div>
-                                                    </div>
+															<div class="input-mark-inner mg-b-22">
+																<input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" data-mask="(999) 999-9999" value="{{user.f_phone}}">
+															</div>
+														</div>
+														 <div class="my-invalid-feedback" id="invalid-phone">
+															Invalid phone number
+														</div>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -243,3 +246,21 @@
     <!-- tawk chat JS
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
+
+<script>
+	function isVietnamesePhoneNumber(number) {
+        return /(03|05|07|08|09|01[2|6|8|9])+([0-9]{8})\b/.test(number);
+    }
+	$(document).ready(function(){
+		const form = document.getElementById("add-professors");
+		const phone = form["mobileno"];
+		form.addEventListener("submit", function(e){
+			if(!isVietnamesePhoneNumber(phone.value)){
+				e.preventDefault();
+				document.getElementById("invalid-phone").style.display="block";
+			}else{
+				document.getElementById("invalid-phone").style.display="none";
+			}
+		})
+	})
+</script>

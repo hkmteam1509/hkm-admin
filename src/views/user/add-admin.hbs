@@ -100,7 +100,7 @@
                             {{#if firstname}}
                                 value="{{firstname}}"
                             {{/if}}
-                        title="Please enter you username" required="" class="form-control" >
+                        title="Please enter you username" placeholder="Enter firstname here..." required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="lastname">Lastname</label>
@@ -108,7 +108,7 @@
                             {{#if lastname}}
                                 value="{{lastname}}"
                             {{/if}}
-                        title="Please enter you username" required="" class="form-control" >
+                        title="Please enter you username" placeholder="Enter lastname here..." required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
@@ -116,7 +116,7 @@
                             {{#if email}}
                                 value="{{email}}"
                             {{/if}}
-                        title="Please enter your email address" required="" class="form-control" >
+                        title="Please enter your email address" placeholder="Enter email address here..." required="" class="form-control" >
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -129,7 +129,7 @@
                             {{#if username}}
                                 value="{{username}}"
                             {{/if}}
-                        title="Please enter you username" required="" class="form-control" >
+                        title="Please enter you username" placeholder="Enter username here..." required="" class="form-control" >
                     </div>
                     {{#isEqual errorCode 1}}
                         <div class="my-invalid-feedback" style="margin-bottom: 2; display: block">
@@ -142,7 +142,7 @@
                             {{#if password}}
                                 value="{{password}}"
                             {{/if}}
-                        title="Please enter your password" required="" value="" class="form-control" id="password-admin">
+                        title="Please enter your password" placeholder="Enter password here..." required="" value="" class="form-control" id="password-admin">
                     </div>
                     <div class="form-group">
                         <label for="password">Confirm password</label>
@@ -151,7 +151,7 @@
                             {{#if confirmPassword}}
                                 value="{{confirmPassword}}"
                             {{/if}}
-                        style="margin-bottom: 0;" type="password" placeholder="Enter your password here..." required="" class="form-control">
+                        style="margin-bottom: 0;" type="password" placeholder="Enter password here..." required="" class="form-control">
                         <div class="my-invalid-feedback" id="my-invalid-confirm">
                             The confirmation password must be the same as the password
                         </div>
