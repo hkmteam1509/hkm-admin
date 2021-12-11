@@ -20,6 +20,6 @@ const testConnect = async (sequelize)=>{
 
 module.exports={
     sequelize,
-    models: initModels(sequelize),
+    models: initModels(sequelize),  
     testConnect: testConnect
 }

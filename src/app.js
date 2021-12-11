@@ -7,6 +7,10 @@ const logger = require('morgan');
 const handlebars  = require('express-handlebars');
 const methodOverride = require('method-override');
 const route = require('./routes');
+const session = require('express-session');
+const bodyParser = require('body-parser');
+const passport = require('./auth/passport');
+const flash = require('connect-flash');
 const app = express();
 const port = 3006;
 
@@ -46,10 +50,11 @@ app.set('view engine', 'hbs');
 
 //Dùng để in mấy cái connect lên terminal 
 //app.use(logger('dev'));
-
+app.use(flash());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, 'public')));
 const firebaseConfig = { 
 	apiKey : "AIzaSyBH-Q9MlxIYoDzTrU7k3HgiIXmOwVRy6Q8" , 
@@ -62,6 +67,13 @@ const firebaseConfig = {
 	measurementId : "G-655D9CR7BB" 
 };
 app.use(methodOverride('_method'));
+app.use(session({ secret: process.env.SECRET_SESSION, resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(function (req, res, next) {
+	res.locals.user = req.user
+	next();
+})
 const appFirebase = initializeApp ( firebaseConfig );
 route(app);
 

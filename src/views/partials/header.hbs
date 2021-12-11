@@ -95,7 +95,7 @@
                                         <li class="nav-item">
                                             <a href="#" data-toggle="dropdown" role="button" aria-expanded="false" class="nav-link dropdown-toggle">
                                                     <!-- <img src="/img/product/pro4.jpg" alt="" /> -->
-                                                    <span class="admin-name">Chandler Merrill</span>
+                                                    <span class="admin-name">{{user.f_firstname}} {{user.f_lastname}}</span>
                                                     <i class="fa fa-angle-down edu-icon edu-down-arrow"></i>
                                                 </a>
                                             <ul role="menu" class="dropdown-header-top author-log dropdown-menu animated zoomIn">
@@ -125,7 +125,8 @@
                         <nav id="dropdown">
                             <ul class="mobile-menu-nav">
                                 <li><a href="/">Dashboard</a></li>
-                                <li><a href="/users">Users</a></li>
+                                <li><a href="/admins">Admins</a></li>
+                                <li><a href="/users">Guests</a></li>
                                 <li><a href="/brands">Brands</a></li>
                                 <li><a href="/categories">Categories</a></li>
                                 <li><a href="/products">Products</a></li>

@@ -1,7 +1,7 @@
 {{#section 'head'}}
 <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>All Guests</title>
+    <title>All Admins</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- favicon
@@ -77,25 +77,34 @@
 
 <div class="product-status mg-b-15">
     <div class="container-fluid">
+        {{!-- <div class="row my-search-row">
+            <div class="add-product">
+				<a href="/admins/add-admin" style="position: relative; top: 0; right: 0;">Add Admin Account</a>
+			</div>
+        </div> --}}
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap drp-lst">
-                    <h4>All Users</h4>
-                    <div class="asset-inner">
-                        <table>
-                            <tr>
-                                <th>No.</th>
-                                <th>Name</th>
-                                <th>Gender</th>
-                                <th>Address</th>
-                                <th>Phone Number</th>
+                    <h4>All Admin</h4>
+                        <div class="add-product">
+                            <a href="/admins/add-admin">Add Admin Account</a>
+                        </div>
+                        <div class="asset-inner">
+                            <table>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Name</th>
+                                    <th>Gender</th>
+                                    <th>Address</th>
+                                    <th>Phone Number</th>
                                 <th>Action</th>
                             </tr>
-                            {{#each users}}
+
+                            {{#each admins}}
                             <tr>
                                 <td>{{this.No}}</td>
                                 <td>{{this.f_firstname}} {{this.f_lastname}} </td>
-                                  <td>
+                                <td>
                                     {{#if this.f_sex}} 
                                     {{#isEqual this.f_sex 1}}Women{{/isEqual}} 
                                     {{#isEqual this.f_sex 2}}Other{{/isEqual}}
@@ -107,6 +116,7 @@
                                         {{/isEqual}}
                                     {{/if}}
                                 </td>
+                              
                                 <td>
                                     {{#if this.f_address}}
                                         {{this.f_address}}
@@ -123,12 +133,13 @@
                                 </td>
                                 <td>
                                     <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/users/{{this.f_ID}}">Details</a>
-                                        <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        <a class="Primary mg-b-10" href="/admins/{{this.f_ID}}">Details</a>
+                                        {{!-- <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
                                     </div>
                                 </td>
                             </tr>
                             {{/each}}
+                        
                         </table>
                     </div>
                                     
@@ -145,7 +156,7 @@
                                 </div>
                                 <div class="modal-footer danger-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Block</a>
+                                    <a href="/admins">Block</a>
                                 </div>
                             </div>
                         </div>
@@ -163,16 +174,17 @@
                                 </div>
                                 <div class="modal-footer warning-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Unblock</a>
+                                    <a href="/admins">Unblock</a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                	<!-- PAGER -->
+                        
+			<!-- PAGER -->
 			<ul class="pager">
 				 <form 
                 method="GET"
-                action="/users">
+                action="/admins">
 
                     {{#if paginationArray}}
                    <ul class="my-pagination">

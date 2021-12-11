@@ -2,7 +2,13 @@ class HomeController{
 
     //[GET] /
     index(req, res, next){
-        res.render('home');
+        if(req.user){
+            res.render('home');
+        }
+        else{
+            res.redirect("/account/login");
+        }
+        
     }
 
     //[404]

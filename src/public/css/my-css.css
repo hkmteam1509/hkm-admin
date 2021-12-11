@@ -205,3 +205,24 @@
     width: 200px;
     position:relative;
 }
+
+.login-failed{
+    text-transform: capitalize;
+    color: red;
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
+    font-family: 'Roboto', sans-serif;
+}
+
+#invalid-confirm-password{
+    text-transform: capitalize;
+    color: red;
+    font-size: 14px;
+    padding: 0;
+    margin-bottom: 20px;
+    font-weight: 400;
+    display: none;
+    font-family: 'Roboto', sans-serif;
+}

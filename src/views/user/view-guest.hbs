@@ -99,39 +99,39 @@
                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                       <label>Username:</label>
                                                       <div class="form-group">
-                                                          <input name="username" type="text" class="form-control" placeholder="Username" value="kennedyharrelson" readonly="">
+                                                          <input name="username" type="text" class="form-control" placeholder="Username" value="{{users.f_userName}}" readonly="">
                                                       </div>
                                                       <label>Email:</label>
                                                       <div class="form-group">
-                                                          <input name="email" type="email" class="form-control" placeholder="Email" value="kennedyharrelson1901@gmail.com" readonly="">
+                                                          <input name="email" type="email" class="form-control" placeholder="Email" value="{{users.f_email}}" readonly="">
                                                       </div>
                                                       <label>Gender:</label>
                                                       <div class="form-group">
-                                                          <input name="gender" type="text" class="form-control" placeholder="Gender" value="Men" readonly="">
+                                                          <input name="gender" type="text" class="form-control" placeholder="Gender" {{#isEqual users.f_sex 1}}value="Women"{{/isEqual}} {{#isEqual users.f_sex 0}}value="Men"   {{/isEqual}} {{#isEqual users.f_sex 2}}value="Order"   {{/isEqual}} readonly="">
                                                       </div>
                                                       <label>Phone:</label>
                                                       <div class="form-group">
-                                                          <input name="mobileno" type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Mobile Number" value="(083) 923-0688" readonly="">
+                                                          <input name="mobileno" type="text" class="form-control" data-mask="(999) 999-9999" placeholder="Mobile Number" value="{{users.f_phone}}" readonly="">
                                                       </div>
                                                   </div>
                                                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                       <label>First name:</label>
                                                       <div class="form-group">
-                                                          <input name="firstname" type="text" class="form-control" placeholder="First Name" value="Kennedy" readonly="">
+                                                          <input name="firstname" type="text" class="form-control" placeholder="First Name" value="{{users.f_firstname}}" readonly="">
                                                       </div>
                                                       <label>Last name:</label>
                                                       <div class="form-group">
-                                                          <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="Harrelson" readonly="">
+                                                          <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="{{users.f_lastname}}" readonly="">
                                                       </div>
                                                       <label>Address:</label>
                                                       <div class="form-group">
-                                                          <input name="address" type="text" class="form-control" placeholder="Address" value="168 Phan Van Tri, Ward 2, Dist.5, Ho Chi Minh City" readonly="">
+                                                          <input name="address" type="text" class="form-control" placeholder="Address" value="{{users.f_address}}" readonly="">
                                                       </div>
                                                       <label>Birth date:</label>
                                                       <div class="form-group data-custon-pick" id="data_2">
                                                           <div class="input-group date">
                                                               <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
-                                                              <input type="text" class="form-control" value="19/01/1997" readonly="">
+                                                              <input type="text" class="form-control" value="{{users.dob}}" readonly="">
                                                           </div>
                                                       </div>
                                                   </div>
@@ -149,33 +149,33 @@
                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                   <label>First name:</label>
                                                   <div class="form-group">
-                                                      <input name="firstname" type="text" class="form-control" placeholder="First Name" value="Kennedy" readonly="">
+                                                      <input name="firstname" type="text" class="form-control" placeholder="First Name" value="{{ships.f_firstname}}" readonly="">
                                                   </div>
                                                   <label>Last name:</label>
                                                   <div class="form-group">
-                                                      <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="Harrelson" readonly="">
+                                                      <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="{{ships.f_lastname}}" readonly="">
                                                   </div>
                                                   <label>Phone:</label>
                                                   <div class="form-group">
-                                                      <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" value="(08) 39230688" readonly="">
+                                                      <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" value="{{ships.f_phone}}" readonly="">
                                                   </div>
                                               </div>
                                               <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                                   <label>Address:</label>
                                                   <div class="form-group">
-                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="168 Phan Van Tri" readonly="">
+                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="{{ships.address}}" readonly="">
                                                   </div>
                                                   <label>Ward:</label>
                                                   <div class="form-group">
-                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="Ward 2" readonly="">
+                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="{{ships.ward}}" readonly="">
                                                   </div>
                                                   <label>District:</label>
                                                   <div class="form-group">
-                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="Dist.5" readonly="">
+                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="{{ships.distric}}" readonly="">
                                                   </div>
                                                   <label>Province:</label>
                                                   <div class="form-group">
-                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="Ho Chi Minh City" readonly="">
+                                                      <input name="address" type="text" class="form-control" placeholder="Address" value="{{ships.province}}" readonly="">
                                                   </div>
                                               </div>
                                           </div>
@@ -183,33 +183,7 @@
                                   </div>
                               </div>
                           </div>
-                          <!-- <div class="product-tab-list tab-pane fade" id="INFORMATION">
-                              <div class="row">
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                      <div class="review-content-section">
-                                          <div class="row">
-                                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                                  <div class="devit-card-custom">
-                                                      <div class="form-group">
-                                                          <input type="url" class="form-control" placeholder="Facebook URL">
-                                                      </div>
-                                                      <div class="form-group">
-                                                          <input type="url" class="form-control" placeholder="Twitter URL">
-                                                      </div>
-                                                      <div class="form-group">
-                                                          <input type="url" class="form-control" placeholder="Google Plus">
-                                                      </div>
-                                                      <div class="form-group">
-                                                          <input type="url" class="form-control" placeholder="Linkedin URL">
-                                                      </div>
-                                                      <button type="submit" class="btn btn-primary waves-effect waves-light">Submit</button>
-                                                  </div>
-                                              </div>
-                                          </div>
-                                      </div>
-                                  </div>
-                              </div>
-                          </div> -->
+                          
                       </div>
                   </div>
                   <div id="DangerModalalert" class="modal modal-edu-general FullColor-popup-DangerModal fade" role="dialog">
