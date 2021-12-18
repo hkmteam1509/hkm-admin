@@ -267,63 +267,14 @@ class BrandService{
             }
         })
     }
-    // permantlyDelete(id){
-    //     return models.brand.fineOne({
-    //         where:{
-    //             brandID: id
-    //         },
-    //         paranoid: false,
-    //     })
-    //     .then(brand=>{
-    //         const imageName = Util.getImageName(brand.brandImage);
-    //         return models.brand.destroy({
-    //             where: {
-    //                 brandID: id
-    //             },
-    //             force: true,
-    //         }).then(result=>{
-    //             console.log(result);
-    //             if(result){
-    //                 const storage = getStorage();
-    //                 const filename = "brand"
-    //                 // Create a reference to the file to delete
-    //                 const desertRef = ref(storage, '/' + imageName);
-    
-    //                 // Delete the file
-    //                 return deleteObject(desertRef)
-    //             }else{
-    //                 return null;
-    //             }
-    //         })
-    //     })
-    //     return models.brand.destroy({
-    //         where: {
-    //             brandID: id
-    //         },
-    //         force: true,
-    //     }).then(result=>{
-    //         console.log(result);
-    //         if(result){
-    //             const storage = getStorage();
-    //             const filename = "brand"
-    //             // Create a reference to the file to delete
-    //             const desertRef = ref(storage, 'images/desert.jpg');
-
-    //             // Delete the file
-    //             deleteObject(desertRef).then(() => {
-    //             // File deleted successfully
-    //             }).catch((error) => {
-    //             // Uh-oh, an error occurred!
-    //             });
-
-    //             return
-    //         }else{
-    //             return null;
-    //         }
-    //     })
-    // }
-
-
+  
+    findBrand(brandSlug){
+        return models.brand.findOne({
+            where:{
+                brandSlug: brandSlug
+            }
+        })
+    }
 }   
 
 module.exports = new BrandService;

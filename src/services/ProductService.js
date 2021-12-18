@@ -749,7 +749,58 @@ class ProductService{
         return Promise.all(mypromises);
     }
 
+    getBrandSlug(id){
+        return models.brand.findOne({
+            raw:true,
+            attributes: ['brandSlug'],
+            where: {
+                brandID: id
+            }
+        })
+    }
 
+    getCateSlug(id){
+        return models.category.findOne({
+            raw:true,
+            attributes: ['catSlug'],
+            where: {
+                catID: id
+            }
+        })
+    }
+
+    getCateName(id){
+        return models.category.findOne({
+            raw:true,
+            where: {
+                catID: id,
+            }
+        })
+    }
+
+    getBrandName(id){
+        return models.brand.findOne({
+            raw:true,
+            where: {
+                brandID: id,
+            }
+        })
+    }
+
+    getProductDetail(id){
+        return models.detail.findAll({
+            raw:true,
+            where:{
+                proID: id,
+            }
+        })
+    }
+
+    getImageLink(id){
+        return models.imagelink.findAll(
+			{attributes: ['proImage'],
+			where: {proID:id}, raw:true})
+    }
 
     updateImageLink(file, name, oldUrl){
         const fileName = name;
@@ -799,7 +850,49 @@ class ProductService{
             }
         })
     }
-   
+
+    listAll(limit){
+        if(!limit){
+            return models.product.findAll({
+                raw:true,
+                order: [
+                    ['sold', 'DESC'],
+                ],
+            })
+        }
+        return models.product.findAll({
+            raw:true,
+            order: [
+                ['sold', 'DESC'],
+            ],
+            limit: limit,
+        })
+    }
+
+    listBestSelling(limit, brandID){
+        if(brandID){
+            return models.product.findAll({
+                raw:true,
+                where:{
+                    brandID: brandID
+                },
+                order: [
+                    ['sold', 'DESC'],
+                ],
+                limit: limit,
+            })
+        }
+        else{
+            return models.product.findAll({
+                raw:true,
+                order: [
+                    ['sold', 'DESC'],
+                ],
+                limit: limit,
+            })
+        }
+      
+    }
     
 }
 
