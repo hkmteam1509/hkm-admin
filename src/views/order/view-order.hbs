@@ -28,6 +28,10 @@
     <!-- normalize CSS
 		============================================ -->
     <link rel="stylesheet" href="/css/normalize.css">
+    <!-- notifications CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/notifications/Lobibox.min.css">
+    <link rel="stylesheet" href="/css/notifications/notifications.css">
     <!-- meanmenu icon CSS
 		============================================ -->
     <link rel="stylesheet" href="/css/meanmenu.min.css">
@@ -81,178 +85,246 @@
                         <ul id="myTabedu1" class="tab-review-design">
                             <li class="active"><a href="#orderInfo">Order Information</a></li>
                             <li><a href="#shippingInfo"> Shipping Information</a></li>
-                            <li><a href="#productInfo"> Products List</a></li>
+                            <li><a href="#productInfo" id="productList"> Products List</a></li>
                         </ul>
                         <div id="myTabContent" class="tab-content custom-product-edit">
-                            <div class="product-tab-list tab-pane fade active in" id="orderInfo">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="review-content-section">
-                                            <form id="add-professors" action="#" class="add-professors">
-                                                <div class="row">
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="order-id">Order Id</label>
-                                                            <input name="order-id" type="text" class="form-control" value="OD123" readonly="">
+                            {{#with order}}
+                                <div class="product-tab-list tab-pane fade active in" id="orderInfo">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div id="add-professors" action="#" class="add-professors">
+                                                    <div class="row">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="order-id">Order Id</label>
+                                                                <input name="order-id" type="text" class="form-control" value="{{orderID}}" readonly="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                            <label for="order total">Order total ($)</label>
+                                                                <input name="order total" type="text" class="form-control"  value="{{total}}" readonly="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="order-id">Change Order Status</label>
+                                                                <form method="post" action="/orders/view/{{orderID}}?_method=PUT" style="position: relative;">
+                                                                    <select class="form-control" onchange="this.form.submit()" name="statusBox">
+                                                                        {{#isEqual this.status 1}}
+                                                                            <option value="1" selected="">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 2}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2" selected="">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 3}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3" selected="">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 4}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4" selected="">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 5}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5" selected="">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 6}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6" selected="">Completed</option>
+                                                                            <option value="7">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                        {{#isEqual this.status 7}}
+                                                                            <option value="1">Pending confirmation</option>
+                                                                            <option value="2">Confirmed</option>
+                                                                            <option value="3">Pick by courier</option>
+                                                                            <option value="4">On their way</option>
+                                                                            <option value="5">Arrived</option>
+                                                                            <option value="6">Completed</option>
+                                                                            <option value="7" selected="">Canceled</option>
+                                                                        {{/isEqual}}
+                                                                    </select>
+                                                                </form>
+                                                                {{!-- <button id="basicSuccessCustomTitle" class="btn btn-success">Success</button> --}}
+                                                                {{!-- <input name="order-id" type="text" class="form-control" value="Complete" readonly=""> --}}
+                                                            </div>
                                                         </div>
-                                                        <div class="form-group">
-                                                          <label for="order total">Order total</label>
-                                                            <input name="order total" type="text" class="form-control"  value="$225" readonly="">
+                                                        <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                            <div class="form-group">
+                                                                <label for="username">Owner</label>
+                                                                <input name="username" type="text" class="form-control"  value="{{orderer}}" readonly="">
+                                                            </div>
+                                                            <div class="form-group">
+                                                                <label for="payment">Payment Method</label>
+                                                                <input name="payment" type="text" class="form-control"  value="{{payment}}" readonly="">
+                                                            </div>
                                                         </div>
-                                                         <div class="form-group">
-                                                            <label for="order-id">Order Status</label>
-                                                            <input name="order-id" type="text" class="form-control" value="Complete" readonly="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                        <div class="form-group">
-                                                            <label for="username">Owner</label>
-                                                            <input name="username" type="text" class="form-control"  value="Rory Darrell" readonly="">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="payment">Payment Method</label>
-                                                            <input name="payment" type="text" class="form-control"  value="Payment On delivery" readonly="">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="product-tab-list tab-pane fade" id="shippingInfo">
-                                <div class="row">
-                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                        <div class="review-content-section">
-                                            <div class="row">
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="form-group">
-                                                        <input name="firstname" type="text" class="form-control" placeholder="First Name" value="Rory" readonly="">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="Harrelson" readonly="">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" value="(08) 39230688" readonly="">
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                                    <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="168 Phan Van Tri" readonly="">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="Ward 2" readonly="">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="Dist.5" readonly="">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <input name="address" type="text" class="form-control" placeholder="Address" value="Ho Chi Minh City" readonly="">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                             <div class="product-tab-list tab-pane fade" id="productInfo">
-                                <div class="row">
-                                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                          <div class="product-status-wrap">
-                                              <div class="asset-inner">
-                                                  <table>
-                                                      <tr>
-                                                          <th>No</th>
-                                                          <th>Image</th>
-                                                          <th>Name</th>
-                                                          <th>Brand</th>
-                                                          <th>Category</th>
-                                                          <th>Gender</th>
-                                                          <th>Quantity</th>
-                                                          <th>Unit's price</th>
-                                                          <th>Action</th>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>1</td>
-                                                          <td><img src="/img/items/01.png" alt="" /></td>
-                                                          <td>Luxury Crazy Bunny</td>
-                                                          <td>Crazy Bunny</td>
-                                                          <td>T-Shirt</td>
-                                                          <td>Women</td>
-                                                          <td>1</td>
-                                                          <td>$45</td>
-                                                          <td>
-                                                              <a href="/products/view/1" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>2</td>
-                                                          <td><img src="/img/items/11.png" alt="" /></td>
-                                                          <td>Zombie Popsicle 120</td>
-                                                          <td>Zombie Popsicle</td>
-                                                          <td>T-Shirt</td>
-                                                          <td>Male</td>
-                                                          <td>1</td>
-                                                          <td>$45</td>
-                                                          <td>
-                                                              <a href="/products/view/1" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>3</td>
-                                                          <td><img src="/img/items/17.png" alt="" /></td>
-                                                          <td>Simple Moustache Monster 10</td>
-                                                          <td>Moustache Monster</td>
-                                                          <td>T-Shirt</td>
-                                                          <td>Women</td>
-                                                          <td>1</td>
-                                                          <td>$45</td>
-                                                          <td>
-                                                              <a href="/products/view/1" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>4</td>
-                                                          <td><img src="/img/items/31.png" alt="" /></td>
-                                                          <td>Cool Bunny Sneaker</td>
-                                                          <td>Crazy Bunny</td>
-                                                          
-                                                          <td>Sneaker</td>
-                                                          <td>Unisex</td>
-                                                          <td>1</td>
-                                                          <td>$45</td>
-                                                          <td>
-                                                              <a href="/products/view/1" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                                          </td>
-                                                      </tr>
-                                                      <tr>
-                                                          <td>5</td>
-                                                          <td><img src="/img/items/09.png" alt="" /></td>
-                                                          <td>Deluxe Moustache Monster 11</td>
-                                                          <td>Moustache Monster</td>
-                                                          <td>T-Shirt</td>
-                                                          <td>Men</td>
-                                                          <td>1</td>
-                                                          <td>$45</td>
-                                                          <td>
-                                                              <a href="/products/view/1" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                                          </td>
-                                                      </tr>
-                                                  </table>
-                                              </div>
-                                              <div class="custom-pagination">
-                                                  <ul class="pagination">
-                                                      <li class="page-item"><a class="page-link" href="#">Previous</a></li>
-                                                      <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                                      <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                                      <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                                      <li class="page-item"><a class="page-link" href="#">Next</a></li>
-                                                  </ul>
-                                              </div>
-                                          </div>
-                                      </div>
+                                <div class="product-tab-list tab-pane fade" id="shippingInfo">
+                                    <div class="row">
+                                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="review-content-section">
+                                                <div class="row">
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="firstname">First Name:</label>
+                                                            <input name="firstname" type="text" class="form-control" placeholder="First Name" value="{{f_firstname}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="lastname">Last Name:</label>
+                                                            <input name="lastname" type="text" class="form-control" placeholder="Last Name" value="{{f_lastname}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="mobileno">Mobile number:</label>
+                                                            <input name="mobileno" type="text" class="form-control" placeholder="Mobile Number" value="{{f_phone}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="address">Country:</label>
+                                                            <input name="address" type="text" class="form-control" placeholder="Address" value="{{country}}" readonly="">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label for="address">Address:</label>
+                                                            <input name="address" type="text" class="form-control" placeholder="Address" value="{{address}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="address">Ward:</label>
+                                                            <input name="address" type="text" class="form-control" placeholder="Address" value="{{ward}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="address">District:</label>
+                                                            <input name="address" type="text" class="form-control" placeholder="Address" value="{{distric}}" readonly="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="address">Province:</label>
+                                                            <input name="address" type="text" class="form-control" placeholder="Address" value="{{province}}" readonly="">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                                <div class="product-tab-list tab-pane fade" id="productInfo">
+                                    <div class="row">
+                                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                            <div class="product-status-wrap">
+                                                <div class="asset-inner">
+                                                    <table>
+                                                        <tr>
+                                                            <th>No</th>
+                                                            <th>Image</th>
+                                                            <th>Name</th>
+                                                            <th>Brand</th>
+                                                            <th>Category</th>
+                                                            <th>Gender</th>
+                                                            <th>Color</th>
+                                                            <th>Quantity</th>
+                                                            <th>Unit's price ($)</th>
+                                                            <th>Total price ($)</th>
+                                                            <th>Action</th>
+                                                        </tr>
+                                                        {{#each ../items}}
+                                                            <tr>
+                                                                <td>{{this.No}}</td>
+                                                                <td><img src="{{this.img}}" alt="" /></td>
+                                                                <td>{{this.proName}}</td>
+                                                                {{#each ../../brands}}
+                                                                    {{#isEqual ../this.brand this.brandID}}
+                                                                        <td>{{this.brandName}}</td>
+                                                                    {{/isEqual}}
+                                                                {{/each}}
+                                                                {{#each ../../categories}}
+                                                                    {{#isEqual ../this.cate this.catID}}
+                                                                        <td>{{this.catName}}</td>
+                                                                    {{/isEqual}}
+                                                                {{/each}}
+                                                                {{#isEqual this.gender 0}}
+                                                                    <td>Men</td>
+                                                                {{/isEqual}}
+                                                                {{#isEqual this.gender 1}}
+                                                                    <td>Women</td>
+                                                                {{/isEqual}}
+                                                                {{#isEqual this.gender 2}}
+                                                                    <td>Unisex</td>
+                                                                {{/isEqual}}
+                                                                <td><input class="my-attribute-input my-attribute-input-color" style="background: {{this.color}}" readonly=""></input></td>
+                                                                <td>{{this.quantity}}</td>
+                                                                <td>{{this.unitPrice}}</td>
+                                                                <td>{{this.totalPrice}}</td>
+                                                                <td>
+                                                                    <a href="/products/edit/{{this.proID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
+                                                                </td>
+                                                            </tr>
+                                                        {{/each}}
+                                                    </table>
+                                                </div>
+                                                {{#if ../paginationArray}}
+                                                    <form id="pagination-form" method="get" action="/orders/view/{{orderID}}"> 
+                                                        <ul class="my-pagination">
+                                                            <li class="my-page-item">
+                                                                <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{../prevPage}}" type="radio" name="itemPage"/>
+                                                                <label for="page-prev"  class="my-page-button">Prev</label>
+                                                            </li>
+                                                            {{#each ../paginationArray}}  
+                                                                {{#if this.isCurrent}}
+                                                                    <li class="my-page-item">
+                                                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="itemPage"/>
+                                                                        <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                                                    </li>
+                                                                {{else}}
+                                                                    <li class="my-page-item">
+                                                                        <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="itemPage"/>
+                                                                        <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                                                    </li>
+                                                                {{/if}}
+                                                            {{/each}}
+                                                            <li class="my-page-item">
+                                                                <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{../nextPage}}" type="radio" name="itemPage"/>
+                                                                <label for="page-next"  class="my-page-button">Next</label>
+                                                            </li>
+                                                        </ul>
+                                                    </form>
+                                                {{/if}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {{/with}}
                         </div>
                     </div>
                 </div>
@@ -297,6 +369,10 @@
 		============================================ -->
     <script src="/js/metisMenu/metisMenu.min.js"></script>
     <script src="/js/metisMenu/metisMenu-active.js"></script>
+    <!-- notification JS
+		============================================ -->
+    <script src="/js/notifications/Lobibox.js"></script>
+    <script src="/js/notifications/notification-active.js"></script>
     <!-- data table JS
 		============================================ -->
     <script src="/js/data-table/bootstrap-table.js"></script>
@@ -347,3 +423,11 @@
     <!-- tawk chat JS
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
+
+    <script>
+        $(document).ready(function(){
+            if(document.getElementById("pagination-form")){
+                $("#productList").tab('show');
+            }
+        })
+    </script>
