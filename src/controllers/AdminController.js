@@ -70,8 +70,6 @@ class AdminController{
         const id = req.params.id;
         
         Promise.all([findByID(id)]).then(([admin])=>{
-            admin;
-          
             const date = new Date(admin.f_DOB);
             if (!isNaN(date.getTime())) {
                 let d = date.getDate();

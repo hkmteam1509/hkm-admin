@@ -273,8 +273,8 @@
             });
             $('#basicSuccessCustomTitle').on('click', function () {
                 Lobibox.notify('success', {
-                    title: 'Success title',
-                    msg: 'Lorem ipsum dolor sit amet against apennine any created, spend loveliest, building stripes.'
+                    title: 'Change Order Status Success',
+                    msg: 'The status of this order was changed successfully. This change will be updated on your customer\'s order progress.'
                 });
             });
 			
