@@ -516,7 +516,8 @@
     </div>
 </div>
 
-<!-- jquery
+{{#section 'script'}}
+    <!-- jquery
 		============================================ -->
     <script src="/js/vendor/jquery-1.12.4.min.js"></script>
     <!-- bootstrap JS
@@ -765,9 +766,21 @@
 		});
 
 		function removeRow(row){
-			const attriTable = document.getElementById("product-attri-table");
-			attriTable.deleteRow(row);
-		}
+            {{!-- const attriTable = document.getElementById("add-product-status-table");
+            attriTable.deleteRow(row); --}}
+            let p=row.parentNode.parentNode;
+            p.parentNode.removeChild(p);
+            const nos = document.getElementsByClassName("row-number");
+            let len = nos.length;
+            for(let i = 0 ; i < len ;i++){
+                nos[i].innerHTML=i+1;
+            }
+            const linktag = document.getElementsByClassName("my-toggle-edit-modal");
+            len = linktag.length;
+            for(let i = 0; i < len ;i++){
+                linktag[i].dataset.id=i+1;
+            }
+        }
 		function onEditAtribute(){
 			let editAttriForm = document.forms["edit-modal"];
 			if(editAttriForm.checkValidity()){
@@ -799,7 +812,7 @@
 					<td> <input name="quantity" class="my-attribute-input" readonly type="number" value=${quantityBox.value} /></td>
 					<td> 
 						<a class="my-toggle-edit-modal" href="#" data-toggle="modal" data-target="#editAttributesModal" data-id=${ $("#product-attri-table tr").length} data-color=${colorBox.value} data-quantity=${quantityBox.value} style="color: black; cursor:pointer;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-						<button onClick="removeRow(${$("#product-attri-table tr").length})" data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="color: black; cursor:pointer"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+						<button onClick="removeRow(this)" data-toggle="tooltip" title="Trash" class="pd-setting-ed" style="color: black; cursor:pointer"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 					</td>
 				</tr>	
 				`;
@@ -811,3 +824,4 @@
 			return false;
 		}
     </script>
+{{/section}}

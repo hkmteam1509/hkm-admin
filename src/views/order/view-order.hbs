@@ -332,6 +332,7 @@
         </div>
     </div>
 
+   {{#section 'script'}}
     <!-- jquery
 		============================================ -->
     <script src="/js/vendor/jquery-1.12.4.min.js"></script>
@@ -424,10 +425,4 @@
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
 
-    <script>
-        $(document).ready(function(){
-            if(document.getElementById("pagination-form")){
-                $("#productList").tab('show');
-            }
-        })
-    </script>
+{{/section}}
