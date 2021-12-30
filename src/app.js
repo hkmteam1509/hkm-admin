@@ -37,12 +37,15 @@ app.engine('.hbs',
 				}
 				return options.inverse(this);
 			},
-			sum: function(a,b){
-				return a + b;
+			select: function( selected, options ){
+				return options.fn(this).replace(
+					new RegExp(' value=\"' + selected + '\"'),
+					'$& selected="selected"');
 			}
 		}
 	
 }));
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 

@@ -124,7 +124,11 @@
                                 <td>
                                     <div class="modal-area-button">
                                         <a class="Primary mg-b-10" href="/users/{{this.f_ID}}">Details</a>
-                                        <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        {{#isEqual this.f_permission 0}}
+                                            <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        {{else}}
+                                            <a class="Warning warning-color" href="" data-toggle="modal" data-target="#WarningModalalert">Unblock</a>
+                                        {{/isEqual}}
                                     </div>
                                 </td>
                             </tr>
@@ -140,8 +144,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <span class="educate-icon educate-danger modal-check-pro information-icon-pro"></span>
-                                    <h2>Block this user?</h2>
-                                    <p>If you block this user, they can not access the shop's website anymore.</p>
+                                    <h2>Block this guest?</h2>
+                                    <p>If you block this guest, they can not access the shop's website anymore.</p>
                                 </div>
                                 <div class="modal-footer danger-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
@@ -158,8 +162,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                    <h2>Unblock this user?</h2>
-                                    <p>If you unblock this user, they can access the shop's website again.</p>
+                                    <h2>Unblock this guest?</h2>
+                                    <p>If you unblock this guest, they can access the shop's website again.</p>
                                 </div>
                                 <div class="modal-footer warning-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
@@ -199,9 +203,7 @@
                                 </li>
                      </ul>
                      {{/if}}
-        
-
-            </form>
+                </form>
 			
 			<!-- /PAGER -->
                 </div>
