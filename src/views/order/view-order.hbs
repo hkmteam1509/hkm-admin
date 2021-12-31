@@ -106,75 +106,20 @@
                                                             </div>
                                                             <div class="form-group">
                                                                 <label for="order-id">Change Order Status</label>
-                                                                <form method="post" action="/orders/view/{{orderID}}?_method=PUT" style="position: relative;">
-                                                                    <select class="form-control" onchange="this.form.submit()" name="statusBox">
-                                                                        {{#isEqual this.status 1}}
-                                                                            <option value="1" selected="">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 2}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2" selected="">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 3}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3" selected="">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 4}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4" selected="">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 5}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5" selected="">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 6}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6" selected="">Completed</option>
-                                                                            <option value="7">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                        {{#isEqual this.status 7}}
-                                                                            <option value="1">Pending confirmation</option>
-                                                                            <option value="2">Confirmed</option>
-                                                                            <option value="3">Pick by courier</option>
-                                                                            <option value="4">On their way</option>
-                                                                            <option value="5">Arrived</option>
-                                                                            <option value="6">Completed</option>
-                                                                            <option value="7" selected="">Canceled</option>
-                                                                        {{/isEqual}}
-                                                                    </select>
-                                                                </form>
-                                                                {{!-- <button id="basicSuccessCustomTitle" class="btn btn-success">Success</button> --}}
-                                                                {{!-- <input name="order-id" type="text" class="form-control" value="Complete" readonly=""> --}}
+                                                                {{!-- <form method="post" action="/orders/view/{{orderID}}?_method=PUT" style="position: relative;">
+                                                                </form> --}}
+                                                                <select class="form-control" name="statusBox" data-orderid="{{orderID}}">
+                                                                    {{#select status}}
+                                                                        <option value="1">Pending confirmation</option>
+                                                                        <option value="2">Confirmed</option>
+                                                                        <option value="3">Pick by courier</option>
+                                                                        <option value="4">On their way</option>
+                                                                        <option value="5">Arrived</option>
+                                                                        <option value="6">Completed</option>
+                                                                        <option value="7">Canceled</option>
+                                                                    {{/select}}
+                                                                </select>
+                                                                <button id="basicSuccessCustomTitle" class="btn btn-success" style="display: none;"/>
                                                             </div>
                                                         </div>
                                                         <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
@@ -425,4 +370,25 @@
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
 
+<script>
+    $("select[name='statusBox']").change(function(){
+        let status = $(this).val();
+        let id = $(this).data('orderid');
+        $.ajax({
+            url: '/orders/view/id',
+            method: 'PUT',
+            data: {
+                id,
+                status
+            },
+            success: function(data) {
+                console.log('success');
+                $("#basicSuccessCustomTitle").click();
+            },
+            error: function(err) {
+
+            }
+        });
+    });
+</script>
 {{/section}}

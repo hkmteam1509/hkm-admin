@@ -1,4 +1,5 @@
 const {models, sequelize} = require('../models');
+const { Op } = require("sequelize");
 
 
 class UserService{
@@ -43,17 +44,22 @@ class UserService{
 
 
 
-    // admin type 0
-    // user type 1
+    // admin type 1
+    // user type 0
     listTypeOfUser(limit, page, type){
-            return models.user.findAll({
-                offset: (page - 1)*limit, 
-                limit: limit, 
-                raw:true,
-                where:{
-                    f_permission: type,
-                    }
-            });
+        let typeblock = 1;
+        if (type === 0) typeblock = -1;
+        return models.user.findAll({
+            offset: (page - 1)*limit, 
+            limit: limit, 
+            raw:true,
+            where:{
+                [Op.or]: [
+                    { f_permission: type },
+                    { f_permission: typeblock }
+                  ]
+                }
+        });
       
     }
 
@@ -85,6 +91,16 @@ class UserService{
             where:{
                 f_ID:id
 
+            }
+        })
+    }
+
+    updatePermission(id, permission){
+        return models.user.update({
+            f_permission: permission
+        },{
+            where:{
+                f_ID: id
             }
         })
     }

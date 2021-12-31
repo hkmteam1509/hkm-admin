@@ -192,21 +192,39 @@ class OrderController{
 
     //[PUT]/:id
     editStatusOrder(req, res, next){
-        let id = req.params.id;
-        if(Number.isNaN(id)){
-            next();
-            return;
-        }
-        id = parseInt(id);
-        const status = req.body.statusBox;
-        console.log(status);
+        // let id = req.params.id;
+        // if(Number.isNaN(id)){
+        //     next();
+        //     return;
+        // }
+        // id = parseInt(id);
+        // const status = req.body.statusBox;
+        //console.log(status);
+        const {id, status} = req.body;
         OrderService.updateStatusOrder(id, status)
         .then(result=>{
-            res.redirect('back');
+            res.status(200).json(result);
         })
         .catch(err=>{
             console.log(err);
-            next();
+            res.status(500).json({msg:"error"});
+        })
+    }
+
+    //[PUT]/
+    editStatusInList(req, res, next){
+        // const id = req.body.statusID;
+        // const status = req.body.statusBox;
+        //console.log(status);
+        const {id, status} = req.body;
+        OrderService.updateStatusOrder(id, status)
+        .then(result=>{
+            // res.redirect('back');
+            res.status(200).json(result);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json({msg:"error"});
         })
     }
 }
