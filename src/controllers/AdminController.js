@@ -111,7 +111,6 @@ class AdminController{
                 })
             }
             else{
-                console.log(password);
                 bcrypt.hash(password, SALT_BCRYPT)
                     .then(hashResult=>{
                         console.log(hashResult);

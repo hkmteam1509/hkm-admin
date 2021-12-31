@@ -100,7 +100,7 @@
                             {{#if firstname}}
                                 value="{{firstname}}"
                             {{/if}}
-                        title="Please enter you username" placeholder="Enter firstname here..." required="" class="form-control" >
+                        title="Please enter you firstname" placeholder="Enter firstname here..." required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="lastname">Lastname</label>
@@ -108,7 +108,7 @@
                             {{#if lastname}}
                                 value="{{lastname}}"
                             {{/if}}
-                        title="Please enter you username" placeholder="Enter lastname here..." required="" class="form-control" >
+                        title="Please enter you lastname" placeholder="Enter lastname here..." required="" class="form-control" >
                     </div>
                     <div class="form-group">
                         <label for="email">Email Address</label>
@@ -123,19 +123,14 @@
                     <div class="form-group">
                         <label for="username">Username</label>
                         <input type="text" name="username"
-                            {{#isEqual errorCode 1 }}
-                                style="margin-bottom: 5px"
-                            {{/isEqual}}
                             {{#if username}}
                                 value="{{username}}"
                             {{/if}}
                         title="Please enter you username" placeholder="Enter username here..." required="" class="form-control" >
                     </div>
-                    {{#isEqual errorCode 1}}
-                        <div class="my-invalid-feedback" style="margin-bottom: 2; display: block">
-                            Username existed
-                        </div>
-                    {{/isEqual}}
+					<div class="my-invalid-feedback" id="username-existed-msg" style="margin-bottom: 2; display: none; font-size:0.9em">
+						Username existed
+					</div>
                     <div class="form-group">
                         <label for="password">Password</label>
                         <input type="password" name="password"
@@ -158,7 +153,7 @@
                     </div>
                 </div>
             </div>
-            <button class="btn btn-success loginbtn" type="submit">Create admin account</button>
+            <button class="btn btn-success loginbtn" type="submit" id="create-admin-btn">Create admin account</button>
         </form>
     </div>
     </div>
@@ -219,30 +214,5 @@
 	============================================ -->
 <!-- <script src="/js/tawk-chat.js"></script> -->
 
-<script>
-	$(document).ready(function(){
-        const confirmPassword = document.getElementById('confirm-password');
-        const comfirmFeedback = document.getElementById("my-invalid-confirm");
-        const password = document.getElementById("password-admin");
-        const registerForm = document.getElementById("register-form");
-        registerForm.addEventListener("submit", function(e){
-            let isSubmitable = true;
-            console.log(password.value);
-            console.log(confirmPassword.value);
-            if(confirmPassword.value !== password.value){
-				comfirmFeedback.style.display="block";
-				confirmPassword.style.marginBottom="5px";
-				isSubmitable = false;
-			}
-			else{
-				comfirmFeedback.style.display="none";
-				confirmPassword.style.marginBottom="22px";
-			}
-			if(!isSubmitable){
-				e.preventDefault();
-				return;
-			}
-        })
-    })
-</script>
+<script src="/js/add-admin.js"></script>
 {{/section}}
