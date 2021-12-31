@@ -33,6 +33,10 @@
     <!-- main CSS
 		============================================ -->
     <link rel="stylesheet" href="/css/main.css">
+    <!-- notifications CSS
+		============================================ -->
+    <link rel="stylesheet" href="/css/notifications/Lobibox.min.css">
+    <link rel="stylesheet" href="/css/notifications/notifications.css">
     <!-- educate icon CSS
 		============================================ -->
     <link rel="stylesheet" href="/css/educate-custon-icon.css">
@@ -98,32 +102,22 @@
                             {{#each orders}}
                                 <tr>
                                     <td>{{this.No}}</td>
-                                    {{!-- <td>{{this.orderID}}</td> --}}
                                     <td>{{this.orderer}}</td>
                                     <td>{{this.orderDate}}</td>
                                     <td>{{this.total}}</td>
-                                    <td>
-                                        {{#isEqual this.status 1}}
-                                            Pending confirmation
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 2}}
-                                            Confirmed
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 3}}
-                                            Pick by courier
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 4}}
-                                            On their way
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 5}}
-                                            Arrived
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 6}}
-                                            Completed
-                                        {{/isEqual}}
-                                        {{#isEqual this.status 7}}
-                                            Canceled
-                                        {{/isEqual}}
+                                    <td style="padding-right: 40px;">
+                                        <select class="form-control" name="statusBox" data-orderid="{{this.orderID}}">
+                                            {{#select this.status}}
+                                                <option value="1">Pending confirmation</option>
+                                                <option value="2">Confirmed</option>
+                                                <option value="3">Pick by courier</option>
+                                                <option value="4">On their way</option>
+                                                <option value="5">Arrived</option>
+                                                <option value="6">Completed</option>
+                                                <option value="7">Canceled</option>
+                                            {{/select}}
+                                        </select>
+                                        <button id="basicSuccessCustomTitle" class="btn btn-success" style="display: none;"/>
                                     </td>
                                     <td>
                                         <a href="/orders/view/{{this.orderID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
@@ -239,6 +233,10 @@
 <script src="js/sparkline/jquery.sparkline.min.js"></script>
 <script src="js/sparkline/jquery.charts-sparkline.js"></script>
 <script src="js/sparkline/sparkline-active.js"></script>
+<!-- notification JS
+		============================================ -->
+<script src="/js/notifications/Lobibox.js"></script>
+<script src="/js/notifications/notification-active.js"></script>
 <!-- calendar JS
     ============================================ -->
 <script src="js/calendar/moment.min.js"></script>
@@ -255,16 +253,24 @@
 <!-- <script src="js/tawk-chat.js"></script> -->
 
 <script>
-	$(document).ready(function(){
-		let myStatusBtn = document.getElementsByClassName("my-status-select-btn");
-		let myStatusOptions = document.getElementsByClassName('my-status-option');
-		let n = myStatusOptions.length;
-		for(let i = 0 ; i < n ; i++){
-			myStatusOptions[i].addEventListener("click", function(){
-				console.log(i);
-				myStatusBtn[Math.floor(i/7)].innerHTML = myStatusOptions[i].textContent + ' <i class="fa fa-angle-down"></i>';	
-			})
-		}
-	})
+    $("select[name='statusBox']").change(function(){
+        let status = $(this).val();
+        let id = $(this).data('orderid');
+        $.ajax({
+            url: '/orders',
+            method: 'PUT',
+            data: {
+                id,
+                status
+            },
+            success: function(data) {
+                console.log('success');
+                $("#basicSuccessCustomTitle").click();
+            },
+            error: function(err) {
+
+            }
+        });
+    });
 </script>
 {{/section}}

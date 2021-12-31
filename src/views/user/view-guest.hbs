@@ -81,7 +81,13 @@
           <div class="row">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                   <div class="add-product">
-                      <a href="#" data-toggle="modal" data-target="#DangerModalalert" style="background: #D80027;">Block</a>
+                    {{#isEqual users.f_permission 0}}
+						<a style="background: #D80027;" id="block-btn" type="button" class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" data-userid="{{users.f_ID}}" name="ask-block-user">Block</a>
+						<a style="display: none; background: #65b12d;" id="unblock-btn" type="button" class="Warning warning-color" href="" data-toggle="modal" data-target="#WarningModalalert" data-userid="{{users.f_ID}}" name="ask-unblock-user">Unblock</a>
+					{{else}}
+						<a style="display: none; background: #D80027;" id="block-btn" type="button" class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" data-userid="{{users.f_ID}}" name="ask-block-user">Block</a>
+						<a style="background: #65b12d;" id="unblock-btn" type="button" class="Warning warning-color" href="" data-toggle="modal" data-target="#WarningModalalert" data-userid="{{users.f_ID}}" name="ask-unblock-user">Unblock</a>
+					{{/isEqual}}
                   </div>
                   <div class="product-payment-inner-st">
                       <ul id="myTabedu1" class="tab-review-design">
@@ -199,11 +205,29 @@
                               </div>
                               <div class="modal-footer danger-md">
                                   <a data-dismiss="modal" href="#">Cancel</a>
-                                  <a href="/users">Block</a>
+                                  <a type="button" data-dismiss="modal" style="cursor: pointer;" name="block-user">Block</a>
                               </div>
                           </div>
                       </div>
                   </div>
+                  <div id="WarningModalalert" class="modal modal-edu-general Customwidth-popup-WarningModal fade" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-close-area modal-close-df">
+                                    <a class="close" data-dismiss="modal" href="#"><i class="fa fa-close"></i></a>
+                                </div>
+                                <div class="modal-body">
+                                    <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
+                                    <h2>Unblock this guest?</h2>
+                                    <p>If you unblock this guest, they can access the shop's website again.</p>
+                                </div>
+                                <div class="modal-footer warning-md">
+                                    <a data-dismiss="modal" href="#">Cancel</a>
+                                    <a type="button" data-dismiss="modal" style="cursor: pointer;" name="unblock-user">Unblock</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
               </div>
           </div>
       </div>
@@ -297,4 +321,58 @@
     <!-- tawk chat JS
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
-    {{/section}}
+<script>
+    $(document).ready(function(){
+        var id, permission;
+        $('#DangerModalalert').on('show.bs.modal', function (event) {
+            var btnblock = $(event.relatedTarget);
+            id = btnblock.data('userid');
+        });
+
+        $("a[name='block-user']").click(function(){
+            permission = -1;
+            $.ajax({
+                url: '/users/' + id,
+                method: 'PUT',
+                data: {
+                    id,
+                    permission
+                },
+                success: function(data) {
+                    $('#block-btn').hide();
+                    $('#unblock-btn').show();
+                },
+                error: function(err) {
+
+                }
+            });
+        });
+
+        $('#WarningModalalert').on('show.bs.modal', function (event) {
+            var btnunblock = $(event.relatedTarget);
+            id = btnunblock.data('userid');
+            console.log(id);
+        });
+
+        $("a[name='unblock-user']").click(function(){
+            permission = 0;
+            console.log(id);
+            $.ajax({
+                url: '/users/' + id,
+                method: 'PUT',
+                data: {
+                    id,
+                    permission
+                },
+                success: function(data) {
+                    $('#block-btn').show();
+                    $('#unblock-btn').hide();
+                },
+                error: function(err) {
+
+                }
+            });
+        });
+    });
+</script>
+{{/section}}

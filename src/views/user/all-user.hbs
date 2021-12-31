@@ -124,7 +124,13 @@
                                 <td>
                                     <div class="modal-area-button">
                                         <a class="Primary mg-b-10" href="/users/{{this.f_ID}}">Details</a>
-                                        <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert">Block</a>
+                                        {{#isEqual this.f_permission 0}}
+                                            <a id="block-btn-{{this.f_ID}}" type="button" class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" data-userid="{{this.f_ID}}" name="ask-block-user">Block</a>
+                                            <a style="display: none;" id="unblock-btn-{{this.f_ID}}" type="button" class="Warning warning-color" href="" data-toggle="modal" data-target="#WarningModalalert" data-userid="{{this.f_ID}}" name="ask-unblock-user">Unblock</a>
+                                        {{else}}
+                                            <a style="display: none;" id="block-btn-{{this.f_ID}}" type="button" class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" data-userid="{{this.f_ID}}" name="ask-block-user">Block</a>
+                                            <a id="unblock-btn-{{this.f_ID}}" type="button" class="Warning warning-color" href="" data-toggle="modal" data-target="#WarningModalalert" data-userid="{{this.f_ID}}" name="ask-unblock-user">Unblock</a>
+                                        {{/isEqual}}
                                     </div>
                                 </td>
                             </tr>
@@ -140,12 +146,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <span class="educate-icon educate-danger modal-check-pro information-icon-pro"></span>
-                                    <h2>Block this user?</h2>
-                                    <p>If you block this user, they can not access the shop's website anymore.</p>
+                                    <h2>Block this guest?</h2>
+                                    <p>If you block this guest, they can not access the shop's website anymore.</p>
                                 </div>
                                 <div class="modal-footer danger-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Block</a>
+                                    <a type="button" data-dismiss="modal" style="cursor: pointer;" name="block-user">Block</a>
                                 </div>
                             </div>
                         </div>
@@ -158,12 +164,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <span class="educate-icon educate-warning modal-check-pro information-icon-pro"></span>
-                                    <h2>Unblock this user?</h2>
-                                    <p>If you unblock this user, they can access the shop's website again.</p>
+                                    <h2>Unblock this guest?</h2>
+                                    <p>If you unblock this guest, they can access the shop's website again.</p>
                                 </div>
                                 <div class="modal-footer warning-md">
                                     <a data-dismiss="modal" href="#">Cancel</a>
-                                    <a href="/users">Unblock</a>
+                                    <a type="button" data-dismiss="modal" style="cursor: pointer;" name="unblock-user">Unblock</a>
                                 </div>
                             </div>
                         </div>
@@ -199,9 +205,7 @@
                                 </li>
                      </ul>
                      {{/if}}
-        
-
-            </form>
+                </form>
 			
 			<!-- /PAGER -->
                 </div>
@@ -298,4 +302,59 @@
 <!-- tawk chat JS
     ============================================ -->
 <!-- <script src="js/tawk-chat.js"></script> -->
+
+<script>
+    $(document).ready(function(){
+        var id, permission;
+        $('#DangerModalalert').on('show.bs.modal', function (event) {
+            var btnblock = $(event.relatedTarget);
+            id = btnblock.data('userid');
+        });
+
+        $("a[name='block-user']").click(function(){
+            permission = -1;
+            $.ajax({
+                url: '/users',
+                method: 'PUT',
+                data: {
+                    id,
+                    permission
+                },
+                success: function(data) {
+                    $('#block-btn-' + id).hide();
+                    $('#unblock-btn-' + id).show();
+                },
+                error: function(err) {
+
+                }
+            });
+        });
+
+        $('#WarningModalalert').on('show.bs.modal', function (event) {
+            var btnunblock = $(event.relatedTarget);
+            id = btnunblock.data('userid');
+            console.log(id);
+        });
+
+        $("a[name='unblock-user']").click(function(){
+            permission = 0;
+            console.log(id);
+            $.ajax({
+                url: '/users',
+                method: 'PUT',
+                data: {
+                    id,
+                    permission
+                },
+                success: function(data) {
+                    $('#block-btn-' + id).show();
+                    $('#unblock-btn-' + id).hide();
+                },
+                error: function(err) {
+
+                }
+            });
+        });
+    });
+</script>
 {{/section}}
