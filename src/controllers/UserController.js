@@ -88,7 +88,33 @@ class UserController{
         })       
     }
 
+    //[PUT] /
+    updatePermissionUserList(req, res, next){
+        const {id, permission} = req.body;
+        UserService.updatePermission(id, permission)
+        .then(result=>{
+            // res.redirect('back');
+            res.status(200).json(result);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json({msg:"error"});
+        })
+    }
 
+    //[PUT] /:id
+    updatePermissionUser(req, res, next){
+        const {id, permission} = req.body;
+        UserService.updatePermission(id, permission)
+        .then(result=>{
+            // res.redirect('back');
+            res.status(200).json(result);
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json({msg:"error"});
+        })
+    }
 }
 
 module.exports = new UserController;
