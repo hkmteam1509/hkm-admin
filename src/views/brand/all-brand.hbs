@@ -94,7 +94,7 @@
 							{{#if searchQuery}}
 								value={{searchQuery}}
 							{{/if}}					
-						placeholder="Search..." class="search-int form-control">
+						placeholder="Search..." id="search-input" class="search-int form-control">
 						<button type="submit"><i class="fa fa-search"></i></button>
 					</form>
 				</div>
@@ -104,37 +104,38 @@
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
                     <h4 style="margin-bottom: 10px;">All Brands</h4>
-					{{!-- {{#if totalDeleted}}
-						<a style="margin-bottom: 20px; display: block" href="/brands/trash"> <i class="fa fa-trash-o" aria-hidden="true"></i> Deleted Brands({{totalDeleted}})</a>
-					{{/if}} --}}
                     <div class="add-product">
                         <a href="#" data-toggle="modal" data-target="#addBrandModal">Add Brand</a>
                     </div>
                     <div class="asset-inner">
                         <table>
-                            <tr>
-                                <th>No</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Number of Products</th>
-                                <th>Action</th>
-                            </tr>
-                            {{#each brands}}
-                                <tr>
-                                    <td>{{this.No}}</td>
-                                    <td><img src="{{this.brandImage}}" alt="{{this.brandName}}" /></td>
-                                    <td>{{this.brandName}}</td>
-                                    <td>{{this.quantity}}</td>
-                                    <td>
-                                        <a href="#" data-toggle="modal" data-target="#editBrandModal" data-id="{{this.brandID}}" data-brandname="{{this.brandName}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                        {{#if this.quantity}}
-                                            <a href="/products?brandid={{this.brandID}}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>
-                                        {{else}}
-                                            <button title="Delete" data-id={{this.brandID}} class="pd-setting-ed" data-toggle="modal" data-target="#deleteBrandModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        {{/if}}
-                                    </td>
-                                </tr>
-                            {{/each}}
+                            <thead>
+								<tr>
+									<th>No</th>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Number of Products</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+                            <tbody id="table-body">
+								{{#each brands}}
+									<tr>
+										<td>{{this.No}}</td>
+										<td><img src="{{this.brandImage}}" alt="{{this.brandName}}" /></td>
+										<td>{{this.brandName}}</td>
+										<td>{{this.quantity}}</td>
+										<td>
+											<a href="#" data-toggle="modal" data-target="#editBrandModal" data-id="{{this.brandID}}" data-brandname="{{this.brandName}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+											{{#if this.quantity}}
+												<a href="/products?brandid={{this.brandID}}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>
+											{{else}}
+												<button title="Delete" data-id={{this.brandID}} class="pd-setting-ed" data-toggle="modal" data-target="#deleteBrandModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+											{{/if}}
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
 
                         </table>
                     </div>
@@ -160,36 +161,32 @@
                        
                     {{#if paginationArray}}
                         <form 	
-							method="get"
-							action="/brands"
-							
-						>
-							{{#if searchQuery}}
-								<input readonly type="text" name="name" style="display: none;" value="{{searchQuery}}"/>
-							{{/if}} 
-                            <ul class="my-pagination">
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                                    <label for="page-prev"  class="my-page-button">Prev</label>
-                                </li>
-                                {{#each paginationArray }}  
-                                    {{#if this.isCurrent}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
-                                        </li>
-                                    {{else}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
-                                        </li>
-                                    {{/if}}
-                                {{/each}}
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                                    <label for="page-next"  class="my-page-button">Next</label>
-                                </li>
-                            </ul>
+                          method="get"
+                          action="/brands"
+						            >
+                          <ul class="my-pagination" id="my-pagination">
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                  <label for="page-prev"  class="my-page-button">Prev</label>
+                              </li>
+                              {{#each paginationArray }}  
+                                  {{#if this.isCurrent}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                      </li>
+                                  {{else}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                      </li>
+                                  {{/if}}
+                              {{/each}}
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                  <label for="page-next"  class="my-page-button">Next</label>
+                              </li>
+                          </ul>
                         </form>
                     {{/if}}
                 </div>
@@ -391,8 +388,8 @@
 
 <script>
     function paramNameForSend() {
-			return "images";    
-		}
+		return "images";    
+	}
     $(document).ready(function(){
 		let createDropzone = null;
 		let editDropzone = null;
@@ -513,6 +510,108 @@
 				form.classList.add('was-validated');
 			}, false);
 		});
-    })
+    });
+	function generatePager(paginationArray, prevPage, nextPage){
+		let result = [];
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+				<label for="page-prev"  class="my-page-button">Prev</label>
+			</li>
+		`)
+
+		paginationArray.forEach(page=>{
+			if(page.isCurrent){
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+					</li>
+				`)
+			}else{
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+					</li>
+				`)
+			}
+		});
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+				<label for="page-next"  class="my-page-button">Next</label>
+			</li>
+		`)
+		return result;
+	}
+	function generateBrand(brands){
+		return brands.map(brand=>{
+			let quantity = ``;
+			if(brand.quantity){
+				quantity += `<a href="/products?brandid=${brand.brandID}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>`;
+			}else{
+				quantity += `<button title="Delete" data-id="${brand.brandID}" class="pd-setting-ed" data-toggle="modal" data-target="#deleteBrandModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+			}
+			return `
+				<tr>
+				<td>${brand.No}</td>
+				<td><img src="${brand.brandImage}" alt="${brand.brandName}" /></td>
+				<td>${brand.brandName}</td>
+				<td>${brand.quantity}</td>
+				<td>
+					<a href="#" data-toggle="modal" data-target="#editBrandModal" data-id="${brand.brandID}" data-brandname="${brand.brandName}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+					`+ quantity +`
+				</td>
+			</tr>
+			`;
+		})
+	}
+	
+	function startSubmit(ele){
+		const data = {};
+		data.name = $("input[name='name']").val();
+		data.page = $("input[name='page']:checked").val();
+		
+		let queryString = "";
+		if(data.name.length > 0){
+			queryString += ("name=" + data.name + "&");	
+		}
+		if(!data.page){
+			data.page = '1';
+		}
+		if(ele.getAttribute("name") !== "page"){
+			data.page = '1';
+		}
+		if(data.page.length > 0){
+			queryString += ("page=" + data.page);
+		}
+		const newRelativePathQuery = window.location.pathname + '?' + queryString;
+		history.pushState(null, '', newRelativePathQuery);
+			$.ajax({
+			method:'get',
+			url: '/brands/filter',
+			data: data,
+			success: function(data){
+				$("#my-pagination").empty();
+				if(data.paginationArray && data.paginationArray.length > 0){
+					const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+					pageView.forEach(page=>{
+						$("#my-pagination").append(page);
+					});
+				}
+				const brandView = generateBrand(data.brands);
+				$("#table-body").empty();
+				brandView.forEach(brand=>{
+					$("#table-body").append(brand);
+				});
+				$("#search-input").val(data.searchQuery);
+			},
+			error: function(err){
+				console.log(err);
+				alert("An error has occurred, please try again");
+			}
+		})
+	}
 </script>
 {{/section}}

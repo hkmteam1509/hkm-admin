@@ -191,6 +191,73 @@ class CategoryController{
         })
     } 
 
+    allCategoryFilter(req, res, next){
+        //get page number
+        const pageNumber = req.query.page;
+        const name = (req.query.name) ? req.query.name : null;
+        currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+        currentPage = (currentPage > 0) ? currentPage : 1;
+        currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+        currentPage = (currentPage < 1) ? 1 : currentPage;
+        Promise.all([ CategoryService.list(catePerPage, currentPage, name),  CategoryService.totalCate()])
+        .then(([cates, total])=>{
+            totalCates = total;
+            let paginationArray = [];
+            totalPage = Math.ceil(totalCates/catePerPage);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+
+            const catesLength = cates.length;
+            const countPro = cates.map(cate=>{
+                return CategoryService.countCateQuantity(cate.catID);
+            });
+
+            Promise.all(countPro)
+            .then(result=>{
+                console.log(result);
+                for(let i = 0 ; i < catesLength; i++){
+                    cates[i].No = (currentPage -1)*catePerPage + 1 + i;
+                    cates[i].quantity = result[i];
+                }
+                res.status(200).json({
+                    cates,
+                    currentPage,
+                    searchQuery: name,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
+                });
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
+
 }
 
 module.exports = new CategoryController;
