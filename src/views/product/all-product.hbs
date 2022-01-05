@@ -77,152 +77,147 @@
 
  <div class="product-status mg-b-15">
     <div class="container-fluid">
-      <form role="search" method="get" id="search-form" class="sr-input-func" style="width: 100%;">
-        <div class="row">
-			<div class="col-lg-12 col-12">
-				<div class="breadcome-heading my-search-row">
-					{{!-- <form role="search" method="get" id="search-form" class="sr-input-func"> --}}
-					<div class="my-search-group">
-						<input type="text" name="name"
-							{{#if searchQuery}}
-							value="{{searchQuery}}"
-							{{/if}}					
-						placeholder="Search..." class="search-int form-control">
-						<button type="submit"><i class="fa fa-search"></i></button>
+		<form role="search" method="get" id="search-form" class="sr-input-func" style="width: 100%;">
+			<div class="row">
+				<div class="col-lg-12 col-12">
+					<div class="breadcome-heading my-search-row">
+						<div class="my-search-group">
+							<input type="text" name="name"
+								{{#if searchQuery}}
+								value="{{searchQuery}}"
+								{{/if}}					
+							placeholder="Search..." id="search-input" class="search-int form-control">
+							<button type="submit"><i class="fa fa-search"></i></button>
+						</div>
 					</div>
-					{{!-- </form> --}}
 				</div>
 			</div>
+		</form>
+		<div class="row my-search-row" style="position: relative;">
+			<div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
+				<h4 style="margin-top: 10px !important">Show Products of:</h4>
 			</div>
-			<div class="row my-search-row">
-				<div class="col-lg-2 col-md-6 col-sm-6 col-xs-6">
-					<h4 style="margin-top: 10px !important">Show Products of:</h4>
-				</div>
-				
-				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">  
-				{{!-- <form method="get"> --}}
-					<select onchange="this.form.submit()" class="form-control" name="brandid">
-					<option value="">all brands</option>
-						{{#each brands}}
-						{{#if ../selectBrandQuery}}
-							{{#isEqual this.brandID ../selectBrandQuery}}
-								<option value="{{this.brandID}}" selected = "">{{this.brandName}}</option>
-							{{else}}
-								<option value="{{this.brandID}}">{{this.brandName}}</option>
-							{{/isEqual}}
+			
+			<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">  
+				<select onchange="startSubmit(this)" id="brand-select" class="form-control" name="brandid">
+				<option value="">all brands</option>
+					{{#each brands}}
+					{{#if ../selectBrandQuery}}
+						{{#isEqual this.brandID ../selectBrandQuery}}
+							<option value="{{this.brandID}}" selected = "">{{this.brandName}}</option>
 						{{else}}
 							<option value="{{this.brandID}}">{{this.brandName}}</option>
-						{{/if}}
-						{{/each}}
-					</select>
-				{{!-- </form> --}}
-				</div>
-				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">  
-				{{!-- <form method="get"> --}}
-					<select onchange="this.form.submit()" class="form-control" name="cateid">
-						<option value="">all categories</option>
-						{{#each categories}}
-						{{#if ../selectCateQuery}}
-							{{#isEqual this.catID ../selectCateQuery}}
-								<option value="{{this.catID}}" selected = "">{{this.catName}}</option>
-							{{else}}
-								<option value="{{this.catID}}">{{this.catName}}</option>
-							{{/isEqual}}
+						{{/isEqual}}
+					{{else}}
+						<option value="{{this.brandID}}">{{this.brandName}}</option>
+					{{/if}}
+					{{/each}}
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12">  
+				<select onchange="startSubmit(this)" id="cate-select" class="form-control" name="cateid">
+					<option value="">all categories</option>
+					{{#each categories}}
+					{{#if ../selectCateQuery}}
+						{{#isEqual this.catID ../selectCateQuery}}
+							<option value="{{this.catID}}" selected = "">{{this.catName}}</option>
 						{{else}}
 							<option value="{{this.catID}}">{{this.catName}}</option>
-						{{/if}}
-						{{/each}}
-					</select>
-				{{!-- </form> --}}
-				</div>
-				{{!-- - Gender --}}
-				<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"> 
-				{{!-- <form method="get"> --}}
-					<select onchange="this.form.submit()" class="form-control" name="genderid">
-						<option value="">all genders</option>
-						{{#if selectGenderQuery}}
-
-						{{#isEqual selectGenderQuery 1}}
-							<option value="0">Men</option>
-							<option value="1" selected="">Women</option>
-							<option value="2">Unisex</option>
 						{{/isEqual}}
-						{{#isEqual selectGenderQuery 2}}
+					{{else}}
+						<option value="{{this.catID}}">{{this.catName}}</option>
+					{{/if}}
+					{{/each}}
+				</select>
+			</div>
+			<div class="col-lg-2 col-md-12 col-sm-12 col-xs-12"> 
+				<select onchange="startSubmit(this)" id="gender-select" class="form-control" name="genderid">
+					<option value="">all genders</option>
+					{{#if selectGenderQuery}}
+
+					{{#isEqual selectGenderQuery 1}}
+						<option value="0">Men</option>
+						<option value="1" selected="">Women</option>
+						<option value="2">Unisex</option>
+					{{/isEqual}}
+					{{#isEqual selectGenderQuery 2}}
+						<option value="0">Men</option>
+						<option value="1">Women</option>
+						<option value="2" selected="">Unisex</option>
+					{{/isEqual}}
+					{{else}}
+						{{#isEqual selectGenderQuery 0}}
+							<option value="0" selected="">Men</option>
+							<option value="1">Women</option>
+							<option value="2">Unisex</option>
+						{{else}}
 							<option value="0">Men</option>
 							<option value="1">Women</option>
-							<option value="2" selected="">Unisex</option>
+							<option value="2">Unisex</option>
 						{{/isEqual}}
-						{{else}}
-							{{#isEqual selectGenderQuery 0}}
-								<option value="0" selected="">Men</option>
-								<option value="1">Women</option>
-								<option value="2">Unisex</option>
-							{{else}}
-								<option value="0">Men</option>
-								<option value="1">Women</option>
-								<option value="2">Unisex</option>
-							{{/isEqual}}
-						{{/if}}
-					</select>
-				{{!-- </form> --}}
-				{{!-- <a href="#" id="group2" data-type="select" data-pk="1" data-value="0" data-source="/genders" data-title="Select group">All</a> --}}
-				</div>
-				<div class="add-product">
-					<a href="/products/add">Add Product</a>
-				</div>
+					{{/if}}
+				</select>
 			</div>
-      </form>
+			<div class="add-product">
+				<a href="/products/add">Add Product</a>
+			</div>
+		</div>
+      {{!-- </form> --}}
         <div class="row">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-status-wrap">
                     <div class="asset-inner">
                         <table>
-                            <tr>
-                                <th>No</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Brand</th>
-                                <th>Category</th>
-                                <th>Gender</th>
-                                <th>Price ($)</th>
-                                <th>Rating</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
-                            </tr>
-                            {{#each products}}
-                                <tr>
-                                    <td>{{this.No}}</td>
-                                    <td><img src="{{this.image}}" alt="{{this.proName}}" /></td>
-                                    <td>{{this.proName}}</td>
-                                    <td>{{this.brand}}</td>
-                                    <td>{{this.category}}</td>
-                                    <td>{{this.gender}}</td>
-                                    <td>{{this.price}}</td>
-                                    <td>
-                                      {{#isBigger this.rating 0}}
-                                          <i class="educate-icon educate-star" style="color: #ffb463;"></i>
-                                      {{/isBigger}}
-                                      {{#isBigger this.rating 1}}
-                                          <i class="educate-icon educate-star" style="color: #ffb463;"></i>
-                                      {{/isBigger}}
-                                      {{#isBigger this.rating 2}}
-                                          <i class="educate-icon educate-star" style="color: #ffb463;"></i>
-                                      {{/isBigger}}
-                                      {{#isBigger this.rating 3}}
-                                          <i class="educate-icon educate-star" style="color: #ffb463;"></i>
-                                      {{/isBigger}}
-                                      {{#isBigger this.rating 4}}
-                                          <i class="educate-icon educate-star" style="color: #ffb463;"></i>
-                                      {{/isBigger}}
-                                    </td>
-                                    <td>{{this.quantity}}</td>
-                                    <td>
-                                      {{!-- <a href="/products/view/{{this.proID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a> --}}
-                                      <a href="/products/edit/{{this.proID}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                      <button data-id="{{this.proID}}" title="Delete" class="pd-setting-ed" data-toggle="modal" data-target="#deleteProductModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </td>
-                                </tr>
-                            {{/each}}
+                            <thead>
+								<tr>
+									<th>No</th>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Brand</th>
+									<th>Category</th>
+									<th>Gender</th>
+									<th>Price ($)</th>
+									<th>Rating</th>
+									<th>Quantity</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+                            <tbody id="table-body">
+								{{#each products}}
+									<tr>
+										<td>{{this.No}}</td>
+										<td><img src="{{this.image}}" alt="{{this.proName}}" /></td>
+										<td>{{this.proName}}</td>
+										<td>{{this.brand}}</td>
+										<td>{{this.category}}</td>
+										<td>{{this.gender}}</td>
+										<td>{{this.price}}</td>
+										<td>
+										{{#isBigger this.rating 0}}
+											<i class="educate-icon educate-star" style="color: #ffb463;"></i>
+										{{/isBigger}}
+										{{#isBigger this.rating 1}}
+											<i class="educate-icon educate-star" style="color: #ffb463;"></i>
+										{{/isBigger}}
+										{{#isBigger this.rating 2}}
+											<i class="educate-icon educate-star" style="color: #ffb463;"></i>
+										{{/isBigger}}
+										{{#isBigger this.rating 3}}
+											<i class="educate-icon educate-star" style="color: #ffb463;"></i>
+										{{/isBigger}}
+										{{#isBigger this.rating 4}}
+											<i class="educate-icon educate-star" style="color: #ffb463;"></i>
+										{{/isBigger}}
+										</td>
+										<td>{{this.quantity}}</td>
+										<td>
+										{{!-- <a href="/products/view/{{this.proID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a> --}}
+										<a href="/products/edit/{{this.proID}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+										<button data-id="{{this.proID}}" title="Delete" class="pd-setting-ed" data-toggle="modal" data-target="#deleteProductModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
                         </table>
                     </div>
                     <div  id="deleteProductModal" class="modal modal-edu-general FullColor-popup-DangerModal fade" role="dialog">
@@ -248,39 +243,27 @@
                         <form 	
                           method="get"
                           action="/products"
-						            > 
-                          {{#if searchQuery}}
-                            <input readonly type="text" name="name" style="display: none;" value="{{searchQuery}}"/>
-                          {{/if}}
-						  {{#if selectBrandQuery}}
-                            <input readonly type="number" name="brandid" style="display: none;" value="{{selectBrandQuery}}"/>
-                          {{/if}}
-                          {{#if selectCateQuery}}
-                            <input readonly type="number" name="cateid" style="display: none;" value="{{selectCateQuery}}"/>
-                          {{/if}}
-                          {{#if selectGenderQuery}}
-                            <input readonly type="number" name="genderid" style="display: none;" value="{{selectGenderQuery}}"/>
-                          {{/if}} 
-                          <ul class="my-pagination">
+						            >
+                          <ul class="my-pagination" id="my-pagination">
                               <li class="my-page-item">
-                                  <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
                                   <label for="page-prev"  class="my-page-button">Prev</label>
                               </li>
                               {{#each paginationArray }}  
                                   {{#if this.isCurrent}}
                                       <li class="my-page-item">
-                                          <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
                                           <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
                                       </li>
                                   {{else}}
                                       <li class="my-page-item">
-                                          <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
                                           <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
                                       </li>
                                   {{/if}}
                               {{/each}}
                               <li class="my-page-item">
-                                  <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
                                   <label for="page-next"  class="my-page-button">Next</label>
                               </li>
                           </ul>
@@ -393,5 +376,125 @@
 				modal.find('#delete-product-form').attr('action', '/products/delete/' + id +'?_method=DELETE' );
 			});
 		})
+		function generatePager(paginationArray, prevPage, nextPage){
+			let result = [];
+			result.push(`
+				<li class="my-page-item">
+					<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+					<label for="page-prev"  class="my-page-button">Prev</label>
+				</li>
+			`)
+
+			paginationArray.forEach(page=>{
+				if(page.isCurrent){
+					result.push(`
+						<li class="my-page-item">
+							<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+							<label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+						</li>
+					`)
+				}else{
+					result.push(`
+						<li class="my-page-item">
+							<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+							<label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+						</li>
+					`)
+				}
+			});
+			result.push(`
+				<li class="my-page-item">
+					<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+					<label for="page-next"  class="my-page-button">Next</label>
+				</li>
+			`)
+			return result;
+		}
+
+		function genderateProducts(products){
+			return products.map(product=>{
+				let star = "";
+				for(let i = 0 ; i < product.rating;i++){
+					star += `<i class="educate-icon educate-star" style="color: #ffb463;"></i>`;
+				}
+				return `
+				 <tr>
+					<td>${product.No}</td>
+					<td><img src="${product.image}" alt="${product.proName}" /></td>
+					<td>${product.proName}</td>
+					<td>${product.brand}</td>
+					<td>${product.category}</td>
+					<td>${product.gender}</td>
+					<td>${product.price}</td>
+					<td>`
+						+star+
+					`</td>
+					<td>${product.quantity}</td>
+					<td>
+						<a href="/products/edit/${product.proID}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+						<button data-id="${product.proID}" title="Delete" class="pd-setting-ed" data-toggle="modal" data-target="#deleteProductModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+					</td>
+				</tr>
+				`;
+			})
+		}
+
+		function startSubmit(ele){
+			const data = {};
+			data.name = $("input[name='name']").val();
+			data.genderid = $("select[name='genderid'").val();
+			data.brandid = $("select[name='brandid']").val();
+			data.cateid = $("select[name='cateid']").val();
+			data.page = $("input[name='page']:checked").val();
+			
+			let queryString = "";
+			if(data.name.length > 0){
+				queryString += ("name=" + data.name + "&");	
+			}
+			if(data.brandid.length > 0){
+				queryString += ("brandid=" + data.brandid + "&");
+			}
+			if(data.cateid.length > 0){
+				queryString += ("cateid=" + data.cateid + "&");
+			}
+			if(data.genderid.length > 0){
+				queryString += ("genderid=" + data.genderid + "&");
+			}
+			if(!data.page){
+				data.page = '1';
+			}
+			if(ele.getAttribute("name") !== "page"){
+				data.page = '1';
+			}
+			if(data.page.length > 0){
+				queryString += ("page=" + data.page);
+			}
+			const newRelativePathQuery = window.location.pathname + '?' + queryString;
+			history.pushState(null, '', newRelativePathQuery);
+			 $.ajax({
+				method:'get',
+				url: '/products/filter',
+				data: data,
+				success: function(data){
+					$("#my-pagination").empty();
+					if(data.paginationArray && data.paginationArray.length > 0){
+						const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+						pageView.forEach(page=>{
+							$("#my-pagination").append(page);
+						});
+					}
+					const productView = genderateProducts(data.products);
+					$("#table-body").empty();
+					productView.forEach(product=>{
+						$("#table-body").append(product);
+					});
+					$("#search-input").val(data.searchQuery);
+				},
+				error: function(err){
+					console.log(err);
+					alert("An error has occurred, please try again");
+				}
+			})
+		}
 	</script>
 {{/section}}

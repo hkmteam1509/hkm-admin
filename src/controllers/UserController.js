@@ -115,6 +115,58 @@ class UserController{
             res.status(500).json({msg:"error"});
         })
     }
+
+    allUserFilter(req, res, next){
+        const pageNumber = req.query.page;
+        currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+        currentPage = (currentPage > 0) ? currentPage : 1;
+        currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+        currentPage = (currentPage < 1) ? 1 : currentPage;
+
+            // gọi promise
+            Promise.all([listTypeOfUser(userPerPage,currentPage,0),totalTypeOfUser(0)])
+            .then(([users,total])=>{
+                
+                let totalUser=total;
+                let paginationArray = [];
+                totalPage = Math.ceil(totalUser/userPerPage);
+                let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+                if(currentPage === 1){
+                    pageDisplace -= 1;
+                }
+                for(let i = 0 ; i < pageDisplace; i++){
+                    if(currentPage === 1){
+                        paginationArray.push({
+                            page: currentPage + i,
+                            isCurrent:  (currentPage + i)===currentPage
+                        });
+                    }
+                    else{
+                        paginationArray.push({
+                            page: currentPage + i - 1,
+                            isCurrent:  (currentPage + i - 1)===currentPage
+                        });
+                    }
+                }
+                if(pageDisplace < 2){
+                    paginationArray=[];
+                }
+                const usersLength = users.length;
+                for(let i = 0 ; i  < usersLength;i++){
+                    users[i].No = (currentPage -1)*userPerPage + 1 + i;
+                }
+                res.status(200).json({
+                    users,
+                    currentPage,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,});
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+    }
 }
 
 module.exports = new UserController;

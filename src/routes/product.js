@@ -15,6 +15,7 @@ router.get('/edit/:id', ProductController.editProduct);
 router.get('/bin', ProductController.trash);
 router.post('/store',upload.any(), ProductController.store);
 router.get('/add', ProductController.addProduct);
+router.get('/filter', ProductController.allProductFilter);
 router.get('/', ProductController.allProduct);
 
 module.exports = router;

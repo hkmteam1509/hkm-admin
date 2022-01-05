@@ -94,7 +94,7 @@
 							{{#if searchQuery}}
 								value={{searchQuery}}
 							{{/if}}					
-						placeholder="Search..." class="search-int form-control">
+						placeholder="Search..." id="search-input" class="search-int form-control">
 						<button type="submit"><i class="fa fa-search"></i></button>
 					</form>
 				</div>
@@ -109,29 +109,33 @@
                     </div>
                     <div class="asset-inner">
                         <table>
-                            <tr>
-                                <th>ID</th>
-                                <th>Image</th>
-                                <th>Name</th>
-                                <th>Number of Products</th>
-                                <th>Action</th>
-                            </tr>
-                            {{#each cates}}
-                                <tr>
-                                    <td>{{this.catID}}</td>
-                                    <td><img src="{{this.catImage}}" alt="{{this.catName}}" /></td>
-                                    <td>{{this.catName}}</td>
-                                    <td>{{this.quantity}}</td>
-                                    <td>
-                                        <a href="#" data-toggle="modal" data-target="#editCateModal" data-id="{{this.catID}}" data-catname="{{this.catName}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
-                                        {{#if this.quantity}}
-                                            <a href="/products?cateid={{this.catID}}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>
-                                        {{else}}
-                                            <button title="Delete" data-id={{this.catID}} class="pd-setting-ed" data-toggle="modal" data-target="#deleteCateModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
-                                        {{/if}}
-                                    </td>
-                                </tr>
-                            {{/each}}
+                            <thead>
+								<tr>
+									<th>ID</th>
+									<th>Image</th>
+									<th>Name</th>
+									<th>Number of Products</th>
+									<th>Action</th>
+								</tr>
+							</thead>
+                            <tbody id="table-body">
+								{{#each cates}}
+									<tr>
+										<td>{{this.catID}}</td>
+										<td><img src="{{this.catImage}}" alt="{{this.catName}}" /></td>
+										<td>{{this.catName}}</td>
+										<td>{{this.quantity}}</td>
+										<td>
+											<a href="#" data-toggle="modal" data-target="#editCateModal" data-id="{{this.catID}}" data-catname="{{this.catName}}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+											{{#if this.quantity}}
+												<a href="/products?cateid={{this.catID}}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>
+											{{else}}
+												<button title="Delete" data-id={{this.catID}} class="pd-setting-ed" data-toggle="modal" data-target="#deleteCateModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+											{{/if}}
+										</td>
+									</tr>
+								{{/each}}
+							</tbody>
 
                         </table>
                     </div>
@@ -156,33 +160,33 @@
                     </div>
                        
                     {{#if paginationArray}}
-                        <form method="get" action="/categories">
-							{{#if searchQuery}}
-								<input readonly type="text" name="name" style="display: none;" value="{{searchQuery}}"/>
-							{{/if}} 
-                            <ul class="my-pagination">
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                                    <label for="page-prev"  class="my-page-button">Prev</label>
-                                </li>
-                                {{#each paginationArray }}  
-                                    {{#if this.isCurrent}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
-                                        </li>
-                                    {{else}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
-                                        </li>
-                                    {{/if}}
-                                {{/each}}
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                                    <label for="page-next"  class="my-page-button">Next</label>
-                                </li>
-                            </ul>
+                        <form 	
+                          method="get"
+                          action="/categories"
+						            >
+                          <ul class="my-pagination" id="my-pagination">
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                  <label for="page-prev"  class="my-page-button">Prev</label>
+                              </li>
+                              {{#each paginationArray }}  
+                                  {{#if this.isCurrent}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                      </li>
+                                  {{else}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                      </li>
+                                  {{/if}}
+                              {{/each}}
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                  <label for="page-next"  class="my-page-button">Next</label>
+                              </li>
+                          </ul>
                         </form>
                     {{/if}}
                 </div>
@@ -385,7 +389,7 @@
 <script>
     function paramNameForSend() {
 			return "images";    
-		}
+	}
     $(document).ready(function(){
 		let createDropzone = null;
 		let editDropzone = null;
@@ -510,5 +514,108 @@
 			}, false);
 		});
     })
+	function generatePager(paginationArray, prevPage, nextPage){
+		let result = [];
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+				<label for="page-prev"  class="my-page-button">Prev</label>
+			</li>
+		`)
+
+		paginationArray.forEach(page=>{
+			if(page.isCurrent){
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+					</li>
+				`)
+			}else{
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+					</li>
+				`)
+			}
+		});
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+				<label for="page-next"  class="my-page-button">Next</label>
+			</li>
+		`)
+		return result;
+	}
+
+	function generateCat(cats){
+		return cats.map(cat=>{
+			let quantity = ``;
+			if(cat.quantity){
+				quantity += `<a href="/products?catid=${cat.catID}" style="color: black;"><button data-toggle="tooltip" title="See products" class="pd-setting-ed"><span class="educate-icon educate-course icon-wrap" aria-hidden="true"></span></button></a>`;
+			}else{
+				quantity += `<button title="Delete" data-id="${cat.catID}" class="pd-setting-ed" data-toggle="modal" data-target="#deleteCateModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>`;
+			}
+			return `
+				<tr>
+				<td>${cat.No}</td>
+				<td><img src="${cat.catImage}" alt="${cat.catName}" /></td>
+				<td>${cat.catName}</td>
+				<td>${cat.quantity}</td>
+				<td>
+					<a href="#" data-toggle="modal" data-target="#editCateModal" data-id="${cat.catID}" data-catname="${cat.catName}" style="color: black;"><button data-toggle="tooltip" title="Edit" class="pd-setting-ed"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>
+					`+ quantity +`
+				</td>
+			</tr>
+			`;
+		})
+	}
+	
+	function startSubmit(ele){
+		const data = {};
+		data.name = $("input[name='name']").val();
+		data.page = $("input[name='page']:checked").val();
+		
+		let queryString = "";
+		if(data.name.length > 0){
+			queryString += ("name=" + data.name + "&");	
+		}
+		if(!data.page){
+			data.page = '1';
+		}
+		if(ele.getAttribute("name") !== "page"){
+			data.page = '1';
+		}
+		if(data.page.length > 0){
+			queryString += ("page=" + data.page);
+		}
+		const newRelativePathQuery = window.location.pathname + '?' + queryString;
+		history.pushState(null, '', newRelativePathQuery);
+		$.ajax({
+			method:'get',
+			url: '/categories/filter',
+			data: data,
+			success: function(data){
+				$("#my-pagination").empty();
+				if(data.paginationArray && data.paginationArray.length > 0){
+					const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+					pageView.forEach(page=>{
+						$("#my-pagination").append(page);
+					});
+				}
+				const catView = generateCat(data.cates);
+				$("#table-body").empty();
+				catView.forEach(cat=>{
+					$("#table-body").append(cat);
+				});
+				$("#search-input").val(data.searchQuery);
+			},
+			error: function(err){
+				console.log(err);
+				alert("An error has occurred, please try again");
+			}
+		})
+	}
 </script>
 {{/section}}

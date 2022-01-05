@@ -253,24 +253,26 @@
 <!-- <script src="js/tawk-chat.js"></script> -->
 
 <script>
-    $("select[name='statusBox']").change(function(){
-        let status = $(this).val();
-        let id = $(this).data('orderid');
-        $.ajax({
-            url: '/orders',
-            method: 'PUT',
-            data: {
-                id,
-                status
-            },
-            success: function(data) {
-                console.log('success');
-                $("#basicSuccessCustomTitle").click();
-            },
-            error: function(err) {
+    $(document).ready(function(){
+        $("select[name='statusBox']").change(function(){
+            let status = $(this).val();
+            let id = $(this).data('orderid');
+            $.ajax({
+                url: '/orders',
+                method: 'PUT',
+                data: {
+                    id,
+                    status
+                },
+                success: function(data) {
+                    console.log('success');
+                    $("#basicSuccessCustomTitle").click();
+                },
+                error: function(err) {
 
-            }
+                }
+            });
         });
-    });
+    })
 </script>
 {{/section}}

@@ -56,9 +56,7 @@ class BrandController{
                     brands[i].No = (currentPage -1)*brandPerPage + 1 + i;
                     brands[i].quantity = result[i];
                 }
-                const foo = "haha"
                 res.render('brand/all-brand', {
-                    foo,
                     brands,
                     currentPage,
                     searchQuery: name,
@@ -192,120 +190,74 @@ class BrandController{
             next();
         })
     } 
+    
+    allBrandFilter(req, res, next){
+        //get page number
+        const pageNumber = req.query.page;
+        const name = (req.query.name) ? req.query.name : null;
+        currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+        currentPage = (currentPage > 0) ? currentPage : 1;
+        currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+        currentPage = (currentPage < 1) ? 1 : currentPage;
+        Promise.all([ BrandService.list(brandPerPage, currentPage, name),  BrandService.totalBrand(name)])
+        .then(([brands, total])=>{
+            totalBrands = total;
+            let paginationArray = [];
+            totalPage = Math.ceil(totalBrands/brandPerPage);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+            const brandsLength = brands.length;
+            const countPro = brands.map(brand=>{
+                return BrandService.countBrandQuantity(brand.brandID);
+            });
 
-    //[GET] /
-    // deletedBrand(req, res, next){
-    //     //get page number
-    //     const pageNumber = req.query.page;
-    //     const name = (req.query.name) ? req.query.name : null;
-    //     currentPageDel = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
-    //     currentPageDel = (currentPageDel > 0) ? currentPageDel : 1;
-    //     currentPageDel = (currentPageDel <= totalPageDel) ? currentPageDel : totalPageDel
-    //     Promise.all([ BrandService.getTrash(brandPerPage, currentPageDel, name), BrandService.totalTrashBrand(),BrandService.totalBrand() ])
-    //     .then(([brands, total, totalNotDeletedBrands])=>{
-    //         totalBrandsDel = total;
-    //         let paginationArray = [];
-    //         totalPageDel = Math.ceil(totalBrandsDel/brandPerPage);
-    //         let pageDisplace = Math.min(totalPageDel - currentPageDel + 2, maximumPagination);
-    //         if(currentPageDel === 1){
-    //             pageDisplace -= 1;
-    //         }
-    //         for(let i = 0 ; i < pageDisplace; i++){
-    //             if(currentPageDel === 1){
-    //                 paginationArray.push({
-    //                     page: currentPageDel + i,
-    //                     isCurrent:  (currentPageDel + i)===currentPageDel
-    //                 });
-    //             }
-    //             else{
-    //                 paginationArray.push({
-    //                     page: currentPageDel + i - 1,
-    //                     isCurrent:  (currentPageDel + i - 1)===currentPageDel
-    //                 });
-    //             }
-    //         }
-    //         if(pageDisplace < 2){
-    //             paginationArray=[];
-    //         }
-    //         const brandsLength = brands.length;
-    //         for(let i = 0 ; i < brandsLength; i++){
-    //             brands[i].No = (currentPageDel -1)*brandPerPage + 1 + i;
-    //         }
-    //         console.log("current: " + currentPageDel)
-    //         res.render('brand/trash-brand', {
-    //             totalNotDeletedBrands,
-    //             brands,
-    //             currentPageDel,
-    //             searchQuery: name,
-    //             paginationArray,
-    //             prevPage: (currentPageDel > 1) ? currentPageDel - 1 : 1,
-    //             nextPage: (currentPageDel < totalPage) ? currentPageDel + 1 : totalPageDel,
-    //         });
-    //     })
-    //     .catch(err=>{
-    //         console.log(err);
-    //         next();
-    //     })
-    // }
-
-    // //[DELETE]  /permantly-delete/:id
-    // permantlyDelete(req, res, next){
-    //     const id = req.params.id;
-    // }
-
-    // //[POST] /restore/:id
-    // restore(req, res, next){
-    //     const id = req.params.id;
-    // }
+            Promise.all(countPro)
+            .then(result=>{
+                for(let i = 0 ; i < brandsLength; i++){
+                    brands[i].No = (currentPage -1)*brandPerPage + 1 + i;
+                    brands[i].quantity = result[i];
+                }
+                res.status(200).json({
+                    brands,
+                    currentPage,
+                    searchQuery: name,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
+                });
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+            
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
+    
 
 }
 
 module.exports = new BrandController;
-
-// products.foreach(product=>{
-//     let promiseArr=[
-//         ProductService.brandProduct(id),
-//         ProductService.catProduct(id),
-//         ProductService.firstImageProduct(id),
-//         ProductService.countProductQuantity(id),
-//     ]
-
-//     Promise.all(promiseArr)
-//     .then((result)=>{
-//         //promiseArr có 4 promise nên
-//         //result sẽ là mảng 4 phần tử là kết quả của 4 promise trên
-//         //result[0] là brand
-//         //result[1] là cat
-//         //result[2] là image
-//         //result[3] là quantity
-//     })
-// })
-
-// const countPro = products.map(product=>{
-//     return ProductService.countProductQuantity(product.proId);
-// })
-
-// const proImage = products.map(product=>{
-//     return ProductService.firstImageProduct(product.proId);
-// })
-
-
-// const proBrand = products.map(product=>{
-//     return ProductService.brandProduct(product.proId);
-// })
-
-
-// const proCate = products.map(product=>{
-//     return ProductService.catProduct(product.proId);
-// })
-
-// let myProArr = countPro.concat(proImage, proBrand, proCate);
-// //gọi n là length của products
-// Promise.all(myProArr)
-//     .then((result)=>{
-//         //result lúc này:
-//         //n phần tử đầu là n cái quantity của n products
-//         //n phần tử tiếp thep là n cái proImage của n products
-//         //n phần tử tiếp nữa là n cái proBrand của n products
-//         //n phần tử cuối là n cái proCate của n product
-//     })
