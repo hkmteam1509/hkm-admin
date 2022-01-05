@@ -90,74 +90,81 @@
                     <h4>All Orders</h4>
                     <div class="asset-inner" style="overflow-y: unset;">
                         <table>
-                            <tr>
-                                <th>No.</th>
-                                {{!-- <th>Order ID</th> --}}
-                                <th>Orderer</th>
-                                <th>Ordered on</th>
-                                <th>Total($)</th>
-                                <th style="width: 20%;">Status</th>
-								<th style="width: 5%;">Action</th>
-                            </tr>
-                            {{#each orders}}
+                            <thead>
                                 <tr>
-                                    <td>{{this.No}}</td>
-                                    <td>{{this.orderer}}</td>
-                                    <td>{{this.orderDate}}</td>
-                                    <td>{{this.total}}</td>
-                                    <td style="padding-right: 40px;">
-                                        <select class="form-control" name="statusBox" data-orderid="{{this.orderID}}">
-                                            {{#select this.status}}
-                                                <option value="1">Pending confirmation</option>
-                                                <option value="2">Confirmed</option>
-                                                <option value="3">Pick by courier</option>
-                                                <option value="4">On their way</option>
-                                                <option value="5">Arrived</option>
-                                                <option value="6">Completed</option>
-                                                <option value="7">Canceled</option>
-                                            {{/select}}
-                                        </select>
-                                        <button id="basicSuccessCustomTitle" class="btn btn-success" style="display: none;"/>
-                                    </td>
-                                    <td>
-                                        <a href="/orders/view/{{this.orderID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                                    </td>
+                                    <th>No.</th>
+                                    {{!-- <th>Order ID</th> --}}
+                                    <th>Orderer</th>
+                                    <th>Ordered on</th>
+                                    <th>Total($)</th>
+                                    <th style="width: 20%;">Status</th>
+                                    <th style="width: 5%;">Action</th>
                                 </tr>
-                            {{/each}}
+                            </thead>
+                            <tbody id="table-body">
+                                {{#each orders}}
+                                    <tr>
+                                        <td>{{this.No}}</td>
+                                        <td>{{this.orderer}}</td>
+                                        <td>{{this.orderDate}}</td>
+                                        <td>{{this.total}}</td>
+                                        <td style="padding-right: 40px;">
+                                            <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="{{this.orderID}}">
+                                                {{#select this.status}}
+                                                    <option value="1">Pending confirmation</option>
+                                                    <option value="2">Confirmed</option>
+                                                    <option value="3">Pick by courier</option>
+                                                    <option value="4">On their way</option>
+                                                    <option value="5">Arrived</option>
+                                                    <option value="6">Completed</option>
+                                                    <option value="7">Canceled</option>
+                                                {{/select}}
+                                            </select>
+                                        </td>
+                                        <td>
+                                            <a href="/orders/view/{{this.orderID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
+                                        </td>
+                                    </tr>
+                                {{/each}}
+                            </tbody>
                         </table>
                     </div>
-                    <form method="GET" action="/orders">
-                        {{#if paginationArray}}
-                            <ul class="my-pagination">
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
-                                    <label for="page-prev"  class="my-page-button">Prev</label>
-                                </li>
-                                {{#each paginationArray }}  
-                                    {{#if this.isCurrent}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
-                                        </li>
-                                    {{else}}
-                                        <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
-                                            <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
-                                        </li>
-                                    {{/if}}
-                                {{/each}}
-                                <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
-                                    <label for="page-next"  class="my-page-button">Next</label>
-                                </li>
-                            </ul>
-                        {{/if}}
-                    </form>
+                    {{#if paginationArray}}
+                        <form 	
+                          method="get"
+                          action="/orders"
+						            >
+                          <ul class="my-pagination" id="my-pagination">
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                  <label for="page-prev"  class="my-page-button">Prev</label>
+                              </li>
+                              {{#each paginationArray }}  
+                                  {{#if this.isCurrent}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
+                                      </li>
+                                  {{else}}
+                                      <li class="my-page-item">
+                                          <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                          <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
+                                      </li>
+                                  {{/if}}
+                              {{/each}}
+                              <li class="my-page-item">
+                                  <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                  <label for="page-next"  class="my-page-button">Next</label>
+                              </li>
+                          </ul>
+                        </form>
+                    {{/if}}
                 </div>
             </div>
         </div>
     </div>
 </div>
+<button id="basicSuccessCustomTitle" class="btn btn-success" style="display: none;"/>
 
 {{#section 'script'}}
 <!-- jquery
@@ -244,20 +251,22 @@
 <script src="js/calendar/fullcalendar-active.js"></script>
 <!-- plugins JS
     ============================================ -->
-<script src="js/plugins.js"></script>
+<script src="/js/plugins.js"></script>
 <!-- main JS
     ============================================ -->
-<script src="js/main.js"></script>
+<script src="/js/main.js"></script>
 <!-- tawk chat JS
     ============================================ -->
 <!-- <script src="js/tawk-chat.js"></script> -->
 
 <script>
     $(document).ready(function(){
-        $("select[name='statusBox']").change(function(){
-            let status = $(this).val();
-            let id = $(this).data('orderid');
-            $.ajax({
+
+    });
+        function statusBoxChange(ele){
+            let status = $(ele).val();
+            let id = $(ele).data('orderid');
+             $.ajax({
                 url: '/orders',
                 method: 'PUT',
                 data: {
@@ -265,14 +274,126 @@
                     status
                 },
                 success: function(data) {
-                    console.log('success');
                     $("#basicSuccessCustomTitle").click();
                 },
                 error: function(err) {
 
                 }
             });
-        });
-    })
+        }
+
+    	function generatePager(paginationArray, prevPage, nextPage){
+            let result = [];
+            result.push(`
+                <li class="my-page-item">
+                    <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+                    <label for="page-prev"  class="my-page-button">Prev</label>
+                </li>
+            `)
+
+            paginationArray.forEach(page=>{
+                if(page.isCurrent){
+                    result.push(`
+                        <li class="my-page-item">
+                            <input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            <label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+                        </li>
+                    `)
+                }else{
+                    result.push(`
+                        <li class="my-page-item">
+                            <input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+                            <label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+                        </li>
+                    `)
+                }
+            });
+            result.push(`
+                <li class="my-page-item">
+                    <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+                    <label for="page-next"  class="my-page-button">Next</label>
+                </li>
+            `)
+		return result;
+	}
+	function generateOrder(orders){
+		return orders.map(order=>{
+			let statusArray = [
+                `<option value="1">Pending confirmation</option>`,
+                `<option value="2">Confirmed</option>`,
+                `<option value="3">Pick by courier</option>`,
+                `<option value="4">On their way</option>`,
+                `<option value="5">Arrived</option>`,
+                `<option value="6">Completed</option>`,
+                `<option value="7">Canceled</option>`
+            ];
+			
+            const n = statusArray.length;
+            for(let i = 0 ; i < n ;i++){
+                if(i+1 === order.status){
+                     statusArray[i] = statusArray[i].replace(` value="${i+1}"`,` value="${i+1}" selected`);
+                }
+            }
+
+			return `
+            <tr>
+                <td>${order.No}</td>
+                <td>${order.orderer}</td>
+                <td>${order.orderDate}</td>
+                <td>${order.total}</td>
+                <td style="padding-right: 40px;">
+                    <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="${order.orderID}">
+                       `+statusArray.join()+`
+                    </select>
+                </td>
+                <td>
+                    <a href="/orders/view/${order.orderID}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
+                </td>
+            </tr>
+			`;
+		})
+	}
+
+    function startSubmit(ele){
+		const data = {};
+		data.page = $("input[name='page']:checked").val();
+		
+		let queryString = "";
+		if(!data.page){
+			data.page = '1';
+		}
+		if(ele.getAttribute("name") !== "page"){
+			data.page = '1';
+		}
+		if(data.page.length > 0){
+			queryString += ("page=" + data.page);
+		}
+		const newRelativePathQuery = window.location.pathname + '?' + queryString;
+		history.pushState(null, '', newRelativePathQuery);
+			$.ajax({
+			method:'get',
+			url: '/orders/filter',
+			data: data,
+			success: function(data){
+				$("#my-pagination").empty();
+				if(data.paginationArray && data.paginationArray.length > 0){
+					const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+					pageView.forEach(page=>{
+						$("#my-pagination").append(page);
+					});
+				}
+				const orderView = generateOrder(data.orders);
+				$("#table-body").empty();
+				orderView.forEach(order=>{
+					$("#table-body").append(order);
+				});
+				$("#search-input").val(data.searchQuery);
+			},
+			error: function(err){
+				console.log(err);
+				alert("An error has occurred, please try again");
+			}
+		})
+	}
 </script>
 {{/section}}
