@@ -227,6 +227,76 @@ class OrderController{
             res.status(500).json({msg:"error"});
         })
     }
+
+    allOrderFilter(req, res, next){
+        const pageNumber = req.query.page;
+        currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+        currentPage = (currentPage > 0) ? currentPage : 1;
+        currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+        currentPage = (currentPage < 1) ? 1 : currentPage;
+
+        Promise.all([OrderService.list(orderPerPage,currentPage),OrderService.countOrder()])
+        .then(([orders,total])=>{
+            
+            let totalOrder = total;
+            let paginationArray = [];
+            totalPage = Math.ceil(totalOrder/orderPerPage);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+            const ordersLength = orders.length;
+
+            const orderers = orders.map(order=>{
+                return OrderService.ordererName(order.userID);
+            });
+            Promise.all(orderers)
+            .then(result=>{
+                for(let i = 0 ; i  < ordersLength; i++){
+                    orders[i].No = (currentPage -1)*orderPerPage + 1 + i;
+                    const date = new Date(orders[i].createdAt);
+                    if (!isNaN(date.getTime())) {
+                        let d = date.getDate();
+                        let m = date.getMonth() + 1;
+                        let y = date.getFullYear();
+                        orders[i].orderDate = d + '/' + m + '/' + y;
+                    }
+                    orders[i].orderer = result[i].f_firstname + " " + result[i].f_lastname;
+                }
+                res.status(200).json({
+                    orders,
+                    currentPage,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,});
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
 }
 
 module.exports = new OrderController;
