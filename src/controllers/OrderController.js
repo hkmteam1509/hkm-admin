@@ -8,7 +8,7 @@ const maximumPagination = 5;
 let currentPage = 1;
 let totalPage = 1;
 
-const itemPerpage = 1;
+const itemPerpage = 5;
 let currentItemPage = 1
 let totalItemPage = 1;
 let totalItems = 0;
