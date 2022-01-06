@@ -95,6 +95,7 @@
                                             <option value="1">Quarter</option>
                                             <option value="2">Month</option>
                                             <option value="3">Week</option>
+                                            <option value="4">Date</option>
                                         </select>
                                     </div>
                                      <div class="col-xs-4">
@@ -354,7 +355,7 @@
     <script>
         $(document).ready(function(){
             const statiticData = {{{json statiticData}}};
-            $("#table").bootstrapTable();
+            $("#table").bootstrapTable({pagination: true});
             Morris.Area({
                 element: "extra-area-chart",
                 data: statiticData,
@@ -469,6 +470,8 @@
                         xkey = 'month';
                     }else if(type === 3){
                         xkey = 'week';
+                    }else if(type === 4){
+                        xkey = 'day';
                     }
                     tableColumn.push({
                         field: xkey,    
@@ -571,6 +574,7 @@
                     $("#table").bootstrapTable("destroy");
                   
                     $("#table").bootstrapTable({
+                        pagination: true,
                         columns: JSON.parse(JSON.stringify(tableColumn)),
                         data: JSON.parse(JSON.stringify(tableData)),
                     });
