@@ -588,7 +588,7 @@
 		}
 		const newRelativePathQuery = window.location.pathname + '?' + queryString;
 		history.pushState(null, '', newRelativePathQuery);
-			$.ajax({
+		$.ajax({
 			method:'get',
 			url: '/brands/filter',
 			data: data,

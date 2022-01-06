@@ -13,7 +13,7 @@ let currentPage = 1;
 let totalPage = 1;
 let totalProducts = 0;
 
-const reviewPerpage = 5;
+const reviewPerpage = 1;
 let currentReviewPage = 1
 let totalReviewPage = 1;
 let totalReviews = 0;
@@ -209,9 +209,6 @@ class ProductController{
                             });
                         }
                     }
-                    console.log("edit");
-                    console.log(pageDisplace);
-                    console.log(paginationArray);
                     if(pageDisplace < 2){
                         paginationArray=[];
                     }
@@ -585,6 +582,75 @@ class ProductController{
             res.status(500).json(err);
         })
     }
+
+    getReview(req,res, next){
+        const id = req.params.id;
+        let proID;
+        console.log(id);
+        if(id && !Number.isNaN(id)){
+            proID = parseInt(id);
+        }else{
+            res.status(500).json(err);
+        }
+        ProductService.itemProduct(proID).then(item=>{
+            // console.log(item);
+            item.proDate = new Date(item.createdAt).toLocaleString("vi-VN");
+            // const proImage = ProductService.imagesItemProduct(product.proID);
+            const pageNumber = req.query.reviewPage;
+            currentReviewPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+            currentReviewPage = (currentReviewPage > 0) ? currentReviewPage : 1;
+            currentReviewPage = (currentReviewPage <= totalReviewPage) ? currentReviewPage : totalReviewPage
+            currentReviewPage = (currentReviewPage < 1) ? 1 : currentReviewPage;
+            Promise.all([ 
+                ProductService.reviewsItemProduct(proID, reviewPerpage, currentReviewPage), 
+                ProductService.countAllReview(proID)
+            ])
+            .then(([reviews, total])=>{
+                totalReviews = total;
+                let paginationArray = [];
+                totalReviewPage = Math.ceil(totalReviews/reviewPerpage);
+                let pageDisplace = Math.min(totalReviewPage - currentReviewPage + 2, maximumPagination);
+                if(currentReviewPage === 1){
+                    pageDisplace -= 1;
+                }
+                for(let i = 0 ; i < pageDisplace; i++){
+                    if(currentReviewPage === 1){
+                        paginationArray.push({
+                            page: currentReviewPage + i,
+                            isCurrent:  (currentReviewPage + i)===currentReviewPage
+                        });
+                    }
+                    else{
+                        paginationArray.push({
+                            page: currentReviewPage + i - 1,
+                            isCurrent:  (currentReviewPage + i - 1)===currentReviewPage
+                        });
+                    }
+                }
+                if(pageDisplace < 2){
+                    paginationArray=[];
+                }
+                for(let i = 0 ; i < reviews.length;i++){
+                    reviews[i].date = reviews[i].createdAt.toLocaleString("vi-VN");
+                }
+                res.status(200).json( {
+                    reviews,
+                    paginationArray,
+                    prevPage: (currentReviewPage > 1) ? currentReviewPage - 1 : 1,
+                    nextPage: (currentReviewPage < totalReviewPage) ? currentReviewPage + 1 : totalReviewPage,
+                });
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
+
 }
 
 module.exports = new ProductController;
