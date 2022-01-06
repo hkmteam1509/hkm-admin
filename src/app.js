@@ -34,13 +34,16 @@ app.engine('.hbs',
 			isEqual: function(v1, v2, options) {
 				if(v1 === v2) {
 				  return options.fn(this);
-				}
+				}	
 				return options.inverse(this);
 			},
 			select: function( selected, options ){
 				return options.fn(this).replace(
 					new RegExp(' value=\"' + selected + '\"'),
 					'$& selected="selected"');
+			},
+			json: function(obj) {
+				return JSON.stringify(obj);
 			}
 		}
 	

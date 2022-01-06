@@ -79,30 +79,43 @@
         <div class="row">
             <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
                 <div class="product-sales-chart">
-                    <div class="portlet-title">
+                    <div class="portlet-title" style="margin: 10px 0">
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-                                <h4>Sales by
-                                    <a href="#" id="group" data-type="select" data-pk="1" data-value="0" data-source="/periods" data-title="Select group">Year</a>
-                                </h4>
+                                {{!-- <h4>Sales by
+                                    <a href="#" id="group" data-type="select" data-pk="1" data-value="0" data-source="/peridos" data-title="Select group">Year</a>
+                                </h4> --}}
+                                <div class="row">
+                                    <div class="col-xs-3">
+                                        <h4 style="margin-top: 10px !important; display: inline-block">Sales by:</h4>
+                                    </div>
+                                    <div class="col-xs-5">
+                                        <select onchange="startSubmitStatitic(this)" id="statiticBy1" class="form-control" name="statiticBy1">
+                                            <option value="0">Year</option>
+                                            <option value="1">Quarter</option>
+                                            <option value="2">Month</option>
+                                            <option value="3">Week</option>
+                                        </select>
+                                    </div>
+                                     <div class="col-xs-4">
+                                        <select onchange="startSubmitStatitic(this)"  id="statiticBy2" class="form-control" name="statiticBy2">
+                                            <option value="0">All</option>
+                                            <option value="1">Brand</option>
+                                            <option value="2">Gender</option>
+                                            <option value="3">Category</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
                                 <div class="actions graph-rp graph-rp-dl">
-                                    <p>All Earnings are in thousand $</p>
+                                    <p>All Earnings are in $</p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <ul class="list-inline cus-product-sl-rp">
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #006DF0;"></i>Men</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #933EC5;"></i>Women</h5>
-                        </li>
-                        <li>
-                            <h5><i class="fa fa-circle" style="color: #65b12d;"></i>Unisex</h5>
-                        </li>
+                    <ul class="list-inline cus-product-sl-rp" id="filter-color">
+                        
                     </ul>
                     <div id="extra-area-chart" style="height: 356px;"></div>
                 </div>
@@ -117,81 +130,31 @@
                         </div>
                         <div class="sparkline13-graph">
                             <div class="datatable-dashv1-list custom-datatable-overright">
-                                <div id="toolbar">
+                                {{!-- <div id="toolbar">
                                     <select class="form-control dt-tb">
                                         <option value="">Export Basic</option>
                                         <option value="all">Export All</option>
                                         <option value="selected">Export Selected</option>
                                     </select>
-                                </div>
-                                <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false" data-key-events="true" data-show-toggle="false" data-resizable="true" data-cookie="true"
-                                    data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar">
-                                    <thead>
+                                </div> --}}
+                                {{!-- <table id="table" data-toggle="table" data-pagination="false" data-search="false" data-show-columns="false" data-show-pagination-switch="false" data-show-refresh="false" data-key-events="true" data-show-toggle="false" data-resizable="true" data-cookie="true"
+                                    data-cookie-id-table="saveId" data-show-export="true" data-click-to-select="true" data-toolbar="#toolbar"> --}}
+                                    <table  id="table">
+                                    <thead id="table-head">
                                         <tr>
-                                            <th data-field="state" data-checkbox="true"></th>
+                                            {{!-- <th data-field="state" data-checkbox="true"></th> --}}
                                             <th data-field="year" data-editable="false">Year</th>
-                                            <th data-field="men" data-editable="false">Men</th>
-                                            <th data-field="women" data-editable="false">Women</th>
-                                            <th data-field="unisex" data-editable="false">Unisex</th>
+                                            <th data-field="Sales" data-editable="false">Sales</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td>2014</td>
-                                            <td>90</td>
-                                            <td>80</td>
-                                            <td>20</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2015</td>
-                                            <td>100</td>
-                                            <td>120</td>
-                                            <td>70</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2016</td>
-                                            <td>130</td>
-                                            <td>100</td>
-                                            <td>80</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2017</td>
-                                            <td>80</td>
-                                            <td>60</td>
-                                            <td>70</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2018</td>
-                                            <td>70</td>
-                                            <td>200</td>
-                                            <td>140</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2019</td>
-                                            <td>180</td>
-                                            <td>150</td>
-                                            <td>140</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2020</td>
-                                            <td>105</td>
-                                            <td>100</td>
-                                            <td>80</td>
-                                        </tr>
-                                        <tr>
-                                            <td></td>
-                                            <td>2021</td>
-                                            <td>250</td>
-                                            <td>150</td>
-                                            <td>200</td>
-                                        </tr>
+                                    <tbody id="table-body">
+                                        {{#each statiticData}}
+                                            <tr>
+                                                {{!-- <td></td> --}}
+                                                <td>{{this.year}}</td>
+                                                <td>{{this.value}}</td>
+                                            </tr>
+                                        {{/each}}
                                     </tbody>
                                 </table>
                             </div>
@@ -204,13 +167,13 @@
 </div>
 <div class="library-book-area mg-t-30">
     <div class="container-fluid">
-        <div class="row">
+        <div class="row" id="my-container">
             <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                <div class="single-product-item res-mg-t-30 table-mg-t-pro-n tb-sm-res-d-n dk-res-t-d-n">
+                <div class="single-product-item res-mg-t-30 table-mg-t-pro-n tb-sm-res-d-n dk-res-t-d-n" >
                     {{!-- <h4>Best Sellings of <a href="#" id="group1" data-type="select" data-pk="1" data-value="0" data-source="/brands" data-title="Select group">All</a></h4> --}}
 					<h4 style="margin-top: 10px !important; display: inline-block">Best Sellings of:</h4>
                     <form method="get"  style="display: inline-block;">
-                        <select onchange="this.form.submit()" class="form-control" name="brand">
+                        <select onchange="startSubmit(this)" class="form-control" name="brand">
                         <option value="0">All</option>
                             {{#each brands}}
                                 {{#if ../selectBrandQuery}}
@@ -225,26 +188,23 @@
                             {{/each}}
                         </select>
                     </form>
-                    {{#if bestProduct}}
-                        <div class="single-product-image" style="margin-top: 20px;">
-                            <img src="{{bestProduct.image}}" alt="{{bestProduct.proName}}">
-                        </div>
-                        <div class="single-product-text edu-pro-tx">
-                            <h4><a href="/products/view/1">{{bestProduct.proName}}</a></h4>
-                            <h5>{{bestProduct.description}}</h5>
-                            <div class="product-price">
-                                <h3>${{bestProduct.price}}</h3>
-                                <div class="single-item-rating">
-                                    <!-- <i class="educate-icon educate-star"></i>
-                                    <i class="educate-icon educate-star"></i>
-                                    <i class="educate-icon educate-star"></i>
-                                    <i class="educate-icon educate-star"></i>
-                                    <i class="educate-icon educate-star-half"></i> -->
-                                    {{bestProduct.sold}} sold
+                    <div id="my-best-product-container">
+                        {{#if bestProduct}}
+                            <div class="single-product-image" style="margin-top: 20px;">
+                                <img src="{{bestProduct.image}}" alt="{{bestProduct.proName}}">
+                            </div>
+                            <div class="single-product-text edu-pro-tx">
+                                <h4><a href="/products/view/1">{{bestProduct.proName}}</a></h4>
+                                <h5>{{bestProduct.description}}</h5>
+                                <div class="product-price">
+                                    <h3>${{bestProduct.price}}</h3>
+                                    <div class="single-item-rating">
+                                        {{bestProduct.sold}} sold
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    {{/if}}
+                        {{/if}}
+                    </div>
                 </div>
             </div>
 
@@ -254,18 +214,20 @@
                         <div class="single-review-st-hd">
                             <h2>Top Sellings</h2>
                         </div>
-                        {{#each firstProducts}}
-                            <div class="single-review-st-text">
-                                <img src="{{this.image}}" alt="{{this.proName}}">
-                                <div class="review-ctn-hf">
-                                    <h3><b>{{this.No}}. </b>{{this.proName}}</h3>
-                                    <p>${{this.price}}</p>
+                        <div id="first-product-container">
+                            {{#each firstProducts}}
+                                <div class="single-review-st-text">
+                                    <img src="{{this.image}}" alt="{{this.proName}}">
+                                    <div class="review-ctn-hf">
+                                        <h3><b>{{this.No}}. </b>{{this.proName}}</h3>
+                                        <p>${{this.price}}</p>
+                                    </div>
+                                    <div class="review-item-rating">
+                                        {{this.sold}} sold
+                                    </div>
                                 </div>
-                                <div class="review-item-rating">
-                                    {{this.sold}} sold
-                                </div>
-                            </div>
-                        {{/each}}
+                            {{/each}}
+                        </div>
                        
                     </div>
                 </div>
@@ -276,18 +238,20 @@
                         <div class="single-review-st-hd">
                             <h2>Top Sellings</h2>
                         </div>
-                        {{#each lastProducts}}
-                            <div class="single-review-st-text">
-                                <img src="{{this.image}}" alt="{{this.proName}}">
-                                <div class="review-ctn-hf">
-                                    <h3><b>{{this.No}}. </b>{{this.proName}}</h3>
-                                    <p>${{this.price}}</p>
+                        <div id="last-product-container">
+                            {{#each lastProducts}}
+                                <div class="single-review-st-text">
+                                    <img src="{{this.image}}" alt="{{this.proName}}">
+                                    <div class="review-ctn-hf">
+                                        <h3><b>{{this.No}}. </b>{{this.proName}}</h3>
+                                        <p>${{this.price}}</p>
+                                    </div>
+                                    <div class="review-item-rating">
+                                        {{this.sold}} sold
+                                    </div>
                                 </div>
-                                <div class="review-item-rating">
-                                    {{this.sold}} sold
-                                </div>
-                            </div>
-                        {{/each}}
+                            {{/each}}
+                        </div>
                        
                     </div>
                 </div>
@@ -336,14 +300,17 @@
     <script src="/js/metisMenu/metisMenu-active.js"></script>
     <!-- data table JS
 		============================================ -->
-    <script src="/js/data-table/bootstrap-table.js"></script>
-    <script src="/js/data-table/tableExport.js"></script>
-    <script src="/js/data-table/data-table-active.js"></script>
-    <script src="/js/data-table/bootstrap-table-editable.js"></script>
-    <script src="/js/data-table/bootstrap-editable.js"></script>
-    <script src="/js/data-table/bootstrap-table-resizable.js"></script>
-    <script src="/js/data-table/colResizable-1.5.source.js"></script>
-    <script src="/js/data-table/bootstrap-table-export.js"></script>
+    {{!-- <script src="/js/data-table/bootstrap-table.js"></script>--}}
+    {{!-- <script src="/js/data-table/tableExport.js"></script> --}}
+    {{!-- <script src="/js/data-table/data-table-active.js"></script> --}}
+    {{!-- <script src="/js/data-table/bootstrap-table-editable.js"></script> --}}
+    {{!-- <script src="/js/data-table/bootstrap-editable.js"></script> --}}
+    {{!-- <script src="/js/data-table/bootstrap-table-resizable.js"></script> --}}
+    {{!-- <script src="/js/data-table/colResizable-1.5.source.js"></script> --}}
+    {{!-- <script src="/js/data-table/bootstrap-table-export.js"></script>  --}}
+
+    <script src="https://unpkg.com/bootstrap-table@1.19.1/dist/bootstrap-table.min.js"></script>
+
     <!--  editable JS
         ============================================ -->
     <script src="/js/editable/jquery.mockjax.js"></script>
@@ -364,7 +331,7 @@
 		============================================ -->
     <script src="/js/morrisjs/raphael-min.js"></script>
     <script src="/js/morrisjs/morris.js"></script>
-    <script src="/js/morrisjs/morris-active.js"></script>
+    {{!-- <script src="/js/morrisjs/morris-active.js"></script> --}}
     <!-- morrisjs JS
 		============================================ -->
     <script src="/js/sparkline/jquery.sparkline.min.js"></script>
@@ -385,25 +352,250 @@
 		============================================ -->
     <!-- <script src="/js/tawk-chat.js"></script> -->
     <script>
-        {{!-- new Morris.Line({
-            // ID of the element in which to draw the chart.
-                element: 'extra-area-chart',
-            // Chart data records -- each entry in this array corresponds to a point on
-            // the chart.
-            data: [
-                { year: '2008', value: 20 },
-                { year: '2009', value: 10 },
-                { year: '2010', value: 5 },
-                { year: '2011', value: 5 },
-                { year: '2012', value: 20 }
-            ],
-            // The name of the data record attribute that contains x-values.
-            xkey: 'year',
-            // A list of names of data record attributes that contain y-values.
-            ykeys: ['value'],
-            // Labels for the ykeys -- will be displayed when you hover over the
-            // chart.
-            labels: ['Value']
-        }); --}}
+        $(document).ready(function(){
+            const statiticData = {{{json statiticData}}};
+            $("#table").bootstrapTable();
+            Morris.Area({
+                element: "extra-area-chart",
+                data: statiticData,
+                xkey: 'year',
+                ykeys: ['value'],
+                labels: ['Sales'],
+                pointSize: 3,
+                fillOpacity: 0,
+                behaveLikeLine: true,
+                gridLineColor: '#e0e0e0',
+                lineWidth: 1,
+                hideHover: 'auto',
+                resize: true
+            })
+        });
+
+        const colors = ["#FF1616", "#FF914D", "#FFDE59", "#7ED957", "#5271FF", "#8C52FF", "#7F00FF"];
+
+        function bestProductView(bestProduct){
+            if(bestProduct){
+                return `
+                    <div class="single-product-image" style="margin-top: 20px;">
+                        <img src="${bestProduct.image}" alt="${bestProduct.proName}">
+                    </div>
+                    <div class="single-product-text edu-pro-tx">
+                        <h4><a href="/products/view/1">${bestProduct.proName}</a></h4>
+                        <h5>${bestProduct.description}</h5>
+                        <div class="product-price">
+                            <h3>$${bestProduct.price}</h3>
+                            <div class="single-item-rating">
+                                ${bestProduct.sold} sold
+                            </div>
+                        </div>
+                    </div>
+                `
+            }else{
+                return ``;
+            }
+        }
+
+        function productView(products){
+            return products.map(pro=>{
+               if(pro){
+                    return `
+                        <div class="single-review-st-text">
+                            <img src="${pro.image}" alt="${pro.proName}">
+                            <div class="review-ctn-hf">
+                                <h3><b>${pro.No}. </b>${pro.proName}</h3>
+                                <p>\$${pro.price}</p>
+                            </div>
+                            <div class="review-item-rating">
+                                ${pro.sold} sold
+                            </div>
+                        </div>
+                    `
+               }else{
+                   return ``;
+               }
+            })
+        }
+
+        function startSubmit(ele){
+            const value = ele.value;
+            $.ajax({
+                method:'get',
+                url: '/best-selling',
+                data:{
+                    brand: value
+                },
+                success: function(data){
+                    $("#my-best-product-container").empty();
+                    $("#my-best-product-container").append(bestProductView(data.bestProduct));
+                    $("#first-product-container").empty();
+                    $("#first-product-container").append(productView(data.firstProducts).join(""));
+                    $("#last-product-container").empty();
+                    $("#last-product-container").append(productView(data.lastProducts).join(""));
+                },
+                error: function(err){
+                    console.log(err);
+                    alert("An error has occurred, please try again");
+                }
+            })
+        }
+    
+        function startSubmitStatitic(ele){
+            const value = $("#statiticBy1").val();
+            const value1 = $("#statiticBy2").val();
+            $.ajax({
+                url: "/statitics",
+                method: 'get',
+                data:{
+                    type: value,
+                    type1: value1,
+                },
+                success: function(data){
+                    console.log(data);
+                    const type = parseInt(value);
+                    const type1 = parseInt(value1);
+                    let xkey = 'year';
+                    let ykeys = ['value'];
+                    let labels = ['Sales'];
+                    $("#filter-color").empty();
+                    $("#extra-area-chart").empty();
+                    let tableColumn = [];
+                    let tableData = [];
+                    const myColors = [];
+                    if(type === 0){
+                       xkey = 'year';
+                    }else if (type === 1){
+                         xkey = 'quarter';
+                    }else if(type === 2){
+                        xkey = 'month';
+                    }else if(type === 3){
+                        xkey = 'week';
+                    }
+                    tableColumn.push({
+                        field: xkey,    
+                        title: xkey.charAt(0).toUpperCase() + xkey.slice(1)
+                    })
+                  
+                    if(type1 === 0){
+                        myColors.push(colors[4]);
+                        tableColumn.push({
+                            field: 'value',
+                            title: 'Sales'
+                        })
+                        
+                    }
+                    else if (type1 === 1){
+                        let colorIndex = 0;
+                        ykeys = data.brands.map(brand=>{
+                            if(colorIndex >= 7){
+                                colorIndex = 0;
+                            }
+                            myColors.push(colors[colorIndex]);
+                            colorIndex++;
+                            return brand.brandName;
+                        });
+                        labels = data.brands.map(brand=>{
+                            tableColumn.push({
+                                field: brand.brandName,
+                                title: brand.brandName
+                            });
+                            return brand.brandName;
+                        });
+                        let colorView = ``;
+                        data.brands.forEach((brand, index)=>{
+                            
+                            colorView += `
+                                <li>
+                                    <h5><i class="fa fa-circle" style="color: ${myColors[index]};"></i>${brand.brandName}</h5>
+                                </li>`;
+                        });
+                        
+                        $("#filter-color").append(colorView);
+                    }
+                    else if(type1 === 2){
+                        let colorIndex = 0;
+                        ykeys = data.genders.map(gender=>{
+                            if(colorIndex >= 7){
+                                colorIndex = 0;
+                            }
+                            myColors.push(colors[colorIndex]);
+                            colorIndex++;
+                           
+                            return gender.genderName;
+                        });
+                        labels = data.genders.map(gender=>{
+                            tableColumn.push({
+                                field: gender.genderName,
+                                title: gender.genderName
+                            });
+                            return gender.genderName;
+                        });
+                        let colorView = ``;
+                        data.genders.forEach((gender, index)=>{
+                            colorView += `
+                                <li>
+                                    <h5><i class="fa fa-circle" style="color: ${myColors[index]};"></i>${gender.genderName}</h5>
+                                </li>`;
+                        });
+                       
+                        $("#filter-color").append(colorView);
+                    }
+                    else if(type1 === 3){
+                        let colorIndex = 0;
+                        ykeys = data.cats.map(cat=>{
+                            if(colorIndex >= 7){
+                                colorIndex = 0;
+                            }
+                            myColors.push(colors[colorIndex]);
+                            colorIndex++;
+                            return cat.catName;
+                        });
+                        labels = data.cats.map(cat=>{
+                            tableColumn.push({
+                                field: cat.catName,
+                                title: cat.catName
+                            });
+                            return cat.catName;
+                        });
+                        let colorView = ``;
+                        data.cats.forEach((cat, index)=>{
+                            colorView += `
+                                <li>
+                                    <h5><i class="fa fa-circle" style="color: ${myColors[index]};"></i>${cat.catName}</h5>
+                                </li>`;
+                        });
+                        $("#filter-color").append(colorView);
+                    }
+                    data.statiticData.forEach(row=>{
+                        tableData.push(JSON.parse(JSON.stringify(row)));
+                    });
+                    $("#table").bootstrapTable("destroy");
+                  
+                    $("#table").bootstrapTable({
+                        columns: JSON.parse(JSON.stringify(tableColumn)),
+                        data: JSON.parse(JSON.stringify(tableData)),
+                    });
+                    Morris.Area({
+                        element: "extra-area-chart",
+                        data: data.statiticData,
+                        xkey: xkey,
+                        ykeys: ykeys,
+                        labels: labels,
+                        pointSize: 3,
+                         pointStrokeColors:myColors,
+                        fillOpacity: 0,
+                        lineColors: myColors,
+                        behaveLikeLine: true,
+                        gridLineColor: '#e0e0e0',
+                        lineWidth: 1,
+                        hideHover: 'auto',
+                        resize: true
+                    })
+                },
+                error: function(err){
+                    console.log(err);
+                    alert("An error has occurred, please try again");
+                }
+            })
+        }
     </script>
  {{/section}}
