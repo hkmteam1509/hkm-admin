@@ -154,6 +154,10 @@
                                                         </div>
                                                     </div>
                                                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                                                        <label>Views:</label>
+                                                        <div class="form-group">
+                                                            <input  type="number" class="form-control" required value="{{views}}" readonly="">
+                                                        </div>
                                                         <label>Gender:</label>
                                                         <div class="form-group">
                                                             <select required name="editGenderBox" class="form-control">
@@ -397,12 +401,9 @@
                             <div class="row">
                                 <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                                     <div class="review-content-section">
-                                        <div class="chat-discussion" style="height: auto">
+                                        <div class="chat-discussion" style="height: auto" id="review-container">
                                             {{#each reviews}}
                                                 <div class="chat-message">
-                                                    <!-- <div class="profile-hdtc">
-                                                        <img class="message-avatar" src="/img/contact/1.jpg" alt="">
-                                                    </div> -->
                                                     <div class="message" style="margin-left: 0px">
                                                         {{#if this.userID}}
                                                             <a class="message-author" href="/users/{{this.userID}}"> {{this.authorName}} </a>
@@ -441,26 +442,26 @@
                                                 method="get"
                                                 action="/products/edit/{{item.proID}}"
                                             > 
-                                                <ul class="my-pagination">
+                                                <ul class="my-pagination" id="my-pagination">
                                                     <li class="my-page-item">
-                                                        <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="reviewPage"/>
+                                                        <input onchange='changePage(this)' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="reviewPage"/>
                                                         <label for="page-prev"  class="my-page-button">Prev</label>
                                                     </li>
                                                     {{#each paginationArray}}  
                                                         {{#if this.isCurrent}}
                                                             <li class="my-page-item">
-                                                                <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="reviewPage"/>
+                                                                <input onchange='changePage(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="reviewPage"/>
                                                                 <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
                                                             </li>
                                                         {{else}}
                                                             <li class="my-page-item">
-                                                                <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="reviewPage"/>
+                                                                <input onchange='changePage(this)' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="reviewPage"/>
                                                                 <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
                                                             </li>
                                                         {{/if}}
                                                     {{/each}}
                                                     <li class="my-page-item">
-                                                        <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="reviewPage"/>
+                                                        <input onchange='changePage(this)' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="reviewPage"/>
                                                         <label for="page-next"  class="my-page-button">Next</label>
                                                     </li>
                                                 </ul>
@@ -515,7 +516,7 @@
         </div>
     </div>
 </div>
-
+<input type="text" value="{{item.proID}}" id="proID-holder" style="display: none;" readonly>
 {{#section 'script'}}
     <!-- jquery
 		============================================ -->
@@ -621,10 +622,7 @@
 			return "images";    
 		}
         $(document).ready(function(){
-            if(document.getElementById("pagination-form")){
-                console.log("ha")
-                $("#review-tab-button").tab('show');
-            }
+           
             const myAddProductForm = document.forms["add-product-form"];
             const deleteForm = document.getElementById("delete-product-form");
             const imageCheckboxs=document.getElementsByName("productImages");
@@ -766,8 +764,6 @@
 		});
 
 		function removeRow(row){
-            {{!-- const attriTable = document.getElementById("add-product-status-table");
-            attriTable.deleteRow(row); --}}
             let p=row.parentNode.parentNode;
             p.parentNode.removeChild(p);
             const nos = document.getElementsByClassName("row-number");
@@ -781,7 +777,8 @@
                 linktag[i].dataset.id=i+1;
             }
         }
-		function onEditAtribute(){
+		
+        function onEditAtribute(){
 			let editAttriForm = document.forms["edit-modal"];
 			if(editAttriForm.checkValidity()){
 				let colors = document.getElementsByName("colors");
@@ -823,5 +820,104 @@
 			}
 			return false;
 		}
+    
+        function generatePager(paginationArray, prevPage, nextPage){
+            let result = [];
+            result.push(`
+                <li class="my-page-item">
+                    <input onchange='changePage(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="reviewPage"/>
+                    <label for="page-prev"  class="my-page-button">Prev</label>
+                </li>
+            `)
+
+            paginationArray.forEach(page=>{
+                if(page.isCurrent){
+                    result.push(`
+                        <li class="my-page-item">
+                            <input onchange='changePage(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="reviewPage"/>
+                            <label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+                        </li>
+                    `)
+                }else{
+                    result.push(`
+                        <li class="my-page-item">
+                            <input onchange='changePage(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="reviewPage"/>
+                            <label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+                        </li>
+                    `)
+                }
+            });
+            result.push(`
+                <li class="my-page-item">
+                    <input onchange='changePage(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="reviewPage"/>
+                    <label for="page-next"  class="my-page-button">Next</label>
+                </li>
+            `)
+            return result;
+        }
+
+        function generateReview(reviews){
+            return reviews.map(review=>{
+                let user = ``;
+                if(review.userID){
+                    user = `<a class="message-author" href="/users/${review.userID}"> ${review.authorName} </a>`
+                }else{
+                    user = `<label class="message-author"> ${review.authorName}} </label>`
+                }
+
+                let star = ``;
+                for(let i = 0 ; i < review.rate;i++){
+                    star += ` <i class="educate-icon educate-star"></i>`;
+                }
+                return `
+                     <div class="chat-message">
+                        <div class="message" style="margin-left: 0px">
+                           `+user+`
+                            <span class="message-date"> ${review.date} </span>
+                            <span class="message-content"><b>${review.sumary}</b></span>
+                            <span class="message-content">${review.com}
+                            </span>
+                            <div class="m-t-md mg-t-10">
+                                <div class="review-item-rating">
+                                   `+star+`
+                                </div>
+                                <button data-id="${review.commentID}" title="Delete" class="pd-setting-ed" data-toggle="modal" data-target="#deleteViewModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                `
+            });
+        }
+
+        function changePage(ele){
+            const data = {};
+            data.reviewPage = $("input[name='reviewPage']:checked").val();
+            const proID = $("#proID-holder").val();
+            console.log(data);
+            $.ajax({
+                method:'get',
+                url: '/products/edit/'+proID+'/review',
+                data: data,
+                success: function(data){
+                    $("#my-pagination").empty();
+                    if(data.paginationArray && data.paginationArray.length > 0){
+                        const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+                        pageView.forEach(page=>{
+                            $("#my-pagination").append(page);
+                        });
+                    }
+                    const reviewView = generateReview(data.reviews);
+                    $("#review-container").empty();
+                    reviewView.forEach(review=>{
+                        $("#review-container").append(review);
+                    });
+                },
+                error: function(err){
+                    console.log(err);
+                    alert("An error has occurred, please try again");
+                }
+            });
+        }
     </script>
+
 {{/section}}

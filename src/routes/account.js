@@ -21,6 +21,7 @@ router.post("/login",
     });
 router.get('/login', AccountController.login);
 router.get('/register', AccountController.register);
+router.post('/check-username', AccountController.checkUsername);
 router.get('/password-recovery', AccountController.passwordRecovery);
 router.get('/:foo', function(req, res){
     res.status(404);

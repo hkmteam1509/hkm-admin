@@ -3,6 +3,7 @@ const router = express.Router();
 const multer  = require('multer');
 const upload = multer({  storage: multer.memoryStorage() });
 const CategoryController = require('../controllers/CategoryController');
+router.get('/filter', CategoryController.allCategoryFilter);
 router.get('/', CategoryController.allCategory);
 router.delete('/delete/:id', CategoryController.delete);
 router.put('/edit/:id', upload.any(), CategoryController.update);

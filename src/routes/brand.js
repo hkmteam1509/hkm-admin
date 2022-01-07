@@ -5,6 +5,7 @@ const upload = multer({  storage: multer.memoryStorage() });
 
 const BrandController = require('../controllers/BrandController');
 
+router.get('/filter', BrandController.allBrandFilter);
 router.get('/', BrandController.allBrand);
 // router.get('/trash', BrandController.deletedBrand);
 router.delete('/delete/:id', BrandController.delete);

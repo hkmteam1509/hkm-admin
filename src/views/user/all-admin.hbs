@@ -91,55 +91,56 @@
                         </div>
                         <div class="asset-inner">
                             <table>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Name</th>
-                                    <th>Gender</th>
-                                    <th>Address</th>
-                                    <th>Phone Number</th>
-                                <th>Action</th>
-                            </tr>
-
-                            {{#each admins}}
-                            <tr>
-                                <td>{{this.No}}</td>
-                                <td>{{this.f_firstname}} {{this.f_lastname}} </td>
-                                <td>
-                                    {{#if this.f_sex}} 
-                                    {{#isEqual this.f_sex 1}}Women{{/isEqual}} 
-                                    {{#isEqual this.f_sex 2}}Other{{/isEqual}}
-                                    {{else}}
-                                        {{#isEqual this.f_sex 0}}
-                                            Men
-                                        {{else}}
-                                            Empty
-                                        {{/isEqual}}
-                                    {{/if}}
-                                </td>
-                              
-                                <td>
-                                    {{#if this.f_address}}
-                                        {{this.f_address}}
-                                    {{else}}
-                                        Empty
-                                    {{/if}}
-                                </td>
-                                <td>
-                                    {{#if this.f_phone}}
-                                        {{this.f_phone}}
-                                    {{else}}
-                                        Empty
-                                    {{/if}}
-                                </td>
-                                <td>
-                                    <div class="modal-area-button">
-                                        <a class="Primary mg-b-10" href="/admins/{{this.f_ID}}">Details</a>
-                                        {{!-- <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
-                                    </div>
-                                </td>
-                            </tr>
-                            {{/each}}
-                        
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Name</th>
+                                        <th>Gender</th>
+                                        <th>Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                {{#each admins}}
+                                <tbody id="table-body">
+                                    <tr>
+                                        <td>{{this.No}}</td>
+                                        <td>{{this.f_firstname}} {{this.f_lastname}} </td>
+                                        <td>
+                                            {{#if this.f_sex}} 
+                                            {{#isEqual this.f_sex 1}}Women{{/isEqual}} 
+                                            {{#isEqual this.f_sex 2}}Other{{/isEqual}}
+                                            {{else}}
+                                                {{#isEqual this.f_sex 0}}
+                                                    Men
+                                                {{else}}
+                                                    Empty
+                                                {{/isEqual}}
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{#if this.f_address}}
+                                                {{this.f_address}}
+                                            {{else}}
+                                                Empty
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            {{#if this.f_phone}}
+                                                {{this.f_phone}}
+                                            {{else}}
+                                                Empty
+                                            {{/if}}
+                                        </td>
+                                        <td>
+                                            <div class="modal-area-button">
+                                                <a class="Primary mg-b-10" href="/admins/{{this.f_ID}}">Details</a>
+                                                {{!-- <a class="Danger danger-color" href="" data-toggle="modal" data-target="#DangerModalalert" style="display: none;">Block</a> --}}
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                {{/each}}
                         </table>
                     </div>
                                     
@@ -179,41 +180,38 @@
                             </div>
                         </div>
                     </div>
-                        
-			<!-- PAGER -->
-				 <form 
-                method="GET"
-                action="/admins">
-
+                    <!-- PAGER -->
                     {{#if paginationArray}}
-                   <ul class="my-pagination">
+                        <form 	
+                            method="get"
+                            action="/admins"
+                                    >
+                            <ul class="my-pagination" id="my-pagination">
                                 <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
+                                    <input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="{{prevPage}}" type="radio" name="page"/>
                                     <label for="page-prev"  class="my-page-button">Prev</label>
                                 </li>
                                 {{#each paginationArray }}  
                                     {{#if this.isCurrent}}
                                         <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                            <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
                                             <label for="page-{{this.page}}"  class="my-page-link my-current-page">{{this.page}}</label>
                                         </li>
                                     {{else}}
                                         <li class="my-page-item">
-                                            <input onchange='this.form.submit();' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
+                                            <input onchange='startSubmit(this);' style="display: none;" id="page-{{this.page}}" value="{{this.page}}" type="radio" name="page"/>
                                             <label for="page-{{this.page}}"  class="my-page-link">{{this.page}}</label>
                                         </li>
                                     {{/if}}
                                 {{/each}}
                                 <li class="my-page-item">
-                                    <input onchange='this.form.submit();' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
+                                    <input onchange='startSubmit(this);' style="display: none;" id="page-next" value="{{nextPage}}" type="radio" name="page"/>
                                     <label for="page-next"  class="my-page-button">Next</label>
                                 </li>
-                     </ul>
-                     {{/if}}
-        
-
-            </form>
-			<!-- /PAGER -->
+                            </ul>
+                        </form>
+                    {{/if}}
+                    <!-- /PAGER -->
                 </div>
             </div>
         </div>
@@ -308,4 +306,126 @@
 <!-- tawk chat JS
     ============================================ -->
 <!-- <script src="js/tawk-chat.js"></script> -->
+<script>
+    function generatePager(paginationArray, prevPage, nextPage){
+		let result = [];
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-prev" value="${prevPage}" type="radio" name="page"/>
+				<label for="page-prev"  class="my-page-button">Prev</label>
+			</li>
+		`)
+		paginationArray.forEach(page=>{
+			if(page.isCurrent){
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link my-current-page">${page.page}</label>
+					</li>
+				`)
+			}else{
+				result.push(`
+					<li class="my-page-item">
+						<input onchange='startSubmit(this);' style="display: none;" id="page-${page.page}" value="${page.page}" type="radio" name="page"/>
+						<label for="page-${page.page}"  class="my-page-link">${page.page}</label>
+					</li>
+				`)
+			}
+		});
+		result.push(`
+			<li class="my-page-item">
+				<input onchange='startSubmit(this);' style="display: none;" id="page-next" value="${nextPage}" type="radio" name="page"/>
+				<label for="page-next"  class="my-page-button">Next</label>
+			</li>
+		`)
+		return result;
+	}
+	function generateAdmin(admins){
+		return admins.map(admin=>{
+			let gender = ``;
+            if(admin.f_sex){
+                if(admin.f_sex === 1){
+                    gender =`Women`;
+                }else if(admin.f_sex === 2){
+                    gender =`Other`;
+                }
+            }else{
+                if(admin.f_sex === 0){
+                    gender =`Men`;
+                }else{
+                    gender = `Empty`
+                }
+            }
+            let address = `Empty`;
+            if(admin.f_address){
+                address = `${admin.f_address}`;
+            }
+            let phone = `Empty`;
+            if(admin.f_phone){
+                 phone = `${admin.f_phone}`;
+            }
+			return `
+                <tr>
+                    <td>${admin.No}</td>
+                    <td>${admin.f_firstname} ${admin.f_lastname} </td>
+                    <td>
+                       `+gender+`
+                    </td>
+                    <td>
+                        `+address+`
+                    </td>
+                    <td>
+                        `+phone+`
+                    </td>
+                    <td>
+                        <div class="modal-area-button">
+                            <a class="Primary mg-b-10" href="/admins/${admin.f_ID}">Details</a>
+                        </div>
+                    </td>
+                </tr>
+			`;
+		})
+	}
+	
+	function startSubmit(ele){
+		const data = {};
+		data.page = $("input[name='page']:checked").val();
+		
+		let queryString = "";
+		if(!data.page){
+			data.page = '1';
+		}
+		if(ele.getAttribute("name") !== "page"){
+			data.page = '1';
+		}
+		if(data.page.length > 0){
+			queryString += ("page=" + data.page);
+		}
+		const newRelativePathQuery = window.location.pathname + '?' + queryString;
+		history.pushState(null, '', newRelativePathQuery);
+			$.ajax({
+			method:'get',
+			url: '/admins/filter',
+			data: data,
+			success: function(data){
+				$("#my-pagination").empty();
+				if(data.paginationArray && data.paginationArray.length > 0){
+					const pageView = generatePager(data.paginationArray, data.prevPage, data.nextPage);
+					pageView.forEach(page=>{
+						$("#my-pagination").append(page);
+					});
+				}
+				const adminView = generateAdmin(data.admins);
+				$("#table-body").empty();
+				adminView.forEach(admin=>{
+					$("#table-body").append(admin);
+				});
+			},
+			error: function(err){
+				console.log(err);
+				alert("An error has occurred, please try again");
+			}
+		})
+	}
+</script>
 {{/section}}

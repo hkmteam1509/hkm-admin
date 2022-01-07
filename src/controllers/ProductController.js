@@ -13,7 +13,7 @@ let currentPage = 1;
 let totalPage = 1;
 let totalProducts = 0;
 
-const reviewPerpage = 5;
+const reviewPerpage = 1;
 let currentReviewPage = 1
 let totalReviewPage = 1;
 let totalReviews = 0;
@@ -209,9 +209,6 @@ class ProductController{
                             });
                         }
                     }
-                    console.log("edit");
-                    console.log(pageDisplace);
-                    console.log(paginationArray);
                     if(pageDisplace < 2){
                         paginationArray=[];
                     }
@@ -491,6 +488,169 @@ class ProductController{
             next();
         })
     }
+
+    allProductFilter(req, res, next){
+        //get page number
+        const pageNumber = req.query.page;
+        const name = (req.query.name) ? req.query.name : null;
+        const brandid = (req.query.brandid) ? req.query.brandid : null;
+        const cateid = (req.query.cateid) ? req.query.cateid : null;
+        const genderid = (req.query.genderid) ? req.query.genderid : null;
+        currentPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+        currentPage = (currentPage > 0) ? currentPage : 1;
+        currentPage = (currentPage <= totalPage) ? currentPage : totalPage
+        currentPage = (currentPage < 1) ? 1 : currentPage;
+        Promise.all([ ProductService.list(productPerPage, currentPage, name, brandid, cateid, genderid), ProductService.countAllItem(name, brandid, cateid, genderid)])        .then(([products, total])=>{
+            totalProducts = total;
+            let paginationArray = [];
+            totalPage = Math.ceil(totalProducts/productPerPage);
+            let pageDisplace = Math.min(totalPage - currentPage + 2, maximumPagination);
+            if(currentPage === 1){
+                pageDisplace -= 1;
+            }
+            for(let i = 0 ; i < pageDisplace; i++){
+                if(currentPage === 1){
+                    paginationArray.push({
+                        page: currentPage + i,
+                        isCurrent:  (currentPage + i)===currentPage
+                    });
+                }
+                else{
+                    paginationArray.push({
+                        page: currentPage + i - 1,
+                        isCurrent:  (currentPage + i - 1)===currentPage
+                    });
+                }
+            }
+            if(pageDisplace < 2){
+                paginationArray=[];
+            }
+            const productsLength = products.length;
+            const countPro = products.map(product=>{
+                return ProductService.countProductQuantity(product.proID);
+            });
+            const proImage = products.map(product=>{
+                return ProductService.firstImageProduct(product.proID);
+            });
+            const proBrand = products.map(product=>{
+                return ProductService.brandProduct(product.brandID);
+            });
+            const proCate = products.map(product=>{
+                return ProductService.cateProduct(product.catID);
+            });
+            const proCountRating = products.map(product=>{
+                return ProductService.countRatingProduct(product.proID);
+            });
+            const proSumRating = products.map(product=>{
+                return ProductService.sumRatingProduct(product.proID);
+            });
+            const myPromiseArr = countPro.concat(proImage,proBrand,proCate, proCountRating, proSumRating);           
+             Promise.all(myPromiseArr)
+            .then(result=>{
+                for(let i = 0 ; i < productsLength;i++){
+                    products[i].No = (currentPage -1)*productPerPage + 1 + i;
+                    products[i].quantity = result[i];
+                    products[i].image = result[(productsLength)*1+i].proImage;
+                    if (products[i].sex === 0) {
+                        products[i].gender = "Men";
+                    }
+                    if (products[i].sex === 1) {
+                        products[i].gender = "Women";
+                    }
+                    if (products[i].sex === 2) {
+                        products[i].gender = "Unisex";
+                    }
+                    products[i].brand = result[(productsLength)*2+i].brandName;
+                    products[i].category = result[(productsLength)*3+i].catName;
+                    products[i].rating = (result[(productsLength)*5+i] - result[(productsLength)*5+i] % result[(productsLength)*4+i]) / result[(productsLength)*4+i];
+                }
+                res.status(200).json({
+                    products,
+                    currentPage,
+                    searchQuery: name,
+                    paginationArray,
+                    prevPage: (currentPage > 1) ? currentPage - 1 : 1,
+                    nextPage: (currentPage < totalPage) ? currentPage + 1 : totalPage,
+                });
+            }).catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
+
+    getReview(req,res, next){
+        const id = req.params.id;
+        let proID;
+        console.log(id);
+        if(id && !Number.isNaN(id)){
+            proID = parseInt(id);
+        }else{
+            res.status(500).json(err);
+        }
+        ProductService.itemProduct(proID).then(item=>{
+            // console.log(item);
+            item.proDate = new Date(item.createdAt).toLocaleString("vi-VN");
+            // const proImage = ProductService.imagesItemProduct(product.proID);
+            const pageNumber = req.query.reviewPage;
+            currentReviewPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
+            currentReviewPage = (currentReviewPage > 0) ? currentReviewPage : 1;
+            currentReviewPage = (currentReviewPage <= totalReviewPage) ? currentReviewPage : totalReviewPage
+            currentReviewPage = (currentReviewPage < 1) ? 1 : currentReviewPage;
+            Promise.all([ 
+                ProductService.reviewsItemProduct(proID, reviewPerpage, currentReviewPage), 
+                ProductService.countAllReview(proID)
+            ])
+            .then(([reviews, total])=>{
+                totalReviews = total;
+                let paginationArray = [];
+                totalReviewPage = Math.ceil(totalReviews/reviewPerpage);
+                let pageDisplace = Math.min(totalReviewPage - currentReviewPage + 2, maximumPagination);
+                if(currentReviewPage === 1){
+                    pageDisplace -= 1;
+                }
+                for(let i = 0 ; i < pageDisplace; i++){
+                    if(currentReviewPage === 1){
+                        paginationArray.push({
+                            page: currentReviewPage + i,
+                            isCurrent:  (currentReviewPage + i)===currentReviewPage
+                        });
+                    }
+                    else{
+                        paginationArray.push({
+                            page: currentReviewPage + i - 1,
+                            isCurrent:  (currentReviewPage + i - 1)===currentReviewPage
+                        });
+                    }
+                }
+                if(pageDisplace < 2){
+                    paginationArray=[];
+                }
+                for(let i = 0 ; i < reviews.length;i++){
+                    reviews[i].date = reviews[i].createdAt.toLocaleString("vi-VN");
+                }
+                res.status(200).json( {
+                    reviews,
+                    paginationArray,
+                    prevPage: (currentReviewPage > 1) ? currentReviewPage - 1 : 1,
+                    nextPage: (currentReviewPage < totalReviewPage) ? currentReviewPage + 1 : totalReviewPage,
+                });
+            })
+            .catch(err=>{
+                console.log(err);
+                res.status(500).json(err);
+            })
+        })
+        .catch(err=>{
+            console.log(err);
+            res.status(500).json(err);
+        })
+    }
+
 }
 
 module.exports = new ProductController;

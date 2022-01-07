@@ -1243,7 +1243,13 @@ Licensed under the BSD-2-Clause License.
         return new Date(d.getFullYear(), d.getMonth(), d.getDate());
       },
       fmt: function(d) {
-        return "" + (d.getFullYear()) + "-" + (Morris.pad2(d.getMonth() + 1)) + "-" + (Morris.pad2(d.getDate()));
+        // return "" + (d.getFullYear()) + "-" + (Morris.pad2(d.getMonth() + 1)) + "-" + (Morris.pad2(d.getDate()));
+        Date.prototype.getWeek = function() {
+            var onejan = new Date(this.getFullYear(), 0, 1);
+            return Math.ceil((((this - onejan) / 86400000) + onejan.getDay() + 1) / 7);
+        }
+    
+        return "" + (d.getFullYear()) + " W" + (Morris.pad2(d.getWeek() - 1));
       },
       incr: function(d) {
         return d.setDate(d.getDate() + 7);
