@@ -9,6 +9,7 @@ const nMonth = 10;
 const nQuarter = 10;
 const nYear = 10;
 const nWeek = 10;
+const nDate = 30;
 
 class HomeController{
 
@@ -209,6 +210,16 @@ class HomeController{
                 statiticData.push({week: lastYear + " W" + lastWeek});
                 orderPromise.push(StatiticService.getOrderDetailByWeek(startDate, endDate));
                 lastWeek--;
+            }
+        }else if(type === 4){
+            const currentDate = new Date().setDate(25);
+            for(let i = 0; i < nDate; i++){
+                let d = new Date(currentDate);
+                d.setDate(d.getDate() - i);
+                let startDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0,0,0);
+                let endDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23,59,59);
+                statiticData.push({day: d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate()});
+                orderPromise.push(StatiticService.getOrderDetailByWeek(startDate, endDate));
             }
         }
         try {
