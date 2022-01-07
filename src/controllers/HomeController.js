@@ -219,7 +219,7 @@ class HomeController{
                 let startDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 0,0,0);
                 let endDate = new Date(d.getFullYear(), d.getMonth(), d.getDate(), 23,59,59);
                 statiticData.push({day: d.getFullYear() + "-" + (d.getMonth()+1) + "-" + d.getDate()});
-                orderPromise.push(StatiticService.getOrderDetailByWeek(startDate, endDate));
+                orderPromise.push(StatiticService.getORderDetailByDate(startDate, endDate));
             }
         }
         try {

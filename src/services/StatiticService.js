@@ -13,6 +13,18 @@ class StatiticService{
         });
     }
 
+    getORderDetailByDate = (dateStart, dateEnd)=>{
+        return models.orderdetail.findAll({
+            raw:true,
+            where:{
+                createdAt:{
+                    [Op.gte]: dateStart,
+                    [Op.lte]: dateEnd
+                }
+            }
+        });
+    }
+
     getOrderDetailByWeek = (dateStart, dateEnd) => {
         return models.orderdetail.findAll({
             raw:true,
