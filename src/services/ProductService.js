@@ -533,6 +533,10 @@ class ProductService{
         return models.detail.bulkCreate(details);
     }
 
+    createImage(imagelink){
+        return models.imagelink.create(imagelink);
+    }
+
     storeImages(files, productImages){
         models.imagelink.count({
             where: {
