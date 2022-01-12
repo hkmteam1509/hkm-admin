@@ -109,17 +109,35 @@
                                         <td>{{this.orderDate}}</td>
                                         <td>{{this.total}}</td>
                                         <td style="padding-right: 40px;">
-                                            <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="{{this.orderID}}">
-                                                {{#select this.status}}
-                                                    <option value="1">Pending confirmation</option>
-                                                    <option value="2">Confirmed</option>
-                                                    <option value="3">Pick by courier</option>
-                                                    <option value="4">On their way</option>
-                                                    <option value="5">Arrived</option>
-                                                    <option value="6">Completed</option>
-                                                    <option value="7">Canceled</option>
-                                                {{/select}}
-                                            </select>
+                                            <div id="statusBoxView-{{this.orderID}}">
+                                                {{#isEqual this.status 7}}
+                                                    <input name="statusCancel" type="text" class="form-control"  value="Canceled" readonly="">
+                                                {{else}}
+                                                    {{#isEqual this.status 6}}
+                                                        <input name="statusCompleted" type="text" class="form-control"  value="Completed" readonly="">
+                                                    {{else}}
+                                                        <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="{{orderID}}">
+                                                            {{#select this.status}}
+                                                                {{#isBigger 2 this.status}}
+                                                                    <option value="1">Pending confirmation</option>
+                                                                {{/isBigger}}
+                                                                {{#isBigger 3 this.status}}
+                                                                    <option value="2">Confirmed</option>
+                                                                {{/isBigger}}
+                                                                {{#isBigger 4 this.status}}
+                                                                    <option value="3">Pick by courier</option>
+                                                                {{/isBigger}}
+                                                                {{#isBigger 5 this.status}}
+                                                                    <option value="4">On their way</option>
+                                                                {{/isBigger}}
+                                                                <option value="5">Arrived</option>
+                                                                <option value="6">Completed</option>
+                                                                <option value="7">Canceled</option>
+                                                            {{/select}}
+                                                        </select>
+                                                    {{/isEqual}}
+                                                {{/isEqual}}
+                                            </div>
                                         </td>
                                         <td>
                                             <a href="/orders/view/{{this.orderID}}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
@@ -263,6 +281,60 @@
     $(document).ready(function(){
 
     });
+        function genderateStatus(id, status){
+            console.log('mo');
+            status = parseInt(status);
+            if (status === 7)
+            {
+                return `
+                <input name="statusCancel" type="text" class="form-control"  value="Canceled" readonly="">
+                `;
+            }
+            if (status === 6)
+            {
+                return `
+                <input name="statusCompleted" type="text" class="form-control"  value="Completed" readonly="">
+                `;
+            }
+            let stt = "";
+            if (status < 2)
+            {
+                stt += `<option value="1" selected>Pending confirmation</option>`;
+            }
+            if (status < 3)
+            {
+                if (status === 2)
+                    stt += `<option value="2" selected>Confirmed</option>`;
+                else
+                    stt += `<option value="2">Confirmed</option>`;
+            }
+            if (status < 4)
+            {
+                if (status === 3)
+                    stt += `<option value="3" selected>Pick by courier</option>`;
+                else
+                    stt += `<option value="3">Pick by courier</option>`;
+            }
+            if (status < 5)
+            {
+                if (status === 4)
+                    stt += `<option value="4" selected>On their way</option>`;
+                else
+                    stt += `<option value="4">On their way</option>`;
+            }
+            if (status === 5)
+                stt += `<option value="5" selected>Arrived</option>`;
+            else
+                stt += `<option value="5">Arrived</option>`;
+            stt = `<select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="${id}">` + stt;
+            stt += `
+                    <option value="6">Completed</option>
+                    <option value="7">Canceled</option>
+                </select>
+            `;
+            return stt;
+        }
+    
         function statusBoxChange(ele){
             let status = $(ele).val();
             let id = $(ele).data('orderid');
@@ -274,10 +346,16 @@
                     status
                 },
                 success: function(data) {
+                    //console.log('success');
                     $("#basicSuccessCustomTitle").click();
+                    $("#statusBoxView-"+id).empty();
+                    const statusView = genderateStatus(id, status);
+                    //console.log(statusView);
+                    $("#statusBoxView-"+id).append(statusView);
                 },
                 error: function(err) {
-
+                    console.log(err);
+                    alert("An error has occurred, please try again");
                 }
             });
         }
@@ -331,26 +409,76 @@
             const n = statusArray.length;
             for(let i = 0 ; i < n ;i++){
                 if(i+1 === order.status){
-                     statusArray[i] = statusArray[i].replace(` value="${i+1}"`,` value="${i+1}" selected`);
+                    if (i+1 < 6)
+                    {
+                        statusArray[i] = statusArray[i].replace(` value="${i+1}"`,` value="${i+1}" selected`);
+                        for (let j = i - 1; j >= 0; j--)
+                        {
+                            statusArray.splice(j, 1);
+                        }
+                        //console.log(statusArray);
+                        break;
+                    }
+                    else
+                    {
+                        if (i+1 === 6)
+                        {
+                            statusArray = [
+                                `<input name="statusCompleted" type="text" class="form-control"  value="Completed" readonly="">`
+                            ];
+                            break;
+                        }
+                        if (i+1 === 7)
+                        {
+                            statusArray = [
+                                `<input name="statusCancel" type="text" class="form-control"  value="Canceled" readonly="">`
+                            ];
+                            break;
+                        }
+                    }
                 }
             }
 
-			return `
-            <tr>
-                <td>${order.No}</td>
-                <td>${order.orderer}</td>
-                <td>${order.orderDate}</td>
-                <td>${order.total}</td>
-                <td style="padding-right: 40px;">
-                    <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="${order.orderID}">
-                       `+statusArray.join()+`
-                    </select>
-                </td>
-                <td>
-                    <a href="/orders/view/${order.orderID}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
-                </td>
-            </tr>
-			`;
+            if (statusArray.length === 1)
+            {
+                return `
+                    <tr>
+                        <td>${order.No}</td>
+                        <td>${order.orderer}</td>
+                        <td>${order.orderDate}</td>
+                        <td>${order.total}</td>
+                        <td style="padding-right: 40px;">
+                            <div id="statusBoxView-${order.orderID}">
+                                `+statusArray.join()+`
+                            </div>
+                        </td>
+                        <td>
+                            <a href="/orders/view/${order.orderID}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
+                        </td>
+                    </tr>
+                `;
+            }
+            else
+            {
+                return `
+                    <tr>
+                        <td>${order.No}</td>
+                        <td>${order.orderer}</td>
+                        <td>${order.orderDate}</td>
+                        <td>${order.total}</td>
+                        <td style="padding-right: 40px;">
+                            <div id="statusBoxView-${order.orderID}">
+                                <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="${order.orderID}">
+                                    `+statusArray.join()+`
+                                </select>
+                            </div>
+                        </td>
+                        <td>
+                            <a href="/orders/view/${order.orderID}" style="color: black;"><button data-toggle="tooltip" title="Details" class="pd-setting-ed"><i class="fa fa-info-circle" aria-hidden="true"></i></button></a>
+                        </td>
+                    </tr>
+                `;
+            }
 		})
 	}
 
