@@ -13,7 +13,7 @@ let currentPage = 1;
 let totalPage = 1;
 let totalProducts = 0;
 
-const reviewPerpage = 1;
+const reviewPerpage = 5;
 let currentReviewPage = 1
 let totalReviewPage = 1;
 let totalReviews = 0;
@@ -278,9 +278,7 @@ class ProductController{
             proSlug:Util.getDataSlug(req.body.proName),
             description: req.body.proDes,
             fullDescription: req.body.description,
-            quantity:sum,
             sold: 0,
-            date: new Date(),
             catID: parseInt(req.body.proCate),
             brandID: parseInt(req.body.proBrand),
             sex: parseInt(req.body.proGender),
@@ -307,7 +305,48 @@ class ProductController{
                     })
                 }
                 const fileImage = req.files;
-                ProductService.storeImages(fileImage, productImages);
+                // ProductService.storeImages(fileImage, productImages);
+                models.imagelink.count({
+                    where: {
+                        proID: productImages[0].proID
+                    }
+                })
+                .then(result=>{
+                    req.files.forEach((file, index) => {
+                        const fileName = "pro" + productImages[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
+                        const blob = firebase.bucket.file(fileName);
+                        const blobWriter = blob.createWriteStream({
+                            metadata: {
+                                contentType: file.mimetype
+                            }
+                        });
+                        
+                        blobWriter.on('error', (err) => {
+                            console.log(err);
+                            next();
+                        });
+                        
+                        blobWriter.on('finish', () => {
+                            const storage = getStorage();
+                            getDownloadURL(ref(storage, fileName))
+                            .then((url) => {
+                                productImages[index].proImage = url;
+                                ProductService.createImage(productImages[index])
+                                .then(result=>{
+                                    res.send('/products/edit/' + id);
+                                }).catch(err=>{
+                                    console.log(error);
+                                    next();
+                                })
+                            })
+                            .catch((error) => {
+                                console.log(error);
+                                next();
+                            });
+                        });
+                        blobWriter.end(file.buffer);
+                    });
+                })
                 res.send("/products/edit/"+result.proID);
             })
             .catch(err=>{
@@ -390,7 +429,6 @@ class ProductController{
                 res.next();
                 return;
             }
-            
             ProductService.deleteProductImage(productImages)
             .then(result=>{
                 if(req.files){
@@ -409,8 +447,49 @@ class ProductController{
                             proImage:null
                         }
                     });
-                    ProductService.storeImages(req.files, productImageLink)
-                    res.send('/products/edit/' + id);
+                    // ProductService.storeImages(req.files, productImageLink)
+                    models.imagelink.count({
+                        where: {
+                            proID: productImageLink[0].proID
+                        }
+                    })
+                    .then(result=>{
+                        req.files.forEach((file, index) => {
+                            const fileName = "pro" + productImageLink[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
+                            const blob = firebase.bucket.file(fileName);
+                            const blobWriter = blob.createWriteStream({
+                                metadata: {
+                                    contentType: file.mimetype
+                                }
+                            });
+                            
+                            blobWriter.on('error', (err) => {
+                                console.log(err);
+                                next();
+                            });
+                            
+                            blobWriter.on('finish', () => {
+                                const storage = getStorage();
+                                getDownloadURL(ref(storage, fileName))
+                                .then((url) => {
+                                    productImageLink[index].proImage = url;
+                                    ProductService.createImage(productImageLink[index])
+                                    .then(result=>{
+                                        res.send('/products/edit/' + id);
+                                    }).catch(err=>{
+                                        console.log(error);
+                                        next();
+                                    })
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    next();
+                                });
+                            });
+                            blobWriter.end(file.buffer);
+                        });
+                    })
+                   
                 }else{
                     res.redirect('back');
                 }
@@ -441,7 +520,48 @@ class ProductController{
                             proImage:null
                         }
                     });
-                    ProductService.storeImages(req.files, productImageLink)
+                    // ProductService.storeImages(req.files, productImageLink)
+                    models.imagelink.count({
+                        where: {
+                            proID: productImageLink[0].proID
+                        }
+                    })
+                    .then(result=>{
+                        req.files.forEach((file, index) => {
+                            const fileName = "pro" + productImageLink[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
+                            const blob = firebase.bucket.file(fileName);
+                            const blobWriter = blob.createWriteStream({
+                                metadata: {
+                                    contentType: file.mimetype
+                                }
+                            });
+                            
+                            blobWriter.on('error', (err) => {
+                                console.log(err);
+                                next();
+                            });
+                            
+                            blobWriter.on('finish', () => {
+                                const storage = getStorage();
+                                getDownloadURL(ref(storage, fileName))
+                                .then((url) => {
+                                    productImageLink[index].proImage = url;
+                                    ProductService.createImage(productImageLink[index])
+                                    .then(result=>{
+                                        res.send('/products/edit/' + id);
+                                    }).catch(err=>{
+                                        console.log(error);
+                                        next();
+                                    })
+                                })
+                                .catch((error) => {
+                                    console.log(error);
+                                    next();
+                                });
+                            });
+                            blobWriter.end(file.buffer);
+                        });
+                    })
                     res.send('/products/edit/' + id);
                 }
             }
