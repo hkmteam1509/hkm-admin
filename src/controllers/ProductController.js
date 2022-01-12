@@ -13,7 +13,7 @@ let currentPage = 1;
 let totalPage = 1;
 let totalProducts = 0;
 
-const reviewPerpage = 1;
+const reviewPerpage = 5;
 let currentReviewPage = 1
 let totalReviewPage = 1;
 let totalReviews = 0;
@@ -278,9 +278,7 @@ class ProductController{
             proSlug:Util.getDataSlug(req.body.proName),
             description: req.body.proDes,
             fullDescription: req.body.description,
-            quantity:sum,
             sold: 0,
-            date: new Date(),
             catID: parseInt(req.body.proCate),
             brandID: parseInt(req.body.proBrand),
             sex: parseInt(req.body.proGender),
