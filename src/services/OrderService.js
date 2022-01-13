@@ -71,6 +71,34 @@ class OrderService{
             }
         })
     }
+
+    getProductListInOrder(id){
+        return models.orderdetail.findAll({
+            attributes: ['proID', 'detailID', 'quantity'],
+            raw:true,
+            where:{
+                orderID: id
+            }
+        })
+    }
+
+    updateSoldProduct(id, quantitysold){
+        return models.product.increment( 'sold', {
+            by: quantitysold,
+            where:{
+                proID: id
+            }
+        })
+    }
+
+    updateQuantityProduct(id, quantitysold){
+        return models.detail.decrement( 'quantity', {
+            by: quantitysold,
+            where:{
+                detailID: id
+            }
+        })
+    }
 }
 
 module.exports = new OrderService;
