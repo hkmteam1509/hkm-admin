@@ -108,17 +108,35 @@
                                                                 <label for="order-id">Change Order Status</label>
                                                                 {{!-- <form method="post" action="/orders/view/{{orderID}}?_method=PUT" style="position: relative;">
                                                                 </form> --}}
-                                                                <select class="form-control" name="statusBox" data-orderid="{{orderID}}">
-                                                                    {{#select status}}
-                                                                        <option value="1">Pending confirmation</option>
-                                                                        <option value="2">Confirmed</option>
-                                                                        <option value="3">Pick by courier</option>
-                                                                        <option value="4">On their way</option>
-                                                                        <option value="5">Arrived</option>
-                                                                        <option value="6">Completed</option>
-                                                                        <option value="7">Canceled</option>
-                                                                    {{/select}}
-                                                                </select>
+                                                                <div id="statusBoxView">
+                                                                    {{#isEqual status 7}}
+                                                                        <input name="statusCancel" type="text" class="form-control"  value="Canceled" readonly="">
+                                                                    {{else}}
+                                                                        {{#isEqual status 6}}
+                                                                            <input name="statusCompleted" type="text" class="form-control"  value="Completed" readonly="">
+                                                                        {{else}}
+                                                                            <select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="{{orderID}}">
+                                                                                {{#select status}}
+                                                                                    {{#isBigger 2 status}}
+                                                                                        <option value="1">Pending confirmation</option>
+                                                                                    {{/isBigger}}
+                                                                                    {{#isBigger 3 status}}
+                                                                                        <option value="2">Confirmed</option>
+                                                                                    {{/isBigger}}
+                                                                                    {{#isBigger 4 status}}
+                                                                                        <option value="3">Pick by courier</option>
+                                                                                    {{/isBigger}}
+                                                                                    {{#isBigger 5 status}}
+                                                                                        <option value="4">On their way</option>
+                                                                                    {{/isBigger}}
+                                                                                    <option value="5">Arrived</option>
+                                                                                    <option value="6">Completed</option>
+                                                                                    <option value="7">Canceled</option>
+                                                                                {{/select}}
+                                                                            </select>
+                                                                        {{/isEqual}}
+                                                                    {{/isEqual}}
+                                                                </div>
                                                                 <button id="basicSuccessCustomTitle" class="btn btn-success" style="display: none;"/>
                                                             </div>
                                                         </div>
@@ -371,9 +389,63 @@
     <!-- <script src="/js/tawk-chat.js"></script> -->
 
 <script>
-    $("select[name='statusBox']").change(function(){
-        let status = $(this).val();
-        let id = $(this).data('orderid');
+    function genderateStatus(id, status){
+        console.log('mo');
+        status = parseInt(status);
+        if (status === 7)
+        {
+            return `
+            <input name="statusCancel" type="text" class="form-control"  value="Canceled" readonly="">
+            `;
+        }
+        if (status === 6)
+        {
+            return `
+            <input name="statusCompleted" type="text" class="form-control"  value="Completed" readonly="">
+            `;
+        }
+        let stt = "";
+        if (status < 2)
+        {
+            stt += `<option value="1" selected>Pending confirmation</option>`;
+        }
+        if (status < 3)
+        {
+            if (status === 2)
+                stt += `<option value="2" selected>Confirmed</option>`;
+            else
+                stt += `<option value="2">Confirmed</option>`;
+        }
+        if (status < 4)
+        {
+            if (status === 3)
+                stt += `<option value="3" selected>Pick by courier</option>`;
+            else
+                stt += `<option value="3">Pick by courier</option>`;
+        }
+        if (status < 5)
+        {
+            if (status === 4)
+                stt += `<option value="4" selected>On their way</option>`;
+            else
+                stt += `<option value="4">On their way</option>`;
+        }
+        if (status === 5)
+            stt += `<option value="5" selected>Arrived</option>`;
+        else
+            stt += `<option value="5">Arrived</option>`;
+        stt = `<select class="form-control" onchange="statusBoxChange(this)" name="statusBox" data-orderid="${id}">` + stt;
+        stt += `
+                <option value="6">Completed</option>
+                <option value="7">Canceled</option>
+            </select>
+        `;
+        return stt;
+	}
+    
+    function statusBoxChange(ele){
+        let status = $(ele).val();
+        let id = $(ele).data('orderid');
         $.ajax({
             url: '/orders/view/id',
             method: 'PUT',
@@ -382,13 +454,18 @@
                 status
             },
             success: function(data) {
-                console.log('success');
+                //console.log('success');
                 $("#basicSuccessCustomTitle").click();
+                $("#statusBoxView").empty();
+                const statusView = genderateStatus(id, status);
+                //console.log(statusView);
+                $("#statusBoxView").append(statusView);
             },
             error: function(err) {
-
+                console.log(err);
+                alert("An error has occurred, please try again");
             }
         });
-    });
+    }
 </script>
 {{/section}}

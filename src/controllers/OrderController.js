@@ -8,7 +8,7 @@ const maximumPagination = 5;
 let currentPage = 1;
 let totalPage = 1;
 
-const itemPerpage = 5;
+const itemPerpage = 10;
 let currentItemPage = 1
 let totalItemPage = 1;
 let totalItems = 0;
@@ -192,18 +192,38 @@ class OrderController{
 
     //[PUT]/:id
     editStatusOrder(req, res, next){
-        // let id = req.params.id;
-        // if(Number.isNaN(id)){
-        //     next();
-        //     return;
-        // }
-        // id = parseInt(id);
-        // const status = req.body.statusBox;
-        //console.log(status);
         const {id, status} = req.body;
+        const statusid = parseInt(status);
         OrderService.updateStatusOrder(id, status)
         .then(result=>{
-            res.status(200).json(result);
+            if (statusid === 6)
+            {
+                OrderService.getProductListInOrder(id)
+                .then(items=>{
+                    const newSold = items.map(item=>{
+                        return OrderService.updateSoldProduct(item.proID, item.quantity);
+                    });
+                    const newQuantity = items.map(item=>{
+                        return OrderService.updateQuantityProduct(item.detailID, item.quantity);
+                    });
+                    const myPromiseArr = newSold.concat(newQuantity);
+
+                    Promise.all(myPromiseArr)
+                    .then(result1=>{
+                        res.status(200).json(result1);
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            }
+            else
+            {
+                res.status(200).json(result);
+            }
         })
         .catch(err=>{
             console.log(err);
@@ -217,10 +237,38 @@ class OrderController{
         // const status = req.body.statusBox;
         //console.log(status);
         const {id, status} = req.body;
+        const statusid = parseInt(status);
         OrderService.updateStatusOrder(id, status)
         .then(result=>{
             // res.redirect('back');
-            res.status(200).json(result);
+            if (statusid === 6)
+            {
+                OrderService.getProductListInOrder(id)
+                .then(items=>{
+                    const newSold = items.map(item=>{
+                        return OrderService.updateSoldProduct(item.proID, item.quantity);
+                    });
+                    const newQuantity = items.map(item=>{
+                        return OrderService.updateQuantityProduct(item.detailID, item.quantity);
+                    });
+                    const myPromiseArr = newSold.concat(newQuantity);
+
+                    Promise.all(myPromiseArr)
+                    .then(result1=>{
+                        res.status(200).json(result1);
+                    })
+                    .catch(err=>{
+                        console.log(err);
+                    })
+                })
+                .catch(err=>{
+                    console.log(err);
+                })
+            }
+            else
+            {
+                res.status(200).json(result);
+            }
         })
         .catch(err=>{
             console.log(err);
