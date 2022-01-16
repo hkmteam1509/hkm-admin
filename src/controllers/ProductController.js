@@ -309,7 +309,7 @@ class ProductController{
                 // ProductService.storeImages(fileImage, productImages);
                 ProductService.countImage(productImages[0].proID)
                 .then(result=>{
-                    let lengthImage = req.files;
+                    let lengthImage = req.files.length;
                     let count = 0;
                     req.files.forEach((file, index) => {
                         const fileName = "pro" + productImages[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
@@ -333,6 +333,8 @@ class ProductController{
                                 ProductService.createImage(productImages[index])
                                 .then(result=>{
                                     count++;
+                                    console.log(count);
+                                    console.log(lengthImage);
                                     if(count >= lengthImage){
                                         res.send('/products/edit/' + id);
                                     }
@@ -435,6 +437,8 @@ class ProductController{
             ProductService.deleteProductImage(productImages)
             .then(result=>{
                 if(req.files){
+                    let lengthImage = req.files.length;
+                    let count = 0;
                     req.files.forEach(file => {
                         if(!file.mimetype.startsWith('image/')){
                             res.status(415);
@@ -474,7 +478,12 @@ class ProductController{
                                     productImageLink[index].proImage = url;
                                     ProductService.createImage(productImageLink[index])
                                     .then(result=>{
-                                        res.send('/products/edit/' + id);
+                                        count++;
+                                        console.log(count);
+                                        console.log(lengthImage);
+                                        if(count >= lengthImage){
+                                            res.send('/products/edit/' + id);
+                                        }
                                     }).catch(err=>{
                                         console.log(error);
                                         next();
