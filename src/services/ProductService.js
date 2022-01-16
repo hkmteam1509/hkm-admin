@@ -20,6 +20,14 @@ class ProductService{
         })
     }
 
+    countImage(proID){
+        return models.imagelink.count({
+            where: {
+                proID: proID
+            }
+        })
+    }
+
     countAllItem(name, brandid, cateid, genderid){
         let mnbrand, mxbrand, mncate, mxcate, mngender, mxgender;
         if (genderid) {

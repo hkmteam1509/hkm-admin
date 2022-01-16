@@ -43,7 +43,9 @@ class HomeController{
         
             //Chuẩn bị render
             const result = await Promise.all(detailPromises);
+            console.log(result);
             for (let i=0;i<productLength;i++){
+                
                 products[i].No = i + 1;
                 products[i].image=result[i*5][0].proImage;
                 products[i].detail=result[i*5+1];

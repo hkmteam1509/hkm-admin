@@ -5,7 +5,8 @@ const BrandService = require('../services/BrandService');
 const CategoryService = require('../services/CategoryService');
 const ProductService = require('../services/ProductService');
 const Util = require('../utilities/Util');
-
+const firebase = require('../firebase');
+const {getStorage, ref, getDownloadURL, deleteObject } = require('firebase/storage');
 const productPerPage = 5;
 
 const maximumPagination = 5;
@@ -306,11 +307,7 @@ class ProductController{
                 }
                 const fileImage = req.files;
                 // ProductService.storeImages(fileImage, productImages);
-                models.imagelink.count({
-                    where: {
-                        proID: productImages[0].proID
-                    }
-                })
+                ProductService.countImage(productImages[0].proID)
                 .then(result=>{
                     req.files.forEach((file, index) => {
                         const fileName = "pro" + productImages[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
@@ -346,8 +343,11 @@ class ProductController{
                         });
                         blobWriter.end(file.buffer);
                     });
+                }).catch(err=>{
+                    console.log(err);
+                    next();
                 })
-                res.send("/products/edit/"+result.proID);
+               
             })
             .catch(err=>{
                 console.log(err);
@@ -413,8 +413,6 @@ class ProductController{
 
     //[PUT] /update/image/:id
     updateImage(req, res, next){
-        console.log("image update")
-        console.log(req.files);
         let id = req.params.id;
         if(Number.isNaN(id)){
             next();
@@ -425,10 +423,10 @@ class ProductController{
         let productImages = req.body.productImages;
         if(productImages){
             productImages = Array.isArray(req.body.productImages) ? req.body.productImages : [req.body.productImages];
-            if(productImages.length > 0 && !req.files){
-                res.next();
-                return;
-            }
+            // if(productImages.length > 0 && !req.files){
+            //     next();
+            //     return;
+            // }
             ProductService.deleteProductImage(productImages)
             .then(result=>{
                 if(req.files){
@@ -448,11 +446,7 @@ class ProductController{
                         }
                     });
                     // ProductService.storeImages(req.files, productImageLink)
-                    models.imagelink.count({
-                        where: {
-                            proID: productImageLink[0].proID
-                        }
-                    })
+                    ProductService.countImage(productImageLink[0].proID)
                     .then(result=>{
                         req.files.forEach((file, index) => {
                             const fileName = "pro" + productImageLink[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
@@ -488,7 +482,10 @@ class ProductController{
                             });
                             blobWriter.end(file.buffer);
                         });
-                    })
+                    }) .catch((error) => {
+                        console.log(error);
+                        next();
+                    });
                    
                 }else{
                     res.redirect('back');
@@ -521,11 +518,7 @@ class ProductController{
                         }
                     });
                     // ProductService.storeImages(req.files, productImageLink)
-                    models.imagelink.count({
-                        where: {
-                            proID: productImageLink[0].proID
-                        }
-                    })
+                    ProductService.countImage(productImageLink[0].proID)
                     .then(result=>{
                         req.files.forEach((file, index) => {
                             const fileName = "pro" + productImageLink[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
@@ -550,7 +543,7 @@ class ProductController{
                                     .then(result=>{
                                         res.send('/products/edit/' + id);
                                     }).catch(err=>{
-                                        console.log(error);
+                                        console.log(err);
                                         next();
                                     })
                                 })
@@ -562,7 +555,10 @@ class ProductController{
                             blobWriter.end(file.buffer);
                         });
                     })
-                    res.send('/products/edit/' + id);
+                    .catch(err=>{
+                        console.log(err);
+                        next();
+                    })
                 }
             }
         }
@@ -598,7 +594,6 @@ class ProductController{
             return;
         }
         id = parseInt(id);
-        console.log(id);
         ProductService.deleteReview(id)
         .then(result=>{
             res.redirect('back');
@@ -706,16 +701,13 @@ class ProductController{
     getReview(req,res, next){
         const id = req.params.id;
         let proID;
-        console.log(id);
         if(id && !Number.isNaN(id)){
             proID = parseInt(id);
         }else{
             res.status(500).json(err);
         }
         ProductService.itemProduct(proID).then(item=>{
-            // console.log(item);
             item.proDate = new Date(item.createdAt).toLocaleString("vi-VN");
-            // const proImage = ProductService.imagesItemProduct(product.proID);
             const pageNumber = req.query.reviewPage;
             currentReviewPage = (pageNumber && !Number.isNaN(pageNumber)) ? parseInt(pageNumber) : 1;
             currentReviewPage = (currentReviewPage > 0) ? currentReviewPage : 1;
