@@ -309,6 +309,8 @@ class ProductController{
                 // ProductService.storeImages(fileImage, productImages);
                 ProductService.countImage(productImages[0].proID)
                 .then(result=>{
+                    let lengthImage = req.files;
+                    let count = 0;
                     req.files.forEach((file, index) => {
                         const fileName = "pro" + productImages[index].proID + "_" + (index+result) + "." +file.mimetype.split("/")[1];
                         const blob = firebase.bucket.file(fileName);
@@ -330,9 +332,12 @@ class ProductController{
                                 productImages[index].proImage = url;
                                 ProductService.createImage(productImages[index])
                                 .then(result=>{
-                                    res.send('/products/edit/' + id);
+                                    count++;
+                                    if(count >= lengthImage){
+                                        res.send('/products/edit/' + id);
+                                    }
                                 }).catch(err=>{
-                                    console.log(error);
+                                    console.log(err);
                                     next();
                                 })
                             })
